@@ -396,7 +396,7 @@
 						if(A.vampiric)
 							A.Remove(H)
 				H.revive(TRUE)
-				H.set_species(/datum/species/kindred)
+				H.set_species(/datum/species/human/kindred)
 				H.set_clan(/datum/vampire_clan/gargoyle)
 				H.forceMove(get_turf(src))
 				H.create_disciplines(FALSE, H.clan.clan_disciplines)
