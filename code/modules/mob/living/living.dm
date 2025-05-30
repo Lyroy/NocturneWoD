@@ -555,13 +555,24 @@
 		else
 			to_chat(src, span_warning("You are unable to succumb to death! This life continues."), type=MESSAGE_TYPE_INFO)
 			return
-	log_message("Has [whispered ? "whispered his final words" : "succumbed to death"] with [round(health, 0.1)] points of health!", LOG_ATTACK)
-	adjustOxyLoss(health - HEALTH_THRESHOLD_DEAD)
-	updatehealth()
-	if(!whispered)
-		to_chat(src, span_notice("You have given up life and succumbed to death."))
-	investigate_log("has succumbed to death.", INVESTIGATE_DEATHS)
-	death()
+	// Start WoD13 Modification
+	if (HAS_TRAIT(src, TRAIT_CAN_ENTER_TORPOR) && !HAS_TRAIT(src, TRAIT_TORPOR))
+		log_message("Has [whispered ? "whispered his final words and" : ""]succumbed to Torpor with [round(health, 0.1)] points of health!", LOG_ATTACK)
+		adjustOxyLoss(health - HEALTH_THRESHOLD_DEAD)
+		updatehealth()
+		if(!whispered)
+			to_chat(src, span_notice("You have succumbed to Torpor."))
+		investigate_log("has succumbed to death.", INVESTIGATE_DEATHS)
+		torpor("damage")
+	else
+		log_message("Has [whispered ? "whispered his final words" : "succumbed to death"] with [round(health, 0.1)] points of health!", LOG_ATTACK)
+		adjustOxyLoss(health - HEALTH_THRESHOLD_DEAD)
+		updatehealth()
+		if(!whispered)
+			to_chat(src, span_notice("You have given up life and succumbed to death."))
+		investigate_log("has succumbed to death.", INVESTIGATE_DEATHS)
+		death()
+	// End WoD13 Modification
 
 // Remember, anything that influences this needs to call update_incapacitated somehow when it changes
 // Most often best done in [code/modules/mob/living/init_signals.dm]

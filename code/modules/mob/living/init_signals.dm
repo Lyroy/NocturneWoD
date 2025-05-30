@@ -49,6 +49,11 @@
 
 		SIGNAL_ADDTRAIT(TRAIT_NODEATH),
 		SIGNAL_REMOVETRAIT(TRAIT_NODEATH),
+
+		// Start WoD13 Modification
+		SIGNAL_ADDTRAIT(TRAIT_TORPOR),
+		SIGNAL_REMOVETRAIT(TRAIT_TORPOR)
+		// End WoD13 Modification
 	), PROC_REF(update_succumb_action))
 
 	RegisterSignal(src, COMSIG_MOVETYPE_FLAG_ENABLED, PROC_REF(on_movement_type_flag_enabled))

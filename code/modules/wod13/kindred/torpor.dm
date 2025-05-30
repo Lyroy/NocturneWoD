@@ -6,7 +6,6 @@
 
 	to_chat(src, span_danger("You have fallen into Torpor. Use the button in the top right to learn more, or attempt to wake up."))
 	throw_alert(ALERT_UNTORPOR, /atom/movable/screen/alert/untorpor)
-	throw_alert(ALERT_SUCCUMB, /atom/movable/screen/alert/succumb)
 	ADD_TRAIT(src, TRAIT_TORPOR, source)
 	if (iskindred(src))
 		var/mob/living/carbon/human/vampire = src
@@ -54,7 +53,6 @@
 
 	cure_fakedeath(source)
 	clear_alert(ALERT_UNTORPOR)
-	clear_alert(ALERT_SUCCUMB)
 	REMOVE_TRAIT(src, TRAIT_TORPOR, source)
 	if (iskindred(src))
 		to_chat(src, span_notice("You have awoken from your Torpor."))
@@ -105,12 +103,15 @@
 		return
 	var/mob/living/living_owner = owner
 
+	if (living_owner.stat == DEAD)
+		to_chat(living_owner, span_warning("You have suffered Final Death. You will not wake up."))
+		return
+
 	if (iskindred(living_owner))
 		var/mob/living/carbon/human/vampire = living_owner
 		var/datum/species/human/kindred/kindred_species = vampire.dna.species
 		if (COOLDOWN_FINISHED(kindred_species, torpor_timer) && (vampire.bloodpool > 0))
 			vampire.untorpor()
-			vampire.clear_alert(ALERT_SUCCUMB)
 		else
 			to_chat(owner, span_purple("<i>You are in Torpor, the sleep of death that vampires go into when injured, starved, or exhausted.</i>"))
 			if (vampire.bloodpool > 0)

@@ -555,7 +555,9 @@
 #define SILENCE_RANGED_MESSAGE (1<<0)
 
 /// Returns whether or not the given mob can succumb
-#define CAN_SUCCUMB(target) (HAS_TRAIT(target, TRAIT_CRITICAL_CONDITION) && !HAS_TRAIT(target, TRAIT_NODEATH))
+// Start WoD13 Modification
+#define CAN_SUCCUMB(target) ((HAS_TRAIT(target, TRAIT_CRITICAL_CONDITION) || HAS_TRAIT(target, TRAIT_TORPOR)) && !HAS_TRAIT(target, TRAIT_NODEATH))
+// End WoD13 Modification
 
 // Body position defines.
 /// Mob is standing up, usually associated with lying_angle value of 0.
