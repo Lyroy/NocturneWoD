@@ -26,7 +26,9 @@
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
 		TRAIT_NOCRITDAMAGE,
-		TRAIT_RADIMMUNE
+		TRAIT_RADIMMUNE,
+		TRAIT_CAN_ENTER_TORPOR,
+		TRAIT_VTM_MORALITY
 	)
 	inherent_biotypes = MOB_UNDEAD | MOB_HUMANOID
 	changesource_flags = MIRROR_BADMIN
@@ -35,6 +37,7 @@
 	mutanttongue = /obj/item/organ/tongue/kindred
 	var/datum/vampire_clan/clan
 	var/list/datum/discipline/disciplines
+	var/enlightenment
 	COOLDOWN_DECLARE(torpor_timer)
 
 /datum/species/human/kindred/on_species_gain(mob/living/carbon/human/new_kindred, datum/species/old_species, pref_load, regenerate_icons = TRUE)

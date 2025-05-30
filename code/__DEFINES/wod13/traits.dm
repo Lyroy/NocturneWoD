@@ -58,6 +58,12 @@
 #define TRAIT_MASQUERADE_VIOLATING_EYES "masquerade_violating_eyes"
 /// If face is uncovered, they will be obviously supernatural to everyone nearby
 #define TRAIT_MASQUERADE_VIOLATING_FACE "masquerade_violating_face"
+/// A special form of fakedeath that vampires go into rather than dying above -200 health
+#define TRAIT_TORPOR "torpor"
+/// Instead of dying at -100 health, enters a deathcoma and properly dies at -200 health
+#define TRAIT_CAN_ENTER_TORPOR "can_enter_torpor"
+/// Uses Vampire: The Masquerade morality systems
+#define TRAIT_VTM_MORALITY "vtm_morality"
 
 /// Trait given by a vampire's Clan
 #define CLAN_TRAIT "clan"
