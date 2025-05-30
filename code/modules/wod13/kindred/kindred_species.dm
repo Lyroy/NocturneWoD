@@ -21,7 +21,6 @@
 		TRAIT_USES_SKINTONES,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_LIMBATTACHMENT,
-		// TODO: [Lucia] make a NOBLEED trait that works better with this
 		TRAIT_NOBLOOD,
 		TRAIT_NOHUNGER,
 		TRAIT_NOBREATH,
@@ -145,9 +144,7 @@
 	SIGNAL_HANDLER
 
 	to_chat(source, span_warning("You can feel yourself slipping into Torpor. You can use succumb to immediately sleep..."))
-	// TODO: [Lucia] reimplement torpor
-	/*
-	addtimer(CALLBACK(kindred, TYPE_PROC_REF(/mob/living/carbon/human, torpor), "damage"), 2 MINUTES)
+	addtimer(CALLBACK(source, TYPE_PROC_REF(/mob/living/carbon/human, torpor), "damage"), 2 MINUTES)
 
 /datum/species/human/kindred/proc/slip_into_torpor(mob/living/carbon/human/kindred)
 	if (!kindred || (kindred.stat == DEAD))
@@ -156,7 +153,6 @@
 		return
 
 	kindred.torpor("damage")
-*/
 
 /**
  * On being bit by a vampire
@@ -310,7 +306,7 @@
 */
 
 /obj/item/organ/tongue/kindred
-	liked_foodtypes = GORE | MEAT | RAW
+	liked_foodtypes = NONE
 	disliked_foodtypes = NONE
 	// All food except raw meat is disgusting to Kindred
-	toxic_foodtypes = (ALL & ~(GORE | MEAT | RAW))
+	toxic_foodtypes = ~(GORE | MEAT | RAW)
