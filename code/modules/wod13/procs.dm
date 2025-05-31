@@ -1,58 +1,74 @@
-/mob/living/carbon/human/proc/AdjustHumanity(var/value, var/limit, var/forced = FALSE)
-	if(value < 0)
-		for(var/mob/living/carbon/human/H in viewers(7, src))
-			if(H != src && H.mind?.dharma)
-				if("judgement" in H.mind.dharma.tenets)
-					to_chat(H, "<span class='warning'>[src] is doing something bad, I need to punish them!")
-					H.mind.dharma.judgement |= real_name
-	if(!iskindred(src))
+/mob/living/proc/AdjustHumanity(value, limit, forced)
+	// Only vampires have a "working" morality system currently
+	if (!iskindred(src))
 		return
-	if(!GLOB.canon_event)
-		return
-	if(!is_special_character(src) || forced)
-		if(!in_frenzy || forced)
-			var/mod = HAS_TRAIT(src, TRAIT_SENSITIVE_HUMANITY) ? 2 : 1
-			var/enlight = client?.prefs?.enlightenment
-			if(enlight)
-				if(value < 0)
-					if(humanity < 10)
-						if (forced)
-							humanity = max(0, humanity-(value * mod))
-						else
-							humanity = max(limit, humanity-(value*mod))
-						SEND_SOUND(src, sound('code/modules/wod13/sounds/humanity_gain.ogg', 0, 0, 75))
-						to_chat(src, "<span class='userhelp'><b>ENLIGHTENMENT INCREASED!</b></span>")
-				if(value > 0)
-					if(humanity > 0)
-						if (forced)
-							humanity = min(10, humanity-(value * mod))
-						else
-							humanity = min(limit, humanity-(value*mod))
-						SEND_SOUND(src, sound('code/modules/wod13/sounds/humanity_loss.ogg', 0, 0, 75))
-						to_chat(src, "<span class='userdanger'><b>ENLIGHTENMENT DECREASED!</b></span>")
-			else
-				if(value < 0)
-					if((humanity > limit) || forced)
-						if (forced)
-							humanity = max(0, humanity+(value * mod))
-						else
-							humanity = max(limit, humanity+(value*mod))
-						SEND_SOUND(src, sound('code/modules/wod13/sounds/humanity_loss.ogg', 0, 0, 75))
-						to_chat(src, "<span class='userdanger'><b>HUMANITY DECREASED!</b></span>")
-						if(humanity == limit)
-							to_chat(src, "<span class='userdanger'><b>If I don't stop, I will succumb to the Beast.</b></span>")
-					else
-						var/msgShit = pick("<span class='userdanger'><b>I can barely control the Beast!</b></span>", "<span class='userdanger'><b>I SHOULD STOP.</b></span>", "<span class='userdanger'><b>I'm succumbing to the Beast!</b></span>")
-						to_chat(src, msgShit) // [ChillRaccoon] - I think we should make's players more scared
-				if(value > 0)				  // so please, do not say about that, they're in safety after they're humanity drops to limit
-					if((humanity < limit) || forced)
-						if (forced)
-							humanity = min(10, humanity+(value * mod))
-						else
-							humanity = min(limit, humanity+(value*mod))
-						SEND_SOUND(src, sound('code/modules/wod13/sounds/humanity_gain.ogg', 0, 0, 75))
-						to_chat(src, "<span class='userhelp'><b>HUMANITY INCREASED!</b></span>")
+	var/mob/living/carbon/human/vampire = src
+	var/datum/species/human/kindred/vampirism = vampire.dna.species
 
+	// "Enlightenment" is essentially the Path of Pure Evil. Inverts Humanity changes and limits.
+	var/is_enlightenment = vampirism.enlightenment
+	var/path = is_enlightenment ? "Enlightenment" : "Humanity"
+	if (is_enlightenment && !forced)
+		value = -value
+		limit = 10 - limit
+
+	// Work out actual change in Humanity
+	var/new_humanity
+	var/humanity_change
+	if (value > 0)
+		new_humanity = clamp(humanity + value, 0, limit)
+		humanity_change = new_humanity - humanity
+
+		// Hit the limit for increase, no change
+		if (humanity_change <= 0)
+			return
+	else if (value < 0)
+		var/loss_modifier = HAS_TRAIT(src, TRAIT_SENSITIVE_HUMANITY) ? 2 : 1
+		value *= loss_modifier
+
+		new_humanity = clamp(humanity + value, limit, 10)
+		humanity_change = humanity - new_humanity
+
+		// Hit the limit for decrease, no change
+		if (humanity_change >= 0)
+			return
+	else
+		return
+
+	var/signal_return = SEND_SIGNAL(src, COMSIG_LIVING_CHANGING_HUMANITY, humanity_change)
+	if (signal_return & BLOCK_HUMANITY_CHANGE)
+		return
+
+	// Change Humanity according to calculated values
+	humanity += humanity_change
+	if (humanity_change > 0)
+		SEND_SOUND(src, sound('code/modules/wod13/sounds/humanity_gain.ogg', 0, 0, 75))
+		to_chat(src, span_boldnicegreen("[uppertext(path)] INCREASED!"))
+
+		// Gaining Path flavour text
+		switch (humanity)
+			if (10)
+				to_chat(src, span_green("As your [path] reaches its peak, you feel the Beast [is_enlightenment ? "reaching perfect harmony with you" : "falling into a deep slumber, waiting"]."))
+	else if (humanity_change < 0)
+		SEND_SOUND(src, sound('code/modules/wod13/sounds/humanity_loss.ogg', 0, 0, 75))
+		to_chat(src, span_userdanger(span_bold("[uppertext(path)] DECREASED!")))
+
+		// Losing Path flavour text
+		switch (humanity)
+			if (1)
+				to_chat(src, span_userdanger(span_bold("BLOOD. FEED. HUNGER.")))
+			if (2)
+				to_chat(src, span_userdanger("You are losing your mind. The [span_bold("BEAST")] commands you."))
+			if (3)
+				to_chat(src, span_danger("Your higher reason is eroding. The Beast is gaining control..."))
+			if (4)
+				to_chat(src, span_danger("You feel the Beast gnawing at the edges of your mind..."))
+			if (9)
+				to_chat(src, span_warning("As you fall from your perfect [path], you feel the Beast [is_enlightenment ? "taking power over" : "reawakening in"] a dark corner of your soul."))
+
+	SEND_SIGNAL(src, COMSIG_LIVING_CHANGED_HUMANITY, humanity_change)
+
+/*
 /mob/living/carbon/human/proc/AdjustMasquerade(var/value, var/forced = FALSE)
 	if(!iskindred(src) && !isghoul(src) && !iscathayan(src))
 		return
@@ -92,7 +108,13 @@
 	else if(masquerade < 3)
 		GLOB.masquerade_breakers_list |= src
 
-/mob/living/carbon/human/npc/proc/backinvisible(var/atom/A)
+/**
+ * Finds if an NPC is facing an atom
+ *
+ * Arguments:
+ * * A - what's being checked for if the NPC is facing it
+ */
+/mob/living/carbon/human/npc/proc/backinvisible(atom/A)
 	switch(dir)
 		if(NORTH)
 			if(A.y >= y)
@@ -108,36 +130,44 @@
 				return TRUE
 	return FALSE
 
-/mob/living/proc/CheckEyewitness(var/mob/living/source, var/mob/attacker, var/range = 0, var/affects_source = FALSE)
-	var/actual_range = max(1, round(range*(attacker.alpha/255)))
-	/*
-	if(SScityweather.fogging)
-		actual_range = round(actual_range/2)
-	*/
-	var/list/seenby = list()
-	if(source.ignores_warrant)
+/mob/living/proc/CheckEyewitness(mob/living/source, mob/attacker, range = 0, affects_source = FALSE)
+	if (source.ignores_warrant)
 		return
-	else
-		for(var/mob/living/carbon/human/npc/NPC in oviewers(1, source))
-			if(!NPC.CheckMove())
-				if(get_turf(src) != turn(NPC.dir, 180))
-					seenby |= NPC
-					NPC.Aggro(attacker, FALSE)
-		for(var/mob/living/carbon/human/npc/NPC in viewers(actual_range, source))
-			if(!NPC.CheckMove())
-				if(affects_source)
-					if(NPC == source)
-						NPC.Aggro(attacker, TRUE)
-						seenby |= NPC
-				if(!NPC.pulledby)
-					var/turf/LC = get_turf(attacker)
-					if(LC.get_lumcount() > 0.25 || get_dist(NPC, attacker) <= 1)
-						if(NPC.backinvisible(attacker))
-							seenby |= NPC
-							NPC.Aggro(attacker, FALSE)
-		if(length(seenby) >= 1)
-			return TRUE
-		return FALSE
+
+	// Visible range is multiplied by percentage of the attacker's visibility
+	var/actual_range = max(1, round(range * (attacker.alpha / 255)))
+
+	// Will be TRUE if an NPC witnesses this
+	. = FALSE
+
+	// NPCs within 1 tile aggro if facing the source
+	for (var/mob/living/carbon/human/npc/NPC in oviewers(1, source))
+		if (NPC.CheckMove())
+			continue
+		if(get_turf(src) == turn(NPC.dir, 180))
+			continue
+		NPC.Aggro(attacker, FALSE)
+		. = TRUE
+
+	// NPCs within effective range aggro if facing the source and the aggravator isn't in darkness
+	for (var/mob/living/carbon/human/npc/NPC in viewers(actual_range, source))
+		if (NPC.CheckMove())
+			continue
+
+		if (affects_source && (NPC == source))
+			NPC.Aggro(attacker, TRUE)
+			. = TRUE
+
+		if (NPC.pulledby)
+			continue
+
+		var/turf/attacker_turf = get_turf(attacker)
+		if ((attacker_turf.get_lumcount() <= 0.25) && (get_dist(NPC, attacker) > 1))
+			continue
+		if (!NPC.backinvisible(attacker))
+			continue
+		NPC.Aggro(attacker, FALSE)
+		. = TRUE
 
 /mob/proc/can_respawn()
 	if (client?.ckey)
@@ -265,3 +295,4 @@
 			return "vamp11"
 		else
 			return value
+*/

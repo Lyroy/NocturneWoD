@@ -62,12 +62,12 @@
 	vitae.Grant(new_kindred)
 
 	add_verb(new_kindred, TYPE_VERB_REF(/mob/living/carbon/human, teach_discipline))
+	*/
 
 	new_kindred.yang_chi = 0
 	new_kindred.max_yang_chi = 0
 	new_kindred.yin_chi = 6
 	new_kindred.max_yin_chi = 6
-	*/
 
 	//vampires die instantly upon having their heart removed
 	RegisterSignal(new_kindred, COMSIG_CARBON_LOSE_ORGAN, PROC_REF(lose_organ))
