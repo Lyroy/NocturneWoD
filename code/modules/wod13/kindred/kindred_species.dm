@@ -42,6 +42,9 @@
 /datum/species/human/kindred/on_species_gain(mob/living/carbon/human/new_kindred, datum/species/old_species, pref_load, regenerate_icons = TRUE)
 	. = ..()
 
+	var/datum/action/cooldown/blood_power/bloodpower = new()
+	bloodpower.Grant(new_kindred)
+
 	// TODO: [Lucia] reimplement these vars and the actions
 	/*
 	new_kindred.update_body(0)
@@ -51,15 +54,12 @@
 	infor.host = new_kindred
 	infor.Grant(new_kindred)
 
-	var/datum/action/give_vitae/vitae = new()
-	vitae.Grant(new_kindred)
-
 	//this needs to be adjusted to be more accurate for blood spending rates
 	var/datum/discipline/bloodheal/giving_bloodheal = new(clamp(11 - new_kindred.generation, 1, 10))
 	new_kindred.give_discipline(giving_bloodheal)
 
-	var/datum/action/blood_power/bloodpower = new()
-	bloodpower.Grant(new_kindred)
+	var/datum/action/give_vitae/vitae = new()
+	vitae.Grant(new_kindred)
 
 	add_verb(new_kindred, TYPE_VERB_REF(/mob/living/carbon/human, teach_discipline))
 
@@ -93,11 +93,11 @@
 	/*
 	for (var/datum/action/vampireinfo/VI in human.actions)
 		VI.Remove(human)
+	*/
 
 	for (var/datum/action/A in human.actions)
 		if (A.vampiric)
 			A.Remove(human)
-	*/
 
 /datum/species/human/kindred/proc/damage_resistance(datum/source, list/damage_mods, damage_amount, damagetype, def_zone, sharpness, attack_direction, obj/item/attacking_item)
 	SIGNAL_HANDLER
