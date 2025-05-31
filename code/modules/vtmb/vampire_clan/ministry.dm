@@ -1,6 +1,7 @@
-/datum/vampire_clan/ministry
-	name = "Ministry"
-	desc = "The Ministry, also called the Ministry of Set, Followers of Set, or Setites, are a clan of vampires who believe their founder was the Egyptian god Set."
+/datum/vampire_clan/followers_of_set
+	name = "Followers of Set"
+	id = VAMPIRE_CLAN_FOLLOWERS_OF_SET
+	desc = "The Followers of Set, also called the Ministry of Set, Ministry, or Setites, are a clan of vampires who believe their founder was the Egyptian god Set."
 	curse = "Decreased moving speed in lighted areas."
 	clan_disciplines = list(
 		/datum/discipline/obfuscate,

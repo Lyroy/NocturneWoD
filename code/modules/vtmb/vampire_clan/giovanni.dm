@@ -1,5 +1,6 @@
 /datum/vampire_clan/giovanni
 	name = "Giovanni"
+	id = VAMPIRE_CLAN_GIOVANNI
 	desc = "The Giovanni are the usurpers of Clan Cappadocian and one of the youngest clans. The Giovanni has historically been both a clan and a family. They Embrace almost exclusively within their family, and are heavily focused on the goals of money and necromantic power."
 	curse = "Harmful bites."
 	clan_disciplines = list(
