@@ -9,3 +9,6 @@
 #define isghoul(A) (FALSE)
 #define iscathayan(A) (FALSE)
 #define isgarou(A) (FALSE)
+
+// TODO: [Lucia] reimplement npcs
+#define isnpc(A) (FALSE)

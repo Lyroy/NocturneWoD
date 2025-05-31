@@ -1,12 +1,12 @@
 /datum/action/discipline
 	check_flags = NONE
-	button_icon = 'code/modules/wod13/UI/actions.dmi' //This is the file for the BACKGROUND icon
+	background_icon = 'code/modules/wod13/UI/actions.dmi' //This is the file for the ACTION icon
 	background_icon_state = "discipline" //And this is the state for the background icon
-	icon_icon = 'code/modules/wod13/UI/actions.dmi' //This is the file for the ACTION icon
+	button_icon = 'code/modules/wod13/UI/actions.dmi' //This is the file for the BACKGROUND icon
 	button_icon_state = "discipline" //And this is the state for the action icon
+	overlay_icon = 'code/modules/wod13/UI/actions.dmi'
 
 	vampiric = TRUE
-	var/level_icon_state = "1" //And this is the state for the action icon
 	var/datum/discipline/discipline
 	var/targeting = FALSE
 
@@ -43,8 +43,6 @@
 		SIGNAL_REMOVETRAIT(TRAIT_IMMOBILIZED),
 		SIGNAL_ADDTRAIT(TRAIT_FLOORED),
 		SIGNAL_REMOVETRAIT(TRAIT_FLOORED),
-		SIGNAL_ADDTRAIT(TRAIT_BLIND),
-		SIGNAL_REMOVETRAIT(TRAIT_BLIND),
 		SIGNAL_ADDTRAIT(TRAIT_MUTE),
 		SIGNAL_REMOVETRAIT(TRAIT_MUTE),
 		SIGNAL_ADDTRAIT(TRAIT_HANDS_BLOCKED),
@@ -55,13 +53,13 @@
 
 	RegisterSignal(owner, relevant_signals, TYPE_PROC_REF(/mob, update_action_buttons))
 
-/datum/action/discipline/IsAvailable()
-	return discipline.current_power.can_activate_untargeted()
+/datum/action/discipline/IsAvailable(feedback)
+	return discipline.current_power.can_activate_untargeted(feedback)
 
-/datum/action/discipline/Trigger()
+/datum/action/discipline/Trigger(trigger_flags)
 	. = ..()
 
-	UpdateButtonIcon()
+	update_button_status()
 
 	//easy de-targeting
 	if (targeting)
@@ -92,24 +90,17 @@
 		else //ranged targeted activation
 			begin_targeting()
 
-	UpdateButtonIcon()
+	update_button_status()
 
 	return .
 
-/datum/action/discipline/ApplyIcon(atom/movable/screen/movable/action_button/current_button, force = FALSE)
-	button_icon = 'code/modules/wod13/UI/actions.dmi'
-	icon_icon = 'code/modules/wod13/UI/actions.dmi'
-	if(icon_icon && button_icon_state && ((current_button.button_icon_state != button_icon_state) || force))
-		current_button.cut_overlays(TRUE)
-		if(discipline)
-			current_button.name = discipline.current_power.name
-			current_button.desc = discipline.current_power.desc
-			current_button.add_overlay(mutable_appearance(icon_icon, "[discipline.icon_state]"))
-			current_button.button_icon_state = "[discipline.icon_state]"
-			current_button.add_overlay(mutable_appearance(icon_icon, "[discipline.level_casting]"))
-		else
-			current_button.add_overlay(mutable_appearance(icon_icon, button_icon_state))
-			current_button.button_icon_state = button_icon_state
+/datum/action/discipline/apply_button_overlay(atom/movable/screen/movable/action_button/current_button, force)
+	if (!discipline)
+		return
+
+	overlay_icon_state = num2text(discipline.level_casting)
+
+	. = ..()
 
 /datum/action/discipline/proc/switch_level(to_advance = 1)
 	SEND_SOUND(owner, sound('code/modules/wod13/sounds/highlight.ogg', 0, 0, 50))
@@ -125,10 +116,8 @@
 		end_targeting()
 
 	discipline.current_power = discipline.known_powers[discipline.level_casting]
-	if (button)
-		ApplyIcon(button, TRUE)
 
-	UpdateButtonIcon()
+	apply_button_overlay()
 
 /datum/action/discipline/proc/end_targeting()
 	var/client/client = owner?.client
@@ -139,7 +128,6 @@
 
 	UnregisterSignal(owner, COMSIG_MOB_CLICKON)
 	targeting = FALSE
-	owner.discipline_targeting = FALSE
 	client.mouse_pointer_icon = initial(client.mouse_pointer_icon)
 
 /datum/action/discipline/proc/handle_click(mob/source, atom/target, click_parameters)
@@ -171,7 +159,6 @@
 	SEND_SOUND(owner, sound('code/modules/wod13/sounds/highlight.ogg', 0, 0, 50))
 	RegisterSignal(owner, COMSIG_MOB_CLICKON, PROC_REF(handle_click))
 	targeting = TRUE
-	owner.discipline_targeting = TRUE
 	client.mouse_pointer_icon = 'icons/effects/mouse_pointers/discipline.dmi'
 
 /atom/movable/screen/movable/action_button/Click(location, control, params)

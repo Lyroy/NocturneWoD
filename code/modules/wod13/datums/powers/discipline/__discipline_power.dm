@@ -195,7 +195,7 @@
 			to_chat(owner, span_warning("You cannot cast [src] while lying on the floor!"))
 		return FALSE
 
-	if ((check_flags & DISC_CHECK_SEE) && HAS_TRAIT(owner, TRAIT_BLIND))
+	if ((check_flags & DISC_CHECK_SEE) && owner.is_blind())
 		if (alert)
 			to_chat(owner, span_warning("You cannot cast [src] without your sight!"))
 		return FALSE
@@ -442,26 +442,31 @@
 	if (effect_sound)
 		playsound(target ? target : owner, effect_sound, 50, FALSE)
 
+// TODO: [Lucia] reimplement npcs
 /**
  * Overridable proc handling how the power aggravates NPCs
  * it's used on.
  */
 /datum/discipline_power/proc/do_npc_aggro(atom/target)
+	/*
 	if (aggravating && isnpc(target))
 		var/mob/living/carbon/human/npc/npc = target
 		npc.Aggro(owner, hostile)
+	*/
 
 /**
  * Overridable proc handling Masquerade violations as a result
  * of using this power amongst NPCs.
  */
 /datum/discipline_power/proc/do_masquerade_violation(atom/target)
+	/*
 	if (violates_masquerade)
 		if (owner.CheckEyewitness(target ? target : owner, owner, 7, TRUE))
 			//TODO: detach this from being a human
 			if (ishuman(owner))
 				var/mob/living/carbon/human/human = owner
 				human.AdjustMasquerade(-1)
+	*/
 
 /**
  * Overridable proc handling the spending of resources (vitae/blood)
