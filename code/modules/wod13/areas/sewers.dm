@@ -2,7 +2,7 @@
 	name = "Sewer"
 	icon_state = "sewer"
 	ambience_index = AMBIENCE_SEWER
-	music = /datum/vampiremusic/sewer
+	ambient_buzz = 'code/modules/wod13/sounds/enterlair.ogg'
 	upper = FALSE
 	zone_type = ZONE_NO_MASQUERADE
 	yang_chi = 0
@@ -13,7 +13,7 @@
 	name = "Underground Town"
 	icon_state = "hotel"
 	upper = FALSE
-	music = /datum/vampiremusic/nosferatu
+	ambient_buzz = 'code/modules/wod13/sounds/nosferatu.ogg'
 	zone_type = "elysium"
 	yang_chi = 0
 	yin_chi = 2
@@ -23,5 +23,5 @@
 	name = "Old Clan Tzimisce Sanctum"
 	icon_state = "old_clan_sanctum"
 	zone_type = "elysium"
-	music = /datum/vampiremusic/nosferatu
+	ambient_buzz = 'code/modules/wod13/sounds/nosferatu.ogg'
 	wall_rating = HIGH_WALL_RATING

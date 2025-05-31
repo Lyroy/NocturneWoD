@@ -2,7 +2,7 @@
 	name = "Graveyard"
 	icon_state = "graveyard"
 	ambience_index = AMBIENCE_INTERIOR
-	music = /datum/vampiremusic/hollywood
+	ambient_buzz = 'code/modules/wod13/sounds/hollywood.ogg'
 	upper = TRUE
 	zone_type = ZONE_NO_MASQUERADE
 	yang_chi = 0

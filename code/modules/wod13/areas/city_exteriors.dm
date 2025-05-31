@@ -2,7 +2,7 @@
 	name = "Financial District"
 	icon_state = "financialdistrict"
 	ambience_index = AMBIENCE_CITY
-	music = /datum/vampiremusic/downtown
+	ambient_buzz = 'code/modules/wod13/sounds/downtown.ogg'
 	upper = TRUE
 	wall_rating = HIGH_WALL_RATING
 
@@ -10,7 +10,7 @@
 	name = "Ghetto"
 	icon_state = "ghetto"
 	ambience_index = AMBIENCE_CITY
-	music = /datum/vampiremusic/downtown
+	ambient_buzz = 'code/modules/wod13/sounds/downtown.ogg'
 	upper = TRUE
 	wall_rating = HIGH_WALL_RATING
 
@@ -18,7 +18,7 @@
 	name = "Pacific Heights"
 	icon_state = "pacificheights"
 	ambience_index = AMBIENCE_NATURE
-	music = /datum/vampiremusic/hollywood
+	ambient_buzz = 'code/modules/wod13/sounds/hollywood.ogg'
 	upper = TRUE
 	wall_rating = HIGH_WALL_RATING
 
@@ -26,7 +26,7 @@
 	name = "Chinatown"
 	icon_state = "chinatown"
 	ambience_index = AMBIENCE_CITY
-	music = /datum/vampiremusic/chinatown
+	ambient_buzz = 'code/modules/wod13/sounds/chinatown.ogg'
 	upper = TRUE
 	wall_rating = LOW_WALL_RATING	//Kinda chinatown is part of asia and has some deeper connection?
 
@@ -34,7 +34,7 @@
 	name = "Fisherman's Wharf"
 	icon_state = "fishermanswharf"
 	ambience_index = AMBIENCE_CITY
-	music = /datum/vampiremusic/santamonica
+	ambient_buzz = 'code/modules/wod13/sounds/santamonica.ogg'
 	upper = TRUE
 	wall_rating = HIGH_WALL_RATING
 
@@ -42,7 +42,7 @@
 	name = "North Beach"
 	icon_state = "northbeach"
 	ambience_index = AMBIENCE_BEACH
-	music = /datum/vampiremusic/santamonica
+	ambient_buzz = 'code/modules/wod13/sounds/santamonica.ogg'
 	upper = TRUE
 	wall_rating = HIGH_WALL_RATING
 
@@ -50,7 +50,7 @@
 	name = "Union Square"
 	icon_state = "unionsquare"
 	ambience_index = AMBIENCE_CITY
-	music = /datum/vampiremusic/downtown
+	ambient_buzz = 'code/modules/wod13/sounds/downtown.ogg'
 	upper = TRUE
 	wall_rating = HIGH_WALL_RATING
 
@@ -102,7 +102,7 @@
 	icon_state = "anarch"
 	ambience_index = AMBIENCE_INTERIOR
 	upper = FALSE
-	music = /datum/vampiremusic/bar
+	ambient_buzz = 'code/modules/wod13/sounds/naive.ogg'
 	zone_type = "elysium"
 	fire_controled = TRUE
 	wall_rating = HIGH_WALL_RATING
@@ -110,7 +110,7 @@
 /area/vtm/hotel
 	name = "Hotel"
 	icon_state = "hotel"
-//	music = /datum/vampiremusic/bar
+//	ambient_buzz = 'code/modules/wod13/sounds/naive.ogg'
 	ambience_index = AMBIENCE_INTERIOR
 	upper = FALSE
 	fire_controled = TRUE
@@ -119,7 +119,7 @@
 /area/vtm/church
 	name = "Church"
 	icon_state = "church"
-	music = /datum/vampiremusic/church
+	ambient_buzz = 'code/modules/wod13/sounds/hahihaho.ogg'
 	ambience_index = AMBIENCE_INTERIOR
 	upper = FALSE
 	fire_controled = TRUE
@@ -129,7 +129,7 @@
 	name = "Park"
 	icon_state = "park"
 	ambience_index = AMBIENCE_NATURE
-	music = /datum/vampiremusic/downtown
+	ambient_buzz = 'code/modules/wod13/sounds/downtown.ogg'
 	upper = TRUE
 	yang_chi = 2
 	yin_chi = 0
@@ -138,7 +138,7 @@
 /area/vtm/elevator
 	name = "Elevator"
 	icon_state = "prince"
-	music = /datum/vampiremusic/elevator
+	ambient_buzz = 'code/modules/wod13/sounds/lift.ogg'
 	upper = FALSE
 	zone_type = "elysium"
 	fire_controled = TRUE
@@ -149,7 +149,7 @@
 	icon_state = "park"
 	upper = TRUE
 	zone_type = ZONE_NO_MASQUERADE
-	music = /datum/vampiremusic/forest
+	ambient_buzz = 'code/modules/wod13/sounds/night_ambience.ogg'
 	yang_chi = 2
 	yin_chi = 0
 	wall_rating = LOW_WALL_RATING	//for werewolves in future

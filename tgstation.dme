@@ -6661,7 +6661,6 @@
 #include "code\modules\wiremod\shell\scanner.dm"
 #include "code\modules\wiremod\shell\scanner_gate.dm"
 #include "code\modules\wod13\areas\__vtm.dm"
-#include "code\modules\wod13\ambient.dm"
 #include "code\modules\wod13\areas\graveyard.dm"
 #include "code\modules\wod13\areas\sewers.dm"
 #include "code\modules\wiremod\shell\server.dm"
