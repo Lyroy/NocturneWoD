@@ -302,10 +302,6 @@
 
 	var/stakeimmune = FALSE
 
-	var/last_vampire_ambience = 0
-	var/wait_for_music = 30
-	var/wasforced
-
 	var/isfishing = FALSE
 
 	var/mob/parrying = null
