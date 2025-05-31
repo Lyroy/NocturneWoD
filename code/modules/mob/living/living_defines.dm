@@ -324,7 +324,7 @@
 	var/generation = 13
 	var/humanity = 7
 	var/masquerade = 5
-	var/last_masquerade_violation = 0
+	COOLDOWN_DECLARE(masquerade_violation_cooldown)
 	var/last_nonraid = 0
 	var/warrant = FALSE
 	var/ignores_warrant = FALSE

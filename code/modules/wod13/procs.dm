@@ -1,41 +1,46 @@
-/*
-/mob/living/carbon/human/proc/AdjustMasquerade(var/value, var/forced = FALSE)
-	if(!iskindred(src) && !isghoul(src) && !iscathayan(src))
+/mob/living/carbon/human/proc/AdjustMasquerade(value, forced)
+	if (!iskindred(src) && !isghoul(src) && !iscathayan(src))
 		return
-	if(!GLOB.canon_event)
-		return
-	if (!forced)
-		if(value > 0)
-			if(HAS_TRAIT(src, TRAIT_VIOLATOR))
-				return
-		if(istype(get_area(src), /area/vtm))
-			var/area/vtm/V = get_area(src)
-			if(V.zone_type != ZONE_MASQUERADE)
-				return
-	if(!is_special_character(src) || forced)
-		if(((last_masquerade_violation + 10 SECONDS) < world.time) || forced)
-			last_masquerade_violation = world.time
-			if(value < 0)
-				if(masquerade > 0)
-					masquerade = max(0, masquerade+value)
-					SEND_SOUND(src, sound('code/modules/wod13/sounds/masquerade_violation.ogg', 0, 0, 75))
-					to_chat(src, "<span class='userdanger'><b>MASQUERADE VIOLATION!</b></span>")
-				SSbad_guys_party.next_fire = max(world.time, SSbad_guys_party.next_fire - 2 MINUTES)
-			if(value > 0)
-				if(client?.prefs?.enlightenment && !forced)
-					AdjustHumanity(1, 10)
-				for(var/mob/living/carbon/human/H in GLOB.player_list)
-					H.voted_for -= dna.real_name
-				if(masquerade < 5)
-					masquerade = min(5, masquerade+value)
-					SEND_SOUND(src, sound('code/modules/wod13/sounds/general_good.ogg', 0, 0, 75))
-					to_chat(src, "<span class='userhelp'><b>MASQUERADE REINFORCED!</b></span>")
-				SSbad_guys_party.next_fire = max(world.time, SSbad_guys_party.next_fire + 1 MINUTES)
+	var/datum/species/human/kindred/vampirism = dna.species
 
-	if(src in GLOB.masquerade_breakers_list)
-		if(masquerade > 2)
+	if (!forced)
+		if (value > 0)
+			if (HAS_TRAIT(src, TRAIT_VIOLATOR))
+				return
+		if (istype(get_area(src), /area/vtm))
+			var/area/vtm/current_area = get_area(src)
+			if (current_area.zone_type != ZONE_MASQUERADE)
+				return
+		if (!COOLDOWN_FINISHED(src, masquerade_violation_cooldown))
+			return
+
+	COOLDOWN_START(src, masquerade_violation_cooldown, 10 SECONDS)
+
+	if (value < 0)
+		if (masquerade <= 0)
+			return
+
+		SEND_SOUND(src, sound('code/modules/wod13/sounds/masquerade_violation.ogg', 0, 0, 75))
+		to_chat(src, span_userdanger("<b>MASQUERADE VIOLATION!</b>"))
+	else if (value > 0)
+		if (vampirism.enlightenment)
+			AdjustHumanity(1, 10)
+
+		for (var/mob/living/carbon/human/H in GLOB.player_list)
+			H.voted_for -= dna.real_name
+
+		if (masquerade >= 5)
+			return
+
+		SEND_SOUND(src, sound('code/modules/wod13/sounds/general_good.ogg', 0, 0, 75))
+		to_chat(src, span_boldnicegreen("<b>MASQUERADE REINFORCED!</b>"))
+
+	masquerade = clamp(masquerade + value, 0, 5)
+
+	if (src in GLOB.masquerade_breakers_list)
+		if (masquerade > 2)
 			GLOB.masquerade_breakers_list -= src
-	else if(masquerade < 3)
+	else if (masquerade < 3)
 		GLOB.masquerade_breakers_list |= src
 
 /**
@@ -60,6 +65,7 @@
 				return TRUE
 	return FALSE
 
+/*
 /mob/living/proc/CheckEyewitness(mob/living/source, mob/attacker, range = 0, affects_source = FALSE)
 	if (source.ignores_warrant)
 		return
@@ -198,6 +204,7 @@
 			else
 				to_chat(rollviewer, "<span class='boldnotice'>Phenomenal</span>")
 				return DICE_WIN
+*/
 
 /proc/get_vamp_skin_color(var/value = "albino")
 	switch(value)
@@ -225,4 +232,3 @@
 			return "vamp11"
 		else
 			return value
-*/
