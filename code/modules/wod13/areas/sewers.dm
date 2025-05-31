@@ -4,7 +4,7 @@
 	ambience_index = AMBIENCE_SEWER
 	music = /datum/vampiremusic/sewer
 	upper = FALSE
-	zone_type = "battle"
+	zone_type = ZONE_NO_MASQUERADE
 	yang_chi = 0
 	yin_chi = 2
 	wall_rating = HIGH_WALL_RATING

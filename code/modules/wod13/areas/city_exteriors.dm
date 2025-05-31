@@ -54,15 +54,6 @@
 	upper = TRUE
 	wall_rating = HIGH_WALL_RATING
 
-/area/vtm/prince_elevator
-	name = "Millenium Elevator"
-	icon_state = "prince"
-	ambience_index = AMBIENCE_INTERIOR
-	upper = FALSE
-	zone_type = "elysium"
-	fire_controled = TRUE
-	wall_rating = HIGH_WALL_RATING
-
 /area/vtm/city_elevator
 	name = "City Elevator"
 	icon_state = "prince"
@@ -157,7 +148,7 @@
 	name = "Forest"
 	icon_state = "park"
 	upper = TRUE
-	zone_type = "battle"
+	zone_type = ZONE_NO_MASQUERADE
 	music = /datum/vampiremusic/forest
 	yang_chi = 2
 	yin_chi = 0

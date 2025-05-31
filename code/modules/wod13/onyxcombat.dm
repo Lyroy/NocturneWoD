@@ -9,7 +9,7 @@
 	else
 		if(istype(get_area(src), /area/vtm))
 			var/area/vtm/V = get_area(src)
-			if(V.zone_type == "masquerade")
+			if(V.zone_type == ZONE_MASQUERADE)
 				SSmasquerade.dead_level = max(0, SSmasquerade.dead_level-25)
 
 	if(bloodhunted)

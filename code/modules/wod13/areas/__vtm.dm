@@ -7,7 +7,7 @@
 	wall_rating = VERY_HIGH_WALL_RATING
 	var/music
 	var/upper = TRUE
-	var/zone_type = "masquerade"
+	var/zone_type = ZONE_MASQUERADE
 
 /area/vtm/powered(chan)
 	if (!requires_power)
@@ -15,14 +15,14 @@
 	return FALSE
 
 /area/vtm/proc/break_elysium()
-	if (zone_type != "masquerade")
+	if (zone_type != ZONE_MASQUERADE)
 		return
 
-	zone_type = "battle"
+	zone_type = ZONE_NO_MASQUERADE
 	addtimer(CALLBACK(src, PROC_REF(restore_elysium)), 3 MINUTES)
 
 /area/vtm/proc/restore_elysium()
-	if (zone_type != "battle")
+	if (zone_type != ZONE_NO_MASQUERADE)
 		return
 
-	zone_type = "masquerade"
+	zone_type = ZONE_MASQUERADE
