@@ -43,6 +43,8 @@
 	else if (masquerade < 3)
 		GLOB.masquerade_breakers_list |= src
 
+// TODO: [Lucia] reimplement NPCs
+/*
 /**
  * Finds if an NPC is facing an atom
  *
@@ -65,7 +67,6 @@
 				return TRUE
 	return FALSE
 
-/*
 /mob/living/proc/CheckEyewitness(mob/living/source, mob/attacker, range = 0, affects_source = FALSE)
 	if (source.ignores_warrant)
 		return
@@ -105,6 +106,7 @@
 		NPC.Aggro(attacker, FALSE)
 		. = TRUE
 
+// TODO: [Lucia] reimplement respawn timers
 /mob/proc/can_respawn()
 	if (client?.ckey)
 		if (GLOB.respawn_timers[client.ckey])

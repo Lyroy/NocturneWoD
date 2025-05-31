@@ -602,6 +602,7 @@
 #include "code\_globalvars\wod13\masquerade.dm"
 #include "code\_globalvars\wod13\subsystems.dm"
 #include "code\_globalvars\wod13\lists\ambience.dm"
+#include "code\_globalvars\wod13\lists\mobs.dm"
 #include "code\_globalvars\wod13\lists\objects.dm"
 #include "code\_js\byjax.dm"
 #include "code\_js\menus.dm"

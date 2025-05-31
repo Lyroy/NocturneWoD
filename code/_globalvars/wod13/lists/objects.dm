@@ -18,3 +18,6 @@ GLOBAL_LIST_EMPTY(police_radios)
 
 /// Licenses of stock brokers in the city
 GLOBAL_LIST_EMPTY(stock_licenses)
+
+/// All snowflake fire effects on the map
+GLOBAL_LIST_EMPTY(fires_list)
