@@ -6662,6 +6662,7 @@
 #include "code\modules\wiremod\shell\undertile.dm"
 #include "code\modules\wiremod\shell\wallmount.dm"
 #include "code\modules\wod13\procs.dm"
+#include "code\modules\wod13\kindred\humanity.dm"
 #include "code\modules\wod13\kindred\blood_power.dm"
 #include "code\modules\wod13\client\preferences\splat_features\kindred.dm"
 #include "code\modules\wod13\kindred\kindred_species.dm"
