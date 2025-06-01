@@ -12,39 +12,45 @@
 	var/repairing = FALSE
 
 /obj/fusebox/proc/check_damage(var/mob/living/user)
-	if(damaged > 100 && icon_state != "fusebox_open")
-		icon_state = "fusebox_open"
-		var/area/A = get_area(src)
-		A.requires_power = TRUE
-		A.fire_controled = FALSE
-		var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
-		s.set_up(5, 1, get_turf(src))
-		s.start()
-		for(var/obj/machinery/light/L in A)
-			L.update(FALSE)
-		playsound(loc, 'code/modules/wod13/sounds/explode.ogg', 100, TRUE)
-		if(user)
-			user.electrocute_act(50, src, siemens_coeff = 1, flags = NONE)
+	if (damaged <= 100 || icon_state == "fusebox_open")
+		return
+
+	icon_state = "fusebox_open"
+	var/area/A = get_area(src)
+	A.requires_power = TRUE
+	A.fire_controled = FALSE
+	var/datum/effect_system/spark_spread/s = new /datum/effect_system/spark_spread
+	s.set_up(5, 1, get_turf(src))
+	s.start()
+	for(var/obj/machinery/light/L in A)
+		L.update(FALSE)
+	playsound(loc, 'code/modules/wod13/sounds/explode.ogg', 100, TRUE)
+	if(user)
+		user.electrocute_act(50, src, siemens_coeff = 1, flags = NONE)
 
 /obj/fusebox/attackby(obj/item/I, mob/living/user, params)
-	if(istype(I, /obj/item/wire_cutters))
-		if(!repairing)
-			repairing = TRUE
-			if(do_after(user, 100, src))
-				icon_state = "fusebox"
-				damaged = 0
-				playsound(get_turf(src),'code/modules/wod13/sounds/fix.ogg', 75, FALSE)
-				var/area/A = get_area(src)
-				A.requires_power = FALSE
-				if(initial(A.fire_controled))
-					A.fire_controled = TRUE
-				for(var/obj/machinery/light/L in A)
-					L.update(FALSE)
-				repairing = FALSE
-			else
-				repairing = FALSE
-	else
-		..()
-		if(I.force)
+	if (!istype(I, /obj/item/wire_cutters))
+		. = ..()
+		if (I.force)
 			damaged += I.force
 			check_damage(user)
+		return
+
+	if (repairing)
+		return
+
+	repairing = TRUE
+	if (!do_after(user, 10 SECONDS, src))
+		repairing = FALSE
+		return
+
+	icon_state = "fusebox"
+	damaged = 0
+	playsound(get_turf(src),'code/modules/wod13/sounds/fix.ogg', 75, FALSE)
+	var/area/A = get_area(src)
+	A.requires_power = FALSE
+	if (initial(A.fire_controled))
+		A.fire_controled = TRUE
+	for (var/obj/machinery/light/L in A)
+		L.update(FALSE)
+	repairing = FALSE
