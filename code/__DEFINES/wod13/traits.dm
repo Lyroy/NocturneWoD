@@ -33,8 +33,6 @@
 #define TRAIT_PASS_THROUGH_WALLS "pass_through_walls"
 /// Technology supernaturally refuses to work or doesn't work properly for this person
 #define TRAIT_REJECTED_BY_TECHNOLOGY "rejected_by_technology"
-/// Doesn't cast a reflection
-#define TRAIT_NO_REFLECTION "no_reflection"
 /// Vampire cannot drink from anyone who doesn't consent to it
 #define TRAIT_CONSENSUAL_FEEDING_ONLY "consensual_feeding_only"
 /// Instead of knocking someone out when fed on, this vampire's Kiss inflicts pain
