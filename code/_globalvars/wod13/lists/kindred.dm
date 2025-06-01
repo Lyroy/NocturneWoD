@@ -1,10 +1,10 @@
-/// Associative list of Clan IDs to typepaths
+/// Associative list of Clan names to typepaths
 GLOBAL_LIST_INIT(vampire_clan_list, init_vampire_clan_list())
 
 /proc/init_vampire_clan_list()
 	var/list/clan_list = list()
 	for (var/datum/vampire_clan/clan_type as anything in subtypesof(/datum/vampire_clan))
-		clan_list[initial(clan_type.id)] = clan_type
+		clan_list[initial(clan_type.name)] = clan_type
 	return clan_list
 
 /// Associative list of Clan typepaths to singletons

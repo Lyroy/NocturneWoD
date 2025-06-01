@@ -1,7 +1,7 @@
 /datum/vampire_clan
 	/// Name of the Clan
 	var/name
-	/// Identifier in sprites and savefiles for the Clan
+	/// Identifier in sprites for the Clan
 	var/id
 	/// Description of the Clan
 	var/desc

@@ -12,7 +12,7 @@
 	return assoc_to_keys(GLOB.vampire_clan_list)
 
 /datum/preference/choiced/vampire_clan/icon_for(value)
-	return uni_icon('icons/wod13/ui/vampire_clans.dmi', value)
+	return uni_icon('icons/wod13/ui/vampire_clans.dmi', get_vampire_clan(value).id)
 
 /datum/preference/choiced/vampire_clan/compile_constant_data()
 	var/list/data = ..()
