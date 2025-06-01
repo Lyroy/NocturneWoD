@@ -14,15 +14,6 @@
 /datum/preference/choiced/vampire_clan/icon_for(value)
 	return uni_icon('icons/wod13/ui/vampire_clans.dmi', get_vampire_clan(value).id)
 
-/datum/preference/choiced/vampire_clan/compile_constant_data()
-	var/list/data = ..()
-
-	data[CHOICED_PREFERENCE_DISPLAY_NAMES] = list()
-	for (var/clan_id in get_choices())
-		data[CHOICED_PREFERENCE_DISPLAY_NAMES][clan_id] = get_vampire_clan(clan_id).name
-
-	return data
-
 /datum/preference/choiced/vampire_clan/apply_to_human(mob/living/carbon/human/target, value)
 	target.set_clan(value)
 
