@@ -169,8 +169,8 @@
 /mob/living/carbon/human/proc/set_clan(setting_clan, joining_round)
 	var/datum/vampire_clan/previous_clan = clan
 
-	// Convert typepaths to Clan singletons, or just directly assign if already singleton
-	var/datum/vampire_clan/new_clan = ispath(setting_clan) ? GLOB.vampire_clans[setting_clan] : setting_clan
+	// Convert IDs and typepaths to singletons, or just directly assign if already singleton
+	var/datum/vampire_clan/new_clan = get_vampire_clan(setting_clan)
 
 	// Handle losing Clan
 	previous_clan?.on_lose(src)

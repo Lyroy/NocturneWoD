@@ -1,3 +1,31 @@
+/datum/preference/choiced/vampire_clan
+	savefile_key = "vampire_clan"
+	savefile_identifier = PREFERENCE_CHARACTER
+	category = PREFERENCE_CATEGORY_FEATURES
+	priority = PREFERENCE_PRIORITY_WORLD_OF_DARKNESS
+	main_feature_name = "Bloodline"
+	relevant_inherent_trait = TRAIT_VTM_CLANS
+	should_generate_icons = TRUE
+
+/datum/preference/choiced/vampire_clan/init_possible_values()
+	// TODO: [Lucia] implement whitelisting
+	return assoc_to_keys(GLOB.vampire_clan_list)
+
+/datum/preference/choiced/vampire_clan/icon_for(value)
+	return uni_icon('icons/wod13/ui/vampire_clans.dmi', value)
+
+/datum/preference/choiced/vampire_clan/compile_constant_data()
+	var/list/data = ..()
+
+	data[CHOICED_PREFERENCE_DISPLAY_NAMES] = list()
+	for (var/clan_id in get_choices())
+		data[CHOICED_PREFERENCE_DISPLAY_NAMES][clan_id] = get_vampire_clan(clan_id).name
+
+	return data
+
+/datum/preference/choiced/vampire_clan/apply_to_human(mob/living/carbon/human/target, value)
+	target.set_clan(value)
+
 /datum/preference/choiced/vtm_morality
 	savefile_key = "vtm_morality_path"
 	savefile_identifier = PREFERENCE_CHARACTER

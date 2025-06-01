@@ -74,7 +74,7 @@
 	if(!IsAvailable())
 		return
 
-	var/datum/vampire_clan/malkavian/clan_malkavian = GLOB.vampire_clans[/datum/vampire_clan/malkavian]
+	var/datum/vampire_clan/malkavian/clan_malkavian = get_vampire_clan(VAMPIRE_CLAN_MALKAVIAN)
 	if (!(owner in clan_malkavian.madness_network))
 		return
 

@@ -158,7 +158,7 @@
 
 							else
 								BLOODBONDED_prefs_v.generation = 13 // Game always set to 13 anyways, 14 is not possible.
-								BLOODBONDED_prefs_v.clan = GLOB.vampire_clans[/datum/vampire_clan/caitiff]
+								BLOODBONDED_prefs_v.clan = get_vampire_clan(VAMPIRE_CLAN_CAITIFF)
 								BLOODBONDED_prefs_v.save_character()
 
 					else

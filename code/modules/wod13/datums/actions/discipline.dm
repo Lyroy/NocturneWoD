@@ -159,7 +159,7 @@
 	SEND_SOUND(owner, sound('code/modules/wod13/sounds/highlight.ogg', 0, 0, 50))
 	RegisterSignal(owner, COMSIG_MOB_CLICKON, PROC_REF(handle_click))
 	targeting = TRUE
-	client.mouse_pointer_icon = 'icons/effects/mouse_pointers/discipline.dmi'
+	client.mouse_pointer_icon = 'icons/wod13/effects/mouse_pointers/discipline.dmi'
 
 /atom/movable/screen/movable/action_button/Click(location, control, params)
 	if(istype(linked_action, /datum/action/discipline))

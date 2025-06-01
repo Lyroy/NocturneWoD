@@ -64,6 +64,8 @@
 #define TRAIT_CAN_ENTER_TORPOR "can_enter_torpor"
 /// Uses Vampire: The Masquerade morality systems
 #define TRAIT_VTM_MORALITY "vtm_morality"
+/// Uses Vampire: The Masquerade Clans/Bloodlines
+#define TRAIT_VTM_CLANS "vtm_clans"
 
 /// Trait given by a vampire's Clan
 #define CLAN_TRAIT "clan"

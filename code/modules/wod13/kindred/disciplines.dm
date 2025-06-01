@@ -217,9 +217,9 @@
 				var/datum/vampire_clan/main_clan
 				switch(student.clan.type)
 					if (/datum/vampire_clan/true_brujah)
-						main_clan = GLOB.vampire_clans[/datum/vampire_clan/brujah]
+						main_clan = get_vampire_clan(VAMPIRE_CLAN_BRUJAH)
 					if (/datum/vampire_clan/old_clan_tzimisce)
-						main_clan = GLOB.vampire_clans[/datum/vampire_clan/tzimisce]
+						main_clan = get_vampire_clan(VAMPIRE_CLAN_TZIMISCE)
 
 				student_prefs.clan = main_clan
 				student.set_clan(main_clan)

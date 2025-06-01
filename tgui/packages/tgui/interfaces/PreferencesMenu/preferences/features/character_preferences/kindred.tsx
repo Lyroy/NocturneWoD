@@ -1,7 +1,7 @@
-import { Feature } from "../base";
+import { FeatureChoiced } from "../base";
 import { FeatureDropdownInput } from '../dropdowns';
 
-export const vtm_morality_path: Feature<string> = {
+export const vtm_morality_path: FeatureChoiced = {
   name: 'Path',
   description: 'The morality that your character subscribes to.',
   component: FeatureDropdownInput,
