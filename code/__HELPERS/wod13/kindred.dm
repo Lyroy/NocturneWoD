@@ -1,3 +1,11 @@
+/**
+ * Gets the singleton of a vampiric Clan
+ * from its name, typepath, or returns the
+ * argument if given a Clan singleton.
+ *
+ * Arguments:
+ * * clan_identifier - Name, typepath, or singleton of the Clan being retrieved
+ */
 /proc/get_vampire_clan(clan_identifier)
 	RETURN_TYPE(/datum/vampire_clan)
 

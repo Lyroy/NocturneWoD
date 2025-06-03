@@ -107,19 +107,16 @@
 	if ((damagetype == BRUTE) && (sharpness != SHARP_EDGED))
 		damage_mods += 0.5
 
-// TODO: [Lucia] reimplement disciplines
 /**
  * Accesses a certain Discipline that a Kindred has. Null if not found.
  *
  * Arguments:
  * * searched_discipline - Name or typepath of the Discipline being searched for.
  */
-/*
 /datum/species/human/kindred/proc/get_discipline(searched_discipline)
 	for (var/datum/discipline/discipline in disciplines)
 		if (istype(discipline, searched_discipline))
 			return discipline
-*/
 
 /datum/species/human/kindred/check_roundstart_eligible()
 	return TRUE

@@ -12,7 +12,7 @@
 	return assoc_to_keys(GLOB.vampire_clan_list)
 
 /datum/preference/choiced/vampire_clan/icon_for(value)
-	return uni_icon('icons/wod13/ui/vampire_clans.dmi', get_vampire_clan(value).id)
+	return uni_icon('icons/wod13/ui_icons/vampire_clans.dmi', get_vampire_clan(value).id)
 
 /datum/preference/choiced/vampire_clan/apply_to_human(mob/living/carbon/human/target, value)
 	target.set_clan(value)
