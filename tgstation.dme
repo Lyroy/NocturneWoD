@@ -6649,6 +6649,7 @@
 #include "code\modules\wiremod\core\port.dm"
 #include "code\modules\wiremod\core\usb_cable.dm"
 #include "code\modules\wiremod\core\variable.dm"
+#include "code\modules\wod13\objects\items\clothes\eyes.dm"
 #include "code\modules\wod13\objects\items\clothes\feet.dm"
 #include "code\modules\wod13\objects\items\clothes\hands.dm"
 #include "code\modules\wod13\objects\items\clothes\head.dm"
