@@ -551,6 +551,10 @@
 	if(ishuman(owner))
 		var/mob/living/carbon/human/human_owner = owner
 		. += "-[human_owner.mob_height]"
+	// Start WoD13 Modification
+	if (body_weight)
+		. += "-[body_weight]"
+	// End WoD13 Modification
 	return .
 
 ///Generates a cache key specifically for husks

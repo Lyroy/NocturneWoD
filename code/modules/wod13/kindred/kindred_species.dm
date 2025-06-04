@@ -71,7 +71,7 @@
 	new_kindred.max_yin_chi = 6
 
 	//vampires die instantly upon having their heart removed
-	RegisterSignal(new_kindred, COMSIG_CARBON_LOSE_ORGAN, PROC_REF(lose_organ))
+	RegisterSignal(new_kindred, COMSIG_CARBON_LOSE_ORGAN, PROC_REF(handle_lose_organ))
 
 	//vampires don't die while in crit, they just slip into torpor after 2 minutes of being critted
 	RegisterSignal(new_kindred, SIGNAL_ADDTRAIT(TRAIT_CRITICAL_CONDITION), PROC_REF(handle_enter_critical_condition))
@@ -128,15 +128,19 @@
  * * source - The Kindred whose organ has been removed.
  * * organ - The organ which has been removed.
  */
-/datum/species/human/kindred/proc/lose_organ(mob/living/carbon/human/source, obj/item/organ/organ)
+/datum/species/human/kindred/proc/handle_lose_organ(mob/living/carbon/human/source, obj/item/organ/organ)
 	SIGNAL_HANDLER
 
 	if (!istype(organ, /obj/item/organ/heart))
 		return
+
+	addtimer(CALLBACK(src, PROC_REF(lose_heart), source, organ), 0.5 SECONDS)
+
+/datum/species/human/kindred/proc/lose_heart(mob/living/carbon/human/source, obj/item/organ/heart/heart)
 	if (source.get_organ_by_type(/obj/item/organ/heart))
 		return
 
-	INVOKE_ASYNC(source, TYPE_PROC_REF(/mob/living, death))
+	source.death()
 
 /datum/species/human/kindred/proc/handle_enter_critical_condition(mob/living/carbon/human/source)
 	SIGNAL_HANDLER

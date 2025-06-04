@@ -214,6 +214,10 @@
 	/// The cached info about the blood this organ belongs to, set during on_removal()
 	var/list/blood_dna_info
 
+	// Start WoD13 Modification
+	var/body_weight = AVERAGE_BODY_WEIGHT
+	// End WoD13 Modification
+
 /obj/item/bodypart/apply_fantasy_bonuses(bonus)
 	. = ..()
 	unarmed_damage_low = modify_fantasy_variable("unarmed_damage_low", unarmed_damage_low, bonus, minimum = 1)
@@ -1106,10 +1110,12 @@
 	if(!should_draw_greyscale || !icon_greyscale)
 		limb.icon = icon_static
 
+	// Start WoD13 Modification
 	if(is_dimorphic) //Does this type of limb have sexual dimorphism?
-		limb.icon_state = "[limb_id]_[body_zone]_[limb_gender]"
+		limb.icon_state = "[body_weight][limb_id]_[body_zone]_[limb_gender]"
 	else
-		limb.icon_state = "[limb_id]_[body_zone]"
+		limb.icon_state = "[body_weight][limb_id]_[body_zone]"
+	// End WoD13 Modification
 
 	icon_exists_or_scream(limb.icon, limb.icon_state) //Prints a stack trace on the first failure of a given iconstate.
 
@@ -1410,7 +1416,9 @@
 		owner.update_body_parts()
 
 	//This foot gun needs a safety
-	if(!icon_exists(icon_holder, "[limb_id]_[body_zone][is_dimorphic ? "_[limb_gender]" : ""]"))
+	// Start WoD13 Modification
+	if(!icon_exists(icon_holder, "[body_weight][limb_id]_[body_zone][is_dimorphic ? "_[limb_gender]" : ""]"))
+	// End WoD13 Modification
 		reset_appearance()
 		stack_trace("change_appearance([icon], [id], [greyscale], [dimorphic]) generated null icon")
 
@@ -1421,6 +1429,9 @@
 	limb_id = initial(limb_id)
 	is_dimorphic = initial(is_dimorphic)
 	should_draw_greyscale = initial(should_draw_greyscale)
+	// Start WoD13 Modification
+	body_weight = initial(body_weight)
+	// End WoD13 Modification
 
 	if(!owner)
 		update_icon_dropped()

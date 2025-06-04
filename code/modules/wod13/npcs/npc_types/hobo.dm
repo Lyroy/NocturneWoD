@@ -6,7 +6,7 @@
 	. = ..()
 
 	if (prob(33))
-		set_body_model(SLIM_BODY_MODEL)
+		set_body_weight(SLIM_BODY_WEIGHT)
 
 	var/datum/socialrole/assign_role = pick(/datum/socialrole/poormale, /datum/socialrole/poorfemale)
 	AssignSocialRole(assign_role)

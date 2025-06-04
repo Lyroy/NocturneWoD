@@ -63,14 +63,9 @@
 /datum/vampire_clan/proc/on_gain(mob/living/carbon/human/vampire, joining_round)
 	SHOULD_CALL_PARENT(TRUE)
 
-	// TODO: [Lucia] reimplement body types and body sprites
-	/*
 	// Apply alternative sprites
 	if (alt_sprite)
-		if (!alt_sprite_greyscale)
-			vampire.skin_tone = "albino"
-		vampire.set_body_sprite(alt_sprite)
-	*/
+		vampire.set_body_sprite(alt_sprite, alt_sprite_greyscale)
 
 	// Remove hair if the Clan demands it
 	if (no_hair)
@@ -88,10 +83,6 @@
 	if (joining_round)
 		RegisterSignal(vampire, COMSIG_MOB_LOGIN, PROC_REF(on_join_round), override = TRUE)
 
-	vampire.update_body_parts()
-	vampire.update_body()
-	vampire.update_icon()
-
 /**
  * Undoes the effects of on_gain to more or less
  * remove the effects of gaining the Clan. By default,
@@ -108,12 +99,9 @@
 	for (var/trait in clan_traits)
 		REMOVE_TRAIT(vampire, trait, CLAN_TRAIT)
 
-	// TODO: [Lucia] reimplement body types and body sprites
-	/*
 	// Sets the vampire back to their default body sprite
-	if (alt_sprite && (GET_BODY_SPRITE(vampire) == alt_sprite))
-		vampire.set_body_sprite(initial(vampire.dna.species.limbs_id))
-	*/
+	if (alt_sprite)
+		vampire.set_body_sprite(ignore_clan = TRUE)
 
 	// TODO: [Lucia] reimplement clan accessories
 	/*
@@ -122,8 +110,6 @@
 		var/equipped_accessory = accessories_layers[vampire.client.prefs.clan_accessory]
 		vampire.remove_overlay(equipped_accessory)
 	*/
-
-	vampire.update_body()
 
 /**
  * Applies Clan-specific effects when the

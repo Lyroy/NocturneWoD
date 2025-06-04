@@ -6,23 +6,24 @@
  *
  * Arguments:
  * * sprite_name - Name of the sprite that'll be used as the base for this human's limbs.
+ * * greyscale - If the new limbs use skin tone.
  */
-/mob/living/carbon/human/proc/set_body_sprite(sprite_name)
-	// Cannot be used without species code as this relies on limbs_id
+/mob/living/carbon/human/proc/set_body_sprite(sprite_name, greyscale, ignore_clan)
+	// Cannot be used without species code as this relies on examine_limbs_id for defaults
 	CHECK_DNA_AND_SPECIES(src)
 
 	// If no base sprite is supplied, get a default from either the species or the Clan
 	if (!sprite_name)
-		if (clan?.alt_sprite)
+		if (clan?.alt_sprite && !ignore_clan)
 			sprite_name = clan.alt_sprite
+			greyscale = clan.alt_sprite_greyscale
 		else
-			sprite_name = initial(dna.species.limbs_id)
+			sprite_name = initial(dna.species.examine_limb_id)
+			greyscale = TRUE
 
-	// Assigns a body model and an alternative sprite
-	dna.species.limbs_id = base_body_mod + sprite_name
-
-	// Update icons to reflect new body sprite
-	update_body()
+	// Update all limbs to the new sprite and greyscale
+	for (var/obj/item/bodypart/bodypart as anything in bodyparts)
+		bodypart.change_appearance(icon = greyscale ? DEFAULT_BODYPART_ICON_ORGANIC : bodypart.icon, id = sprite_name, greyscale = greyscale)
 
 /**
  * Changes the body model (weight) of a human
@@ -30,31 +31,26 @@
  * and limbs_id to match.
  *
  * Arguments:
- * * new_body_model - Body model the human is being given.
+ * * new_body_weight - Body model the human is being given.
  */
-/mob/living/carbon/human/proc/set_body_model(new_body_model = NORMAL_BODY_MODEL)
-	// Remove old body model if it was found in limbs_id
-	if (base_body_mod && (findtext(dna.species.limbs_id, base_body_mod) == 1))
-		dna.species.limbs_id = copytext(dna.species.limbs_id, 2)
-
-	// Add body model to limbs_id
-	base_body_mod = new_body_model
-	dna.species.limbs_id = base_body_mod + dna.species.limbs_id
+/mob/living/carbon/human/proc/set_body_weight(new_body_weight = AVERAGE_BODY_WEIGHT)
+	// Change all bodyparts to the new body model
+	for (var/obj/item/bodypart/bodypart as anything in bodyparts)
+		bodypart.body_weight = new_body_weight
 
 	// Assign clothing sprites for new body model
-	switch (base_body_mod)
-		if (SLIM_BODY_MODEL)
+	switch (new_body_weight)
+		if (SLIM_BODY_WEIGHT)
 			if (gender == FEMALE)
 				body_sprite = 'code/modules/wod13/worn_slim_f.dmi'
 			else
 				body_sprite = 'code/modules/wod13/worn_slim_m.dmi'
-		if (NORMAL_BODY_MODEL)
+		if (AVERAGE_BODY_WEIGHT)
 			body_sprite = null
-		if (FAT_BODY_MODEL)
+		if (FAT_BODY_WEIGHT)
 			body_sprite = 'code/modules/wod13/worn_fat.dmi'
 
-	// Update icon to reflect new body model
-	update_body()
+	update_body_parts()
 
 /**
  * Rots the vampire's body along four stages of decay.
@@ -72,34 +68,37 @@
  * * rot_stage - how much to rot the vampire, on a scale from 1 to 4.
  */
 /mob/living/carbon/human/proc/rot_body(rot_stage)
-	// Won't work unless this person has limbs_id on species
+	// Won't work unless this person has examine_limbs_id on species
 	CHECK_DNA_AND_SPECIES(src)
 
 	// Won't replace other alternative sprites unless it's advanced decay
-	if (!NORMAL_BODY_SPRITE(src) && !findtext(GET_BODY_SPRITE(src), "rotten") && (rot_stage <= 2))
-		return
+	if (rot_stage <= 2)
+		for (var/obj/item/bodypart/bodypart as anything in bodyparts)
+			if (bodypart.limb_id == dna.species.examine_limb_id)
+				continue
+
+			return
 
 	// Apply rotten sprite and rotting effects
 	switch (rot_stage)
 		if (1)
-			set_body_sprite("rotten1")
+			set_body_sprite("rotten1", TRUE)
 		if (2)
-			set_body_sprite("rotten2")
+			set_body_sprite("rotten2", TRUE)
 		if (3)
 			set_body_sprite("rotten3")
-			skin_tone = "albino"
 			hairstyle = "Bald"
 			facial_hairstyle = "Shaved"
 			ADD_TRAIT(src, TRAIT_MASQUERADE_VIOLATING_FACE, MAGIC_TRAIT)
 		if (4)
+			// Rotten body will lose weight if it can
+			for (var/obj/item/bodypart/bodypart as anything in bodyparts)
+				if (bodypart.body_weight == FAT_BODY_WEIGHT)
+					bodypart.body_weight = AVERAGE_BODY_WEIGHT
+				else if (bodypart.body_weight == AVERAGE_BODY_WEIGHT)
+					bodypart.body_weight = SLIM_BODY_WEIGHT
+
 			set_body_sprite("rotten4")
-			skin_tone = "albino"
 			hairstyle = "Bald"
 			facial_hairstyle = "Shaved"
 			ADD_TRAIT(src, TRAIT_MASQUERADE_VIOLATING_FACE, MAGIC_TRAIT)
-
-			// Rotten body will lose weight if it can
-			if (base_body_mod == FAT_BODY_MODEL)
-				set_body_model(NORMAL_BODY_MODEL)
-			else if (base_body_mod == NORMAL_BODY_MODEL)
-				set_body_model(SLIM_BODY_MODEL)

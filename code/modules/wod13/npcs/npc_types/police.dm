@@ -7,7 +7,7 @@
 	. = ..()
 
 	if (prob(66))
-		set_body_model(FAT_BODY_MODEL)
+		set_body_weight(FAT_BODY_WEIGHT)
 
 	AssignSocialRole(/datum/socialrole/police)
 

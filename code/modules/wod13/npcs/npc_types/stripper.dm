@@ -4,7 +4,7 @@
 /mob/living/carbon/human/npc/stripper/Initialize()
 	. = ..()
 
-	set_body_model(SLIM_BODY_MODEL)
+	set_body_weight(SLIM_BODY_WEIGHT)
 
 	AssignSocialRole(/datum/socialrole/stripfemale)
 
