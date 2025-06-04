@@ -9,9 +9,6 @@
 	. = ..()
 	AddComponent(/datum/component/selling, 25, "melee", FALSE)
 
-/obj/item
-	var/masquerade_violating = FALSE
-
 /obj/item/melee/vampirearms/fireaxe
 	icon = 'code/modules/wod13/48x32weapons.dmi'
 	icon_state = "fireaxe0"

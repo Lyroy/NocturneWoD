@@ -6649,6 +6649,7 @@
 #include "code\modules\wiremod\core\port.dm"
 #include "code\modules\wiremod\core\usb_cable.dm"
 #include "code\modules\wiremod\core\variable.dm"
+#include "code\modules\wod13\objects\items\clothes\head.dm"
 #include "code\modules\wod13\objects\items\clothes\mask.dm"
 #include "code\modules\wod13\datums\components\clothes_weight_sprites.dm"
 #include "code\modules\wod13\datums\elements\dynamic_item_icon.dm"

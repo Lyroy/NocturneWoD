@@ -253,6 +253,7 @@
 	// Start WoD13 Modification
 	var/onflooricon
 	var/onflooricon_state
+	var/masquerade_violating
 	// End WoD13 Modification
 
 /obj/item/Initialize(mapload)
