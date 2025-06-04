@@ -7,14 +7,17 @@
 	can_adjust = FALSE
 	icon = 'code/modules/wod13/clothing.dmi'
 	worn_icon = 'code/modules/wod13/worn.dmi'
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0, WOUND = 15)
+	armor_type = /datum/armor/vampire_clothes
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
-	body_worn = TRUE
-	fitted = NO_FEMALE_UNIFORM
+	female_sprite_flags = NO_FEMALE_UNIFORM
+
+/datum/armor/vampire_clothes
+	wound = 15
 
 /obj/item/clothing/under/vampire/Initialize()
 	. = ..()
-	AddComponent(/datum/component/selling, 10, "undersuit", FALSE)
+	// TODO: [Lucia] reimplement selling stuff
+	//AddComponent(/datum/component/selling, 10, "undersuit", FALSE)
 
 /obj/item/clothing/under/vampire/brujah
 	name = "punk attire"
@@ -397,61 +400,47 @@
 
 
 //PENTEX
-/obj/item/clothing/under/pentex
-	desc = "Some clothes."
-	name = "clothes"
-	icon_state = "error"
-	has_sensor = NO_SENSORS
-	random_sensor = FALSE
-	can_adjust = FALSE
-	icon = 'code/modules/wod13/clothing.dmi'
-	worn_icon = 'code/modules/wod13/worn.dmi'
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0, WOUND = 15)
-	onflooricon = 'code/modules/wod13/onfloor.dmi'
-	body_worn = TRUE
-	fitted = NO_FEMALE_UNIFORM
-
-/obj/item/clothing/under/pentex/Initialize()
-	. = ..()
-	AddComponent(/datum/component/selling, 10, "undersuit", FALSE)
-
-/obj/item/clothing/under/pentex/pentex_janitor
+/obj/item/clothing/under/vampire/pentex_janitor
 	name = "Ardus Enterprises custodian jumpsuit"
 	desc = "An Ardus Enterprises custodian's uniform."
 	icon_state = "pentex_janitor"
-	armor = list(BIO = 100, ACID = 15, RAD = 5)
+	armor_type = /datum/armor/pentex_janitor
 
-/obj/item/clothing/under/pentex/pentex_shortsleeve
+/datum/armor/pentex_janitor
+	bio = 100
+	acid = 15
+
+/obj/item/clothing/under/vampire/pentex_shortsleeve
 	name = "Endron polo-shirt"
 	desc = "An Endron International employee uniform. This one is a nice polo!"
 	icon_state = "pentex_shortsleeve"
 
-/obj/item/clothing/under/pentex/pentex_longleeve
+/obj/item/clothing/under/vampire/pentex_longleeve
 	name = "Endron shirt"
 	desc = "An Endron International employee uniform. This one has sleeves!"
 	icon_state = "pentex_longsleeve"
 
-/obj/item/clothing/under/pentex/pentex_turtleneck
+/obj/item/clothing/under/vampire/pentex_turtleneck
 	name = "Endron turtleneck"
 	desc = "An Endron International employee uniform. This one is a nice turtleneck!"
 	icon_state = "pentex_turtleneck"
 
-/obj/item/clothing/under/pentex/pentex_suit
+/obj/item/clothing/under/vampire/pentex_suit
 	name = "Endron suit"
 	desc = "A nice suit with a green dress-shirt. This one has an Endron International tag on it!"
 	icon_state = "pentex_suit"
 
-/obj/item/clothing/under/pentex/pentex_suitskirt
+/obj/item/clothing/under/vampire/pentex_suitskirt
 	name = "Endron suitskirt"
 	desc = "A nice suitskirt with a green dress-shirt. This one has an Endron International tag on it!"
 	icon_state = "pentex_suitskirt"
 
-/obj/item/clothing/under/pentex/pentex_executive_suit
+/obj/item/clothing/under/vampire/pentex_executive_suit
 	name = "Endron executive suit"
 	desc = "A  white designer suit with a green dress shirt. This one has an Endron International tag on it!"
 	icon_state = "pentex_executivesuit"
 
-/obj/item/clothing/under/pentex/pentex_executiveskirt
+/obj/item/clothing/under/vampire/pentex_executiveskirt
 	name = "Endron executive suitskirt"
 	desc = "A white designer suitskirt with a green dress shirt. This one has an Endron International tag on it!"
 	icon_state = "pentex_executiveskirt"

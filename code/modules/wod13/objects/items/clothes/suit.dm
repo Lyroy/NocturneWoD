@@ -352,7 +352,8 @@
 	allowed = list(
 		/obj/item/card/id,
 		/obj/item/flashlight,
-		/obj/item/melee/classic_baton/vampire,
+		// TODO: [Lucia] reimplement melee weapons
+		///obj/item/melee/classic_baton/vampire,
 		/obj/item/restraints/handcuffs
 	)
 
