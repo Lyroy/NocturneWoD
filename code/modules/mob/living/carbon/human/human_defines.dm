@@ -127,9 +127,6 @@
 	var/last_raid = 0
 	var/killed_count = 0
 
-	/// Clothing sprites to use based on body model
-	var/icon/body_sprite
-
 	bloodquality = 2
 
 	var/soul_state = SOUL_PRESENT

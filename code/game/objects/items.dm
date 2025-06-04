@@ -250,6 +250,11 @@
 	/// Do we apply a click cooldown when resisting this object if it is restraining them?
 	var/resist_cooldown = CLICK_CD_BREAKOUT
 
+	// Start WoD13 Modification
+	var/onflooricon
+	var/onflooricon_state
+	// End WoD13 Modification
+
 /obj/item/Initialize(mapload)
 	if(attack_verb_continuous)
 		attack_verb_continuous = string_list(attack_verb_continuous)
@@ -285,6 +290,11 @@
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NEW_ITEM, src)
 
 	setup_reskinning()
+
+	// Start WoD13 Modification
+	if (onflooricon)
+		AddElement(/datum/element/dynamic_item_icon)
+	// End WoD13 Modification
 
 
 /obj/item/Destroy(force)

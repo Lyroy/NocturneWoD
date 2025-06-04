@@ -42,13 +42,14 @@
 	switch (new_body_weight)
 		if (SLIM_BODY_WEIGHT)
 			if (gender == FEMALE)
-				body_sprite = 'code/modules/wod13/worn_slim_f.dmi'
+				AddComponent(/datum/component/clothes_weight_sprites, 'code/modules/wod13/worn_slim_f.dmi')
 			else
-				body_sprite = 'code/modules/wod13/worn_slim_m.dmi'
+				AddComponent(/datum/component/clothes_weight_sprites, 'code/modules/wod13/worn_slim_m.dmi')
 		if (AVERAGE_BODY_WEIGHT)
-			body_sprite = null
+			var/datum/component/weight_icon_component = GetComponent(/datum/component/clothes_weight_sprites)
+			qdel(weight_icon_component)
 		if (FAT_BODY_WEIGHT)
-			body_sprite = 'code/modules/wod13/worn_fat.dmi'
+			AddComponent(/datum/component/clothes_weight_sprites, 'code/modules/wod13/worn_fat.dmi')
 
 	update_body_parts()
 
