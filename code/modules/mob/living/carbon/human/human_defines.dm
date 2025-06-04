@@ -96,6 +96,8 @@
 	VAR_FINAL/mob_height = HUMAN_HEIGHT_MEDIUM
 
 	// Start WoD13 Modification
+	var/chronological_age = 0
+
 	//Shitty VtM vars I'm moving here so they're not strewn around the codebase
 	var/datum/vampire_clan/clan
 

@@ -18,12 +18,13 @@
 			sprite_name = clan.alt_sprite
 			greyscale = clan.alt_sprite_greyscale
 		else
-			sprite_name = initial(dna.species.examine_limb_id)
+			sprite_name = SPECIES_HUMAN
 			greyscale = TRUE
 
 	// Update all limbs to the new sprite and greyscale
 	for (var/obj/item/bodypart/bodypart as anything in bodyparts)
-		bodypart.change_appearance(icon = greyscale ? DEFAULT_BODYPART_ICON_ORGANIC : bodypart.icon, id = sprite_name, greyscale = greyscale)
+		var/icon_to_set = greyscale ? DEFAULT_BODYPART_ICON_ORGANIC : bodypart.icon
+		bodypart.change_appearance(icon_to_set, sprite_name, greyscale)
 
 /**
  * Changes the body model (weight) of a human
@@ -77,6 +78,9 @@
 		for (var/obj/item/bodypart/bodypart as anything in bodyparts)
 			if (bodypart.limb_id == dna.species.examine_limb_id)
 				continue
+			if (findtext(bodypart.limb_id, "rotten"))
+				if (text2num(copytext(bodypart.limb_id, 7)) < rot_stage)
+					continue
 
 			return
 

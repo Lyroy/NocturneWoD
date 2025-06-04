@@ -28,7 +28,8 @@
 		TRAIT_RADIMMUNE,
 		TRAIT_CAN_ENTER_TORPOR,
 		TRAIT_VTM_MORALITY,
-		TRAIT_VTM_CLANS
+		TRAIT_VTM_CLANS,
+		TRAIT_UNAGING
 	)
 	inherent_biotypes = MOB_UNDEAD | MOB_HUMANOID
 	changesource_flags = MIRROR_BADMIN
@@ -84,6 +85,8 @@
 
 /datum/species/human/kindred/on_species_loss(mob/living/carbon/human/human, datum/species/new_species, pref_load)
 	. = ..()
+
+	human.set_clan()
 
 	UnregisterSignal(human, COMSIG_CARBON_LOSE_ORGAN)
 	UnregisterSignal(human, SIGNAL_ADDTRAIT(TRAIT_CRITICAL_CONDITION))

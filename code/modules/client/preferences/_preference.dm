@@ -33,8 +33,11 @@
 #define PREFERENCE_PRIORITY_NAME_MODIFICATIONS 9
 
 // Start WoD13 Modification
+/// Preferences that work with TTRPG mechanics but aren't magical
+#define PREFERENCE_PRIORITY_TABLETOP 10
+
 /// Preferences relating to World of Darkness TTRPG elements
-#define PREFERENCE_PRIORITY_WORLD_OF_DARKNESS 10
+#define PREFERENCE_PRIORITY_WORLD_OF_DARKNESS 11
 
 /// The maximum preference priority, keep this updated, but don't use it for `priority`.
 #define MAX_PREFERENCE_PRIORITY PREFERENCE_PRIORITY_WORLD_OF_DARKNESS

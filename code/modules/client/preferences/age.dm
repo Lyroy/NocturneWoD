@@ -8,6 +8,9 @@
 
 /datum/preference/numeric/age/apply_to_human(mob/living/carbon/human/target, value)
 	target.age = value
+	// Start WoD13 Modification
+	target.chronological_age = value
+	// End WoD13 Modification
 
 /datum/preference/numeric/age/create_informed_default_value(datum/preferences/preferences)
 	return rand(max(minimum, 21), min(maximum, 50))

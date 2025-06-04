@@ -6649,6 +6649,8 @@
 #include "code\modules\wiremod\core\port.dm"
 #include "code\modules\wiremod\core\usb_cable.dm"
 #include "code\modules\wiremod\core\variable.dm"
+#include "code\modules\wod13\client\preferences\immortal_age.dm"
+#include "code\modules\wod13\kindred\vampire_clan\cappadocian.dm"
 #include "code\modules\wod13\objects\items\clothes\under.dm"
 #include "code\modules\wod13\objects\items\clothes\suit.dm"
 #include "code\modules\wod13\objects\items\clothes\eyes.dm"

@@ -3,11 +3,13 @@
 	id = VAMPIRE_CLAN_CAPPADOCIAN
 	desc = "A presumed-to-be-extinct Clan of necromancers, the Cappadocians studied death specifically in the physical world. The Giovanni were Embraced into their line to help further their studies into the underworld. They were rewarded with Diablerie and the destruction of their Clan and founder."
 	curse = "Extremely corpselike appearance that worsens with age."
+	/*
 	clan_disciplines = list(
 		/datum/discipline/auspex,
 		/datum/discipline/fortitude,
 		/datum/discipline/necromancy
 	)
+	*/
 	alt_sprite = "rotten1"
 	alt_sprite_greyscale = TRUE
 
@@ -31,8 +33,7 @@
 	. = ..()
 
 	// Only old, skeletonised Cappadocians need the robes and mask
-	var/alternative_appearance = GET_BODY_SPRITE(H)
-	if ((alternative_appearance == "rotten1") || (alternative_appearance == "rotten2"))
+	if (!HAS_TRAIT(H, TRAIT_MASQUERADE_VIOLATING_FACE))
 		return
 
 	var/obj/item/clothing/suit/hooded/robes/darkred/new_robe = new(H.loc)

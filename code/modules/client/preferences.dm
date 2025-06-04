@@ -505,6 +505,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
 		if (preference.savefile_identifier != PREFERENCE_CHARACTER)
 			continue
+		// Start WoD13 Modification
+		// It's useful to not have this for rare uses of species DNA, but not for our purposes
+		if (!preference.is_accessible(src))
+			continue
+		// End WoD13 Modification
 
 		preference.apply_to_human(character, read_preference(preference.type))
 
