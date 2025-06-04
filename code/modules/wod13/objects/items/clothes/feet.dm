@@ -11,13 +11,12 @@
 	worn_icon = 'code/modules/wod13/worn.dmi'
 	icon_state = "shoes"
 	gender = PLURAL
-	can_be_tied = FALSE
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
-	body_worn = TRUE
 
 /obj/item/clothing/shoes/vampire/Initialize()
 	. = ..()
-	AddComponent(/datum/component/selling, 5, "shoes", FALSE)
+	// TODO: [Lucia] reimplement selling stuff
+	//AddComponent(/datum/component/selling, 5, "shoes", FALSE)
 
 /obj/item/clothing/shoes/vampire/brown
 	icon_state = "shoes_brown"
@@ -29,7 +28,11 @@
 	name = "jackboots"
 	desc = "Robust-looking boots."
 	icon_state = "jackboots"
-	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
+
+/obj/item/clothing/shoes/vampire/jackboots/Initialize()
+	. = ..()
+
+	create_storage(storage_type = /datum/storage/pockets/shoes)
 
 /obj/item/clothing/shoes/vampire/jackboots/high
 	name = "high boots"
