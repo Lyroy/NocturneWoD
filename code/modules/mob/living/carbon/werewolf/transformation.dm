@@ -152,7 +152,8 @@
 					crinos_form.add_client_colour(/datum/client_colour/glass_colour/red)
 
 					// Play Crinos music and cancel other ambient sounds
-					SEND_SOUND(crinos_form, sound('sound/wod13/garou/crinos_rage.ogg', repeat = TRUE, wait = 0, volume = 25, channel = CHANNEL_COMBAT_MUSIC))
+					var/chosen_track = pick('sound/wod13/garou/crinos_rage.ogg', 'sound/wod13/garou/threat_unveiled.ogg')
+					SEND_SOUND(crinos_form, sound(chosen_track, repeat = TRUE, wait = 0, volume = 15, channel = CHANNEL_COMBAT_MUSIC))
 					crinos_form.stop_sound_channel(CHANNEL_BUZZ)
 					crinos_form.stop_sound_channel(CHANNEL_AMBIENCE)
 			if("Homid")
