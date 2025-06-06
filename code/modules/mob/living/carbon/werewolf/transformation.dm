@@ -107,6 +107,10 @@
 					transformating = FALSE
 					animate(trans, transform = null, color = "#FFFFFF", time = 1)
 					lupus_form.update_icons()
+
+					// Clear Crinos rage effects
+					lupus_form.remove_client_colour(/datum/client_colour/glass_colour/red)
+					lupus_form.stop_sound_channel(CHANNEL_COMBAT_MUSIC)
 			if("Crinos")
 				if(trans == crinos_form)
 					transformating = FALSE
@@ -144,6 +148,14 @@
 					transformating = FALSE
 					animate(trans, transform = null, color = "#FFFFFF", time = 1)
 					crinos_form.update_icons()
+
+					crinos_form.add_client_colour(/datum/client_colour/glass_colour/red)
+
+					// Play Crinos music and cancel other ambient sounds
+					var/chosen_track = pick('sound/wod13/garou/crinos_rage.ogg', 'sound/wod13/garou/threat_unveiled.ogg')
+					SEND_SOUND(crinos_form, sound(chosen_track, repeat = TRUE, wait = 0, volume = 15, channel = CHANNEL_COMBAT_MUSIC))
+					crinos_form.stop_sound_channel(CHANNEL_BUZZ)
+					crinos_form.stop_sound_channel(CHANNEL_AMBIENCE)
 			if("Homid")
 				if(trans == human_form)
 					transformating = FALSE
@@ -180,3 +192,7 @@
 					trans.forceMove(src)
 					transformating = FALSE
 					animate(trans, transform = null, color = "#FFFFFF", time = 1)
+
+					// Clear Crinos rage effects
+					human_form.remove_client_colour(/datum/client_colour/glass_colour/red)
+					human_form.stop_sound_channel(CHANNEL_COMBAT_MUSIC)
