@@ -216,7 +216,7 @@
 	f - Fast - omits windup. Good for combos.
 	g - Grab - Unblockable, if hits players immobilizes them and plays a "grab animation" depending on number subtype which includes multiple unblockable hits. Can be interrupted by incoming damage from another player controlled via the grab_durability var, sucessful interrupt breaks poise
 	*/
-	var/list/attack_cadence = list(list("5n","10n","15n"))
+	var/list/attack_cadence = list(list("10a1"))
 
 	var/attacking_flag = 0
 	var/attack_delay = 10 //This is a pause AFTER all the attacks in a single cadence, ie extra time between attack decisons. Individual attack loops are decided by cadence
@@ -278,7 +278,7 @@
 	M.Scale(0.01)
 	N.Scale(1)
 	O.Scale(2.5)
-	var/mutable_appearance/indicator = new()
+	var/obj/indicator = new()
 	indicator.alpha = 0
 	indicator.layer = ABOVE_MOB_LAYER
 	indicator.pixel_y = 28
@@ -290,7 +290,7 @@
 			indicator.transform = M
 			blink_value = "#ff8800"
 			indicator.color = "#d38817"
-			attacking_mob.vis_contents += indicator.overlays
+			attacking_mob.vis_contents += indicator
 			animate(indicator,time = fade_in,alpha = 255, transform = N, pixel_y = 32)
 			animate(time = flash, color = blink_value)
 			animate(time = fade_out, alpha = 0, transform = O)
@@ -300,7 +300,7 @@
 			indicator.transform = M
 			blink_value = "#ff8800"
 			indicator.color = "#d38817"
-			attacking_mob.vis_contents += indicator.overlays
+			attacking_mob.vis_contents += indicator
 			animate(indicator,time = fade_in,alpha = 255, transform = N, pixel_y = 32)
 			animate(time = flash, color = blink_value)
 			animate(time = fade_out, alpha = 0, transform = O)
@@ -309,7 +309,7 @@
 			indicator.transform = M
 			blink_value = "#ff1c1c"
 			indicator.color = "#990000"
-			attacking_mob.vis_contents += indicator.overlays
+			attacking_mob.vis_contents += indicator
 			animate(indicator,time = fade_in,alpha = 255, transform = N, pixel_y = 32)
 			animate(time = flash, color = blink_value)
 			animate(time = fade_out, alpha = 0, transform = O)
@@ -319,7 +319,7 @@
 			indicator.transform = M
 			blink_value = "#d15106"
 			indicator.color = "#d66727"
-			attacking_mob.vis_contents += indicator.overlays
+			attacking_mob.vis_contents += indicator
 			animate(indicator,time = fade_in,alpha = 255, transform = N, pixel_y = 32)
 			animate(time = flash, color = blink_value)
 			animate(time = fade_out, alpha = 0, transform = O)
@@ -328,7 +328,7 @@
 			indicator.transform = M
 			blink_value = "#1e5a0c"
 			indicator.color = "#258308"
-			attacking_mob.vis_contents += indicator.overlays
+			attacking_mob.vis_contents += indicator
 			animate(indicator,time = fade_in,alpha = 255, transform = N, pixel_y = 32)
 			animate(time = flash, color = blink_value)
 			animate(time = fade_out, alpha = 0, transform = O)
@@ -600,6 +600,7 @@
 			animate(attacking_mob,time = attack, pixel_x = push_x, pixel_y = push_y)
 
 	animate(attacking_mob,time = attack, pixel_x = starting_x, pixel_y = starting_y)
+	qdel(indicator)
 	return
 
 /datum/combat_ai/proc/damage_animation(mob/target,type)
@@ -710,7 +711,7 @@
 	var/list/turf_list = list()
 	var/turf/current_turf = origin_turf
 	while(current_turf != target_turf)
-		current_turf = get_step_towards(origin_turf,target_turf)
+		current_turf = get_step_towards(current_turf,target_turf)
 		turf_list += current_turf
 	return turf_list
 
@@ -724,11 +725,8 @@
 	if(distance)
 		var/origin_px = mob_to_animate.pixel_x
 		var/origin_py = mob_to_animate.pixel_y
-		var/displacement_x = (mob_turf.x - turf_to_target.x) * 32
-		var/displacement_y = (mob_turf.y - turf_to_target.y) * 32
-		mob_to_animate.forceMove(target_turf)
-		mob_to_animate.pixel_x += displacement_x
-		mob_to_animate.pixel_y += displacement_y
+		var/displacement_x = (turf_to_target.x - mob_turf.x) * 32
+		var/displacement_y = (turf_to_target.y - mob_turf.y) * 32
 		if(collision == 1)
 			if(displacement_x > 0)
 				displacement_x -= 32
@@ -738,13 +736,17 @@
 				displacement_y -= 32
 			else
 				displacement_y += 32
-		animate(mob_to_animate,time = distance * 2, pixel_x = origin_px, pixel_y = origin_py, easing = SINE_EASING|EASE_OUT)
-		sleep(distance * 2)
+		var/animation_time = 1 + ceil(distance / 3)
+		animate(mob_to_animate,time = animation_time, pixel_x = origin_px + displacement_x, pixel_y = origin_py + displacement_y, easing = SINE_EASING|EASE_OUT)
+		sleep(animation_time)
+		mob_to_animate.pixel_x = origin_px
+		mob_to_animate.pixel_y = origin_py
+		mob_to_animate.forceMove(turf_to_target)
 	if(collision == 1)
 		if(istype(mob_to_animate,/mob/living/))
 			var/mob/living/living_mob = mob_to_animate
 			if(!istype(living_mob,/mob/living/npc))
-				damage_animation(living_mob)
+				INVOKE_ASYNC(src, PROC_REF(damage_animation),living_mob,"dam_hit")
 			living_mob.apply_damage((5 * distance), BRUTE)
 	mob_to_animate.anchored = 0
 	mob_to_animate.animate_movement = original_animate_movement
@@ -785,22 +787,22 @@
 	var/turf/target_turf
 	switch(target_mob.dir)
 		if(NORTH)
-			target_turf = locate(mob_turf.x,(mob_turf.y - distance),mob_turf.y)
+			target_turf = locate(mob_turf.x,(mob_turf.y - distance),mob_turf.z)
 		if(SOUTH)
-			target_turf = locate(mob_turf.x,(mob_turf.y + distance),mob_turf.y)
+			target_turf = locate(mob_turf.x,(mob_turf.y + distance),mob_turf.z)
 		if(EAST)
-			target_turf = locate((mob_turf.x - distance),mob_turf.y,mob_turf.y)
+			target_turf = locate((mob_turf.x - distance),mob_turf.y,mob_turf.z)
 		if(WEST)
-			target_turf = locate((mob_turf.x + distance),mob_turf.y,mob_turf.y)
+			target_turf = locate((mob_turf.x + distance),mob_turf.y,mob_turf.z)
 		//I dont think diagonals are ever needed but just in case :P
 		if(NORTHEAST)
-			target_turf = locate((mob_turf.x - distance),(mob_turf.y - distance),mob_turf.y)
+			target_turf = locate((mob_turf.x - distance),(mob_turf.y - distance),mob_turf.z)
 		if(NORTHWEST)
-			target_turf = locate((mob_turf.x + distance),(mob_turf.y - distance),mob_turf.y)
+			target_turf = locate((mob_turf.x + distance),(mob_turf.y - distance),mob_turf.z)
 		if(SOUTHEAST)
-			target_turf = locate((mob_turf.x - distance),(mob_turf.y + distance),mob_turf.y)
+			target_turf = locate((mob_turf.x - distance),(mob_turf.y + distance),mob_turf.z)
 		if(SOUTHWEST)
-			target_turf = locate((mob_turf.x + distance),(mob_turf.y + distance),mob_turf.y)
+			target_turf = locate((mob_turf.x + distance),(mob_turf.y + distance),mob_turf.z)
 	var/list/crossed_turfs = list_turfs_in_line(mob_turf, target_turf)
 	var/distance_to_animate = 0
 	var/collision = 0
@@ -916,7 +918,7 @@
 		var/attack_time = text2num(copytext(current_line,1,1 + number_bits))
 		var/attack_type = copytext(current_line,number_bits+1,number_bits+2)
 		var/attack_factor
-		if(length(current_line) > number_bits + 1) attack_factor = copytext(current_line,number_bits+2,0)
+		if(length(current_line) > number_bits + 1) attack_factor = text2num(copytext(current_line,number_bits+2,0))
 		INVOKE_ASYNC(src, PROC_REF(attack_animation),owner,turf_target,attack_type,attack_time,attack_factor)
 		sleep(attack_time)
 
@@ -1101,6 +1103,9 @@
 
 /datum/combat_ai/proc/animate_step(turf/target_turf)
 	var/turf/owner_turf = get_turf(owner)
+	if(owner_turf == target_turf)
+		sleep(movement_time)
+		return
 	var/current_pixel_x = owner.pixel_x
 	var/current_pixel_y = owner.pixel_y
 	owner.forceMove(target_turf)
@@ -1140,6 +1145,7 @@
 	return
 
 /datum/combat_ai/proc/navigate_around(turf/starting_turf,turf/ending_turf)
+	if((starting_turf == ending_turf)) return 1
 	var/turf/new_turf
 	switch(get_dir(starting_turf,ending_turf))
 		if(NORTH,SOUTH)
@@ -1148,42 +1154,42 @@
 				if(atom_to_test.density == 1)
 					new_turf = locate(ending_turf.x - 1,ending_turf.y,ending_turf.z)
 					for(var/atom/other_atom_to_test in new_turf)
-						if(atom_to_test.density == 1) return
+						if(atom_to_test.density == 1) return 1
 		if(EAST,WEST)
 			new_turf = locate(ending_turf.x,ending_turf.y + 1,ending_turf.z)
 			for(var/atom/atom_to_test in new_turf)
 				if(atom_to_test.density == 1)
 					new_turf = locate(ending_turf.x,ending_turf.y - 1,ending_turf.z)
 					for(var/atom/other_atom_to_test in new_turf)
-						if(atom_to_test.density == 1) return
+						if(atom_to_test.density == 1) return 1
 		if(NORTHEAST)
 			new_turf = locate(ending_turf.x,ending_turf.y + 1,ending_turf.z)
 			for(var/atom/atom_to_test in new_turf)
 				if(atom_to_test.density == 1)
 					new_turf = locate(ending_turf.x + 1,ending_turf.y,ending_turf.z)
 					for(var/atom/other_atom_to_test in new_turf)
-						if(atom_to_test.density == 1) return
+						if(atom_to_test.density == 1) return 1
 		if(NORTHWEST)
 			new_turf = locate(ending_turf.x,ending_turf.y + 1,ending_turf.z)
 			for(var/atom/atom_to_test in new_turf)
 				if(atom_to_test.density == 1)
 					new_turf = locate(ending_turf.x - 1,ending_turf.y,ending_turf.z)
 					for(var/atom/other_atom_to_test in new_turf)
-						if(atom_to_test.density == 1) return
+						if(atom_to_test.density == 1) return 1
 		if(SOUTHEAST)
 			new_turf = locate(ending_turf.x, ending_turf.y - 1,ending_turf.z)
 			for(var/atom/atom_to_test in new_turf)
 				if(atom_to_test.density == 1)
 					new_turf = locate(ending_turf.x + 1,ending_turf.y,ending_turf.z)
 					for(var/atom/other_atom_to_test in new_turf)
-						if(atom_to_test.density == 1) return
+						if(atom_to_test.density == 1) return 1
 		if(SOUTHWEST)
 			new_turf = locate(ending_turf.x,ending_turf.y - 1,ending_turf.z)
 			for(var/atom/atom_to_test in new_turf)
 				if(atom_to_test.density == 1)
 					new_turf = locate(ending_turf.x - 1,ending_turf.y,ending_turf.z)
 					for(var/atom/other_atom_to_test in new_turf)
-						if(atom_to_test.density == 1) return
+						if(atom_to_test.density == 1) return 1
 	animate_step(new_turf)
 
 
@@ -1194,8 +1200,8 @@
 		var/next_turf = get_step_towards(starting_turf,ending_turf)
 		for(var/atom/atom_to_test in next_turf)
 			if(atom_to_test.density == 1)
-				navigate_around(starting_turf, next_turf)
-				break
+				if(navigate_around(starting_turf, next_turf) == 1) sleep(movement_time)
+				return
 			else
 				animate_step(next_turf)
 		return
@@ -1226,6 +1232,9 @@
 			sleep(mob_heartbeat)
 			continue
 		var/turf/target_turf = get_turf(target_player)
+		if(own_turf == target_turf)
+			sleep(mob_heartbeat)
+			continue
 		if(process_movement(own_turf,target_turf) == 1)
 			process_attack(target_turf)
 			if(attack_delay != 0) sleep(attack_delay)
