@@ -132,11 +132,11 @@
 		original_dna.transfer_identity(destination = owner, transfer_SE = TRUE, superficial = TRUE)
 		owner.real_name = original_name
 		owner.skin_tone = original_skintone
-		owner.hairstyle = original_hairstyle
-		owner.facial_hairstyle = original_facialhair
-		owner.hair_color = original_haircolor
-		owner.facial_hair_color = original_facialhaircolor
-		owner.eye_color = original_eyecolor
+		owner.set_hairstyle(original_hairstyle)
+		owner.set_facial_hairstyle(original_facialhair)
+		owner.set_haircolor(original_haircolor)
+		owner.set_facial_haircolor(original_facialhaircolor)
+		owner.set_eye_color(original_eyecolor)
 		owner.set_body_weight(original_body_mod)
 		owner.set_body_sprite(original_body_sprite)
 		is_shapeshifted = FALSE
@@ -148,11 +148,11 @@
 		impersonating_dna.transfer_identity(destination = owner, superficial = TRUE)
 		owner.real_name = impersonating_name
 		owner.skin_tone = impersonating_skintone
-		owner.hairstyle = impersonating_hairstyle
-		owner.facial_hairstyle = impersonating_facialhair
-		owner.hair_color = impersonating_haircolor
-		owner.facial_hair_color = impersonating_facialhaircolor
-		owner.eye_color = impersonating_eyecolor
+		owner.set_hairstyle(impersonating_hairstyle)
+		owner.set_facial_hairstyle(impersonating_facialhair)
+		owner.set_haircolor(impersonating_haircolor)
+		owner.set_facial_haircolor(impersonating_facialhaircolor)
+		owner.set_eye_color(impersonating_eyecolor)
 		owner.set_body_weight(impersonating_body_mod)
 		owner.set_body_sprite(impersonating_body_sprite)
 		is_shapeshifted = TRUE
@@ -304,7 +304,7 @@
 			original_skin_tone = user.skin_tone
 			user.skin_tone = "albino"
 			original_hairstyle = user.hairstyle
-			user.hairstyle = "Bald"
+			user.set_hairstyle("Bald")
 			original_body_mod = user.base_body_mod
 			user.set_body_weight(AVERAGE_BODY_WEIGHT)
 			user.physiology.armor.melee += 20
@@ -343,7 +343,7 @@
 		if ("Skin armor")
 			user.set_body_sprite()
 			user.skin_tone = original_skin_tone
-			user.hairstyle = original_hairstyle
+			user.set_hairstyle(original_hairstyle)
 			user.set_body_weight(original_body_mod)
 			user.physiology.armor.melee -= 20
 			user.physiology.armor.bullet -= 20

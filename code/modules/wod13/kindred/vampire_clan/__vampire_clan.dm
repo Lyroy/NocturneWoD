@@ -69,11 +69,11 @@
 
 	// Remove hair if the Clan demands it
 	if (no_hair)
-		vampire.hairstyle = "Bald"
+		vampire.set_hairstyle("Bald", update = FALSE)
 
 	// Remove facial hair if the Clan demands it
 	if (no_facial)
-		vampire.facial_hairstyle = "Shaved"
+		vampire.set_facial_hairstyle("Shaved", update = FALSE)
 
 	// Add unique Clan features as traits
 	for (var/trait in clan_traits)

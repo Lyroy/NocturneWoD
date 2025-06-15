@@ -92,8 +92,8 @@
 			set_body_sprite("rotten2", TRUE)
 		if (3)
 			set_body_sprite("rotten3")
-			hairstyle = "Bald"
-			facial_hairstyle = "Shaved"
+			set_hairstyle("Bald")
+			set_facial_hairstyle("Shaved")
 			ADD_TRAIT(src, TRAIT_MASQUERADE_VIOLATING_FACE, MAGIC_TRAIT)
 		if (4)
 			// Rotten body will lose weight if it can
@@ -104,6 +104,6 @@
 					bodypart.body_weight = SLIM_BODY_WEIGHT
 
 			set_body_sprite("rotten4")
-			hairstyle = "Bald"
-			facial_hairstyle = "Shaved"
+			set_hairstyle("Bald")
+			set_facial_hairstyle("Shaved")
 			ADD_TRAIT(src, TRAIT_MASQUERADE_VIOLATING_FACE, MAGIC_TRAIT)

@@ -157,7 +157,7 @@
 		"Volaju",
 	)
 
-	//For equiping with random
+	// TODO: refactor this into a premade outfit
 	var/list/backpacks = list(
 		/obj/item/storage/backpack/satchel,
 		/obj/item/storage/backpack/satchel/leather
@@ -235,29 +235,37 @@
 
 	var/is_criminal = FALSE
 
-/mob/living/carbon/human/npc/proc/AssignSocialRole(var/datum/socialrole/S, var/dont_random = FALSE)
-	if(!S)
-		return
+/mob/living/carbon/human/npc/proc/AssignSocialRole(datum/socialrole/S, dont_random)
+	socialrole = new S()
+
+	fully_replace_character_name(name, real_name)
+
 	physique = rand(1, max_stat)
 	social = rand(1, max_stat)
 	mentality = rand(1, max_stat)
 	lockpicking = rand(1, max_stat)
 	blood = rand(1, 2)
+
 	maxHealth = round(initial(maxHealth)+(initial(maxHealth)/3)*(physique))
 	health = round(initial(health)+(initial(health)/3)*(physique))
 	last_health = health
-	socialrole = new S()
 
 	is_criminal = socialrole.is_criminal
-	if(GLOB.winter && !length(socialrole.suits))
-		socialrole.suits = list(/obj/item/clothing/suit/vampire/coat/winter, /obj/item/clothing/suit/vampire/coat/winter/alt)
-	if(GLOB.winter && !length(socialrole.neck))
-		if(prob(50))
-			socialrole.neck = list(/obj/item/clothing/neck/vampire/scarf/red,
-							/obj/item/clothing/neck/vampire/scarf,
-							/obj/item/clothing/neck/vampire/scarf/blue,
-							/obj/item/clothing/neck/vampire/scarf/green,
-							/obj/item/clothing/neck/vampire/scarf/white)
+	if (GLOB.winter)
+		if (!length(socialrole.suits))
+			socialrole.suits = list(
+				/obj/item/clothing/suit/vampire/coat/winter,
+				/obj/item/clothing/suit/vampire/coat/winter/alt
+			)
+		if (!length(socialrole.neck) && prob(50))
+			socialrole.neck = list(
+				/obj/item/clothing/neck/vampire/scarf/red,
+				/obj/item/clothing/neck/vampire/scarf,
+				/obj/item/clothing/neck/vampire/scarf/blue,
+				/obj/item/clothing/neck/vampire/scarf/green,
+				/obj/item/clothing/neck/vampire/scarf/white
+			)
+
 	if(!dont_random)
 		gender = pick(MALE, FEMALE)
 		if(socialrole.preferred_gender)
@@ -280,39 +288,38 @@
 			s_names = GLOB.last_names
 		age = rand(socialrole.min_age, socialrole.max_age)
 		skin_tone = pick(socialrole.s_tones)
-		if(age >= 55)
-			hair_color = "a2a2a2"
-			facial_hair_color = hair_color
+
+		if (age >= 55)
+			set_haircolor("a2a2a2")
+			set_facial_haircolor(hair_color)
 		else
-			hair_color = pick(socialrole.hair_colors)
-			facial_hair_color = hair_color
-		if(gender == MALE)
-			hairstyle = pick(socialrole.male_hair)
-			if(prob(25) || age >= 25)
-				facial_hairstyle = pick(socialrole.male_facial)
+			set_haircolor(pick(socialrole.hair_colors))
+			set_facial_haircolor(hair_color)
+		if (gender == MALE)
+			set_hairstyle(pick(socialrole.male_hair))
+			if (prob(25) || age >= 25)
+				set_facial_hairstyle(pick(socialrole.male_facial))
 			else
-				facial_hairstyle = "Shaved"
+				set_facial_hairstyle("Shaved")
 			real_name = "[pick(m_names)] [pick(s_names)]"
 		else
-			hairstyle = pick(socialrole.female_hair)
-			facial_hairstyle = "Shaved"
+			set_hairstyle(pick(socialrole.female_hair))
+			set_facial_hairstyle("Shaved")
 			real_name = "[pick(f_names)] [pick(s_names)]"
-		name = real_name
-		dna.real_name = real_name
-		var/obj/item/organ/eyes/organ_eyes = getorgan(/obj/item/organ/eyes)
-		if(organ_eyes)
-			organ_eyes.eye_color = random_eye_color()
-		underwear = random_underwear(gender)
-		if(prob(50))
-			underwear_color = organ_eyes.eye_color
-		if(prob(50) || gender == FEMALE)
-			undershirt = random_undershirt(gender)
-		if(prob(25))
-			socks = random_socks()
-		update_body()
-		update_hair()
-		update_body_parts()
 
+		set_eye_color(random_eye_color())
+
+		underwear = random_underwear(gender)
+		if (prob(50))
+			underwear_color = eye_color_left
+		if (prob(50) || gender == FEMALE)
+			undershirt = random_undershirt(gender)
+		if (prob(25))
+			socks = random_socks()
+
+		update_body()
+
+	// this should be refactored into just... applying a premade outfit
 	var/datum/outfit/O = new()
 	if(length(socialrole.backpacks))
 		O.back = pick(socialrole.backpacks)
@@ -348,3 +355,5 @@
 			O.r_pocket = pick(another_pocket)
 	equipOutfit(O)
 	qdel(O)
+
+	dna.update_dna_identity()

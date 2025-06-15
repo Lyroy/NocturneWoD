@@ -511,17 +511,15 @@
 			var/initial_hair = caster.hairstyle
 			var/initial_facial = caster.facial_hairstyle
 			caster.set_body_sprite()
-			caster.hairstyle = "Bald"
-			caster.facial_hairstyle = "Shaved"
-			caster.update_body()
+			caster.set_hairstyle("Bald")
+			caster.set_facial_hairstyle("Shaved")
 			spawn()
 				freezing_aura_loop(caster, delay + caster.discipline_time_plus)
 			spawn(delay+caster.discipline_time_plus)
 				if(caster)
 					caster.set_body_sprite()
-					caster.hairstyle = initial_hair
-					caster.facial_hairstyle = initial_facial
-					caster.update_body()
+					caster.set_hairstyle(initial_hair)
+					caster.set_facial_hairstyle(initial_facial)
 		if(3)
 			var/obj/item/melee/vampirearms/knife/bone_shintai/righthand_boneknife = new (caster)
 			var/obj/item/melee/vampirearms/knife/bone_shintai/lefthand_boneknife = new (caster)

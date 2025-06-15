@@ -282,27 +282,25 @@
 	var/mob/living/carbon/human/H = owner.current
 	H.gender = pick(MALE, FEMALE)
 	H.body_type = H.gender
+	H.set_name()
 	H.age = rand(18, 36)
-//	if(age >= 55)
-//		hair_color = "a2a2a2"
-//		facial_hair_color = hair_color
-//	else
-	H.hair_color = pick(h_gen.hair_colors)
-	H.facial_hair_color = H.hair_color
-	if(H.gender == MALE)
-		H.hairstyle = pick(h_gen.male_hair)
-		if(prob(25) || H.age >= 25)
-			H.facial_hairstyle = pick(h_gen.male_facial)
-		else
-			H.facial_hairstyle = "Shaved"
-	else
-		H.hairstyle = pick(h_gen.female_hair)
-		H.facial_hairstyle = "Shaved"
 	H.name = H.real_name
 	H.dna.real_name = H.real_name
-	var/obj/item/organ/eyes/organ_eyes = H.getorgan(/obj/item/organ/eyes)
-	if(organ_eyes)
-		organ_eyes.eye_color = random_eye_color()
+
+	H.set_haircolor(pick(h_gen.hair_colors))
+	H.set_facial_haircolor(H.hair_color)
+	if(H.gender == MALE)
+		H.set_hairstyle(pick(h_gen.male_hair))
+		if(prob(25) || H.age >= 25)
+			H.set_facial_hairstyle(pick(h_gen.male_facial))
+		else
+			H.set_facial_hairstyle("Shaved")
+	else
+		H.set_hairstyle(pick(h_gen.female_hair))
+		H.set_facial_hairstyle("Shaved")
+
+	H.set_eye_color(random_eye_color())
+
 	H.underwear = random_underwear(H.gender)
 	if(prob(50))
 		H.underwear_color = organ_eyes.eye_color
@@ -310,9 +308,8 @@
 		H.undershirt = random_undershirt(H.gender)
 	if(prob(25))
 		H.socks = random_socks()
+
 	H.update_body()
-	H.update_hair()
-	H.update_body_parts()
 
 /datum/team/national_guard/proc/rename_team(new_name)
 	national_guard_name = new_name
