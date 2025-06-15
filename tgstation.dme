@@ -6657,6 +6657,7 @@
 #include "code\modules\wod13\kindred\vampire_clan\salubri.dm"
 #include "code\modules\wod13\kindred\vampire_clan\toreador.dm"
 #include "code\modules\wod13\kindred\vampire_clan\tremere.dm"
+#include "code\modules\wod13\kindred\vampire_clan\true_brujah.dm"
 #include "code\modules\wod13\mob\living\simple_animal\hostile\werewolf.dm"
 #include "code\modules\wod13\objects\items\clothes\under.dm"
 #include "code\modules\wod13\objects\items\clothes\suit.dm"
