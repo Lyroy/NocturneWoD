@@ -14,6 +14,7 @@
 	melee_damage_lower = 50
 	melee_damage_upper = 50
 	attack_verb_continuous = "slashes"
+	combat_mode = TRUE
 	attack_verb_simple = "slash"
 	attack_sound = 'sound/items/weapons/slash.ogg'
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
