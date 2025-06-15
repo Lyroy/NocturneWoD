@@ -7,7 +7,7 @@
  * "holy areas" means churches.
  */
 /datum/element/holy_weakness
-	element_flags = ELEMENT_DETACH
+	element_flags = ELEMENT_DETACH_ON_HOST_DESTROY
 
 	/// Mobs being exposed to and harmed by holiness
 	var/list/mob/living/exposed_to_holiness
@@ -18,7 +18,7 @@
 	if (!isliving(target))
 		return ELEMENT_INCOMPATIBLE
 
-	RegisterSignal(target, COMSIG_ENTER_AREA, PROC_REF(handle_enter_area))
+	RegisterSignal(target, COMSIG_ENTER_AREA, PROC_REF(handle_enter_area), override = TRUE)
 
 /datum/element/holy_weakness/Detach(datum/source, force)
 	UnregisterSignal(source, COMSIG_ENTER_AREA)
@@ -57,15 +57,15 @@
 		STOP_PROCESSING(SSdcs, src)
 	UnregisterSignal(source, COMSIG_EXIT_AREA)
 
-/datum/element/holy_weakness/process(delta_time)
+/datum/element/holy_weakness/process(seconds_per_tick)
 	// Ignite all exposed mobs on a probability of ~25% per 4 seconds
 	for (var/mob/living/cursed_mob as anything in exposed_to_holiness)
-		if (!DT_PROB(6.25, delta_time))
+		if (!SPT_PROB(6.25, seconds_per_tick))
 			continue
 
 		to_chat(cursed_mob, span_warning("You don't belong in this holy place!"))
 
 		cursed_mob.apply_damage(20, BURN)
 		cursed_mob.adjust_fire_stacks(6)
-		cursed_mob.IgniteMob()
+		cursed_mob.ignite_mob()
 

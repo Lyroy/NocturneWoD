@@ -549,5 +549,14 @@
 		"wiz",
 		"wizard",
 		"zombie"
+	],
+
+	"religion": [
+		"priest",
+		"holy",
+		"holiness",
+		"holier",
+		"god",
+		"faith"
 	]
 }

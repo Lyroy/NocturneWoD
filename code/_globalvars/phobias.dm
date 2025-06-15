@@ -24,6 +24,9 @@ GLOBAL_LIST_INIT(phobia_types, sort_list(list(
 	"spiders",
 	"strangers",
 	"the supernatural",
+	// Start WoD13 Modification
+	"religion",
+	// End WoD13 Modification
 )))
 
 GLOBAL_LIST_INIT(phobia_regexes, list(
@@ -50,6 +53,9 @@ GLOBAL_LIST_INIT(phobia_regexes, list(
 	"spiders" = construct_phobia_regex("spiders"),
 	"strangers" = construct_phobia_regex("strangers"),
 	"the supernatural" = construct_phobia_regex("the supernatural"),
+	// Start WoD13 Modification
+	"religion" = construct_phobia_regex("religion"),
+	// End WoD13 Modification
 ))
 
 GLOBAL_LIST_INIT(phobia_mobs, list(
@@ -124,6 +130,13 @@ GLOBAL_LIST_INIT(phobia_mobs, list(
 		/mob/living/basic/zombie,
 		/mob/living/simple_animal/bot/mulebot/paranormal,
 	)),
+	// Start WoD13 Modification
+	"religion" = typecacheof(list(
+		/mob/living/basic/construct/artificer/angelic,
+		/mob/living/basic/construct/juggernaut/angelic,
+		/mob/living/basic/construct/wraith/angelic
+	)),
+	// End WoD13 Modification
 ))
 
 GLOBAL_LIST_INIT(phobia_objs, list(
@@ -530,6 +543,12 @@ GLOBAL_LIST_INIT(phobia_objs, list(
 		/obj/structure/destructible/eldritch_crucible,
 		/obj/structure/spirit_board,
 	)),
+	// Start WoD13 Modification
+	"religion" = typecacheof(list(
+		/obj/item/book/bible,
+		///obj/item/card/id/hunter
+	)),
+	// End WoD13 Modification
 ))
 
 GLOBAL_LIST_INIT(phobia_turfs, list(
