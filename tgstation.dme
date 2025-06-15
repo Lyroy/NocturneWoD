@@ -6652,6 +6652,7 @@
 #include "code\modules\wod13\client\preferences\immortal_age.dm"
 #include "code\modules\wod13\kindred\vampire_clan\cappadocian.dm"
 #include "code\modules\wod13\kindred\vampire_clan\gangrel.dm"
+#include "code\modules\wod13\kindred\vampire_clan\tremere.dm"
 #include "code\modules\wod13\mob\living\simple_animal\hostile\werewolf.dm"
 #include "code\modules\wod13\objects\items\clothes\under.dm"
 #include "code\modules\wod13\objects\items\clothes\suit.dm"
