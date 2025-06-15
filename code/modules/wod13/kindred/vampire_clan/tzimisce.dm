@@ -505,35 +505,6 @@
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
 	w_class = WEIGHT_CLASS_SMALL
 
-/obj/item/stack/human_flesh
-	name = "human flesh"
-	desc = "What the fuck..."
-	singular_name = "human flesh"
-	icon_state = "human"
-	onflooricon = 'code/modules/wod13/onfloor.dmi'
-	mats_per_unit = list(/datum/material/pizza = MINERAL_MATERIAL_AMOUNT)
-	merge_type = /obj/item/stack/human_flesh
-	max_amount = 50
-
-/obj/item/stack/human_flesh/fifty
-	amount = 50
-/obj/item/stack/human_flesh/twenty
-	amount = 20
-/obj/item/stack/human_flesh/ten
-	amount = 10
-/obj/item/stack/human_flesh/five
-	amount = 5
-
-/obj/item/stack/human_flesh/update_icon_state()
-	var/amount = get_amount()
-	switch(amount)
-		if(30 to INFINITY)
-			icon_state = "human_3"
-		if(10 to 30)
-			icon_state = "human_2"
-		else
-			icon_state = "human"
-
 /obj/item/extra_arm
 	name = "extra arm installer"
 	desc = "Distantly related to the technology of the Man-Machine Interface, this state-of-the-art syndicate device adapts your nervous and circulatory system to the presence of an extra limb..."

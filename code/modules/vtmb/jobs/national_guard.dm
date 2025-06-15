@@ -282,7 +282,7 @@
 	var/mob/living/carbon/human/H = owner.current
 	H.gender = pick(MALE, FEMALE)
 	H.body_type = H.gender
-	H.set_name()
+
 	H.age = rand(18, 36)
 	H.name = H.real_name
 	H.dna.real_name = H.real_name
