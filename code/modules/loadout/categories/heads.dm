@@ -16,6 +16,8 @@
 	else
 		outfit.head = item_path
 
+// Start WoD13 Modification
+/*
 /datum/loadout_item/head/beanie
 	name = "Beanie (Colorable)"
 	item_path = /obj/item/clothing/head/beanie
@@ -155,3 +157,5 @@
 /datum/loadout_item/head/wig
 	name = "Natural Wig"
 	item_path = /obj/item/clothing/head/wig/natural
+*/
+// End WoD13 Modification

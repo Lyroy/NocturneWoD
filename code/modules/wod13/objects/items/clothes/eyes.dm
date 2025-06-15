@@ -30,7 +30,7 @@
 	flash_protect = FLASH_PROTECTION_FLASH
 
 /obj/item/clothing/glasses/vampire/perception
-	name = "perception glasses"
+	name = "reading glasses"
 	desc = "For reading books."
 	icon_state = "perception"
 	inhand_icon_state = "glasses"
