@@ -212,11 +212,12 @@
 	a - AOE - hits around, factor 1 also applies knockback;
 	c - Cone - hits 3 grids in front based on dir, supports diagonals too, factor 1 also applies knockback; Wind up to animation times will always be at least 3 (so total animation time of anyhting less than 4 will be normalized to at least 4), though any unblockable attacks should come with a gratious indiator anyway.
 	p - Power - special animation, typically unblockable. Factor 1 makes it blockable with a narrower window, sucesfull block immediatly breaks poise
-	t - Thrust - Moves mob forward, knocking hit mobs out of the way. Stops at walls and obstacles.
-	f - Fast - omits windup. Good for combos.
+	t - Thrust - Moves mob forward, knocking hit mobs out of the way. Stops at walls and obstacles. Factor decides distance of thrust, but keep in mind that anything over 2 will take the mob out of attack range and potentially break their chain, so should be used in indnivdual cadences or at the end of one
+	f - Fast - omits windup. Good for combos. Parriable, and ideally should only appear after another indicated attack, but also viable for small rapidly attacking mobs that are meant to be one shot etc. Factor 1 should be used in last fast hits of a fast hit combo in cadences that have further attacks (so it resets the warning icon flashing properly)
 	g - Grab - Unblockable, if hits players immobilizes them and plays a "grab animation" depending on number subtype which includes multiple unblockable hits. Can be interrupted by incoming damage from another player controlled via the grab_durability var, sucessful interrupt breaks poise
 	*/
-	var/list/attack_cadence = list(list("20n","40a1","40c1","40p1"))
+	var/list/attack_cadence = list(list("10n","10a","10c","10p","10t1","5f","5f","5f1","10g1"))
+	var/skip_warning = 0
 	var/attacking_flag = 0
 	var/attack_hit_time = 5 // Attack time animation. In most cases, this is also the duration in which blocking should be used to guarantee a parry
 	var/parry_time // As above, if different
@@ -281,55 +282,58 @@
 
 
 	M.Scale(0.01)
-	N.Scale(1)
-	O.Scale(2.5)
+	N.Scale(0.7)
+	O.Scale(2)
 	var/obj/indicator = new()
-	indicator.alpha = 0
-	indicator.layer = ABOVE_MOB_LAYER
-	indicator.pixel_y = 28
-	switch(type) // Attack Indicator/blining values segment. Actual animations trigger later
-		if("n")
-			blink_value = "#ffd0be"
-		if("a")
-			overlay_icon_state = "circle"
-			blink_value = "#ff8800"
-			color_value = "#d38817"
-		if("c")
-			overlay_icon_state = "cone"
-			blink_value = "#ff8800"
-			color_value = "#d38817"
-		if("p")
-			overlay_icon_state = "cross"
-			blink_value = "#ff1c1c"
-			color_value = "#990000"
-		if("g")
-			overlay_icon_state = "crosss"
-			blink_value = "#ff1c1c"
-			color_value = "#990000"
-		if("t")
-			overlay_icon_state = "arrow"
-			blink_value = "#d15106"
-			color_value = "#d66727"
-		if("f")
-			overlay_icon_state = "triangle"
-			blink_value = "#1e5a0c"
-			color_value = "#258308"
-	indicator.dir = attacking_mob.dir
-	indicator.overlays += icon(icon = overlay_icon,icon_state = overlay_icon_state, dir = indicator.dir)
-	indicator.color = color_value
-	indicator.transform = M
-	animated_mob.vis_contents += indicator
-	animate(indicator,time = fade_in,alpha = 255, transform = N, pixel_y = 32)
-	var/current_tick = 0
-	while(current_tick < flash)
-		var/color_to_change
-		if(indicator.color == blink_value)
-			color_to_change = color_value
-		else
-			color_to_change = blink_value
-		animate(time = 1, color = color_to_change)
-		current_tick += 1
-	animate(time = fade_out, alpha = 0, transform = O)
+	if(skip_warning == 0)
+		indicator.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
+		indicator.alpha = 0
+		indicator.layer = ABOVE_MOB_LAYER
+		indicator.pixel_y = 10
+		switch(type) // Attack Indicator/blining values segment. Actual animations trigger later
+			if("n")
+				blink_value = "#ffd0be"
+			if("a")
+				overlay_icon_state = "circle"
+				blink_value = "#ff8800"
+				color_value = "#ffd595"
+			if("c")
+				overlay_icon_state = "cone"
+				blink_value = "#ff8800"
+				color_value = "#ffd595"
+			if("p")
+				overlay_icon_state = "cross"
+				blink_value = "#ff1c1c"
+				color_value = "#ff8181"
+			if("g")
+				overlay_icon_state = "cross"
+				blink_value = "#8f0c54"
+				color_value = "#cf398c"
+			if("t")
+				overlay_icon_state = "arrow"
+				blink_value = "#d15106"
+				color_value = "#ff9a5f"
+			if("f")
+				overlay_icon_state = "triangle"
+				blink_value = "#1e5a0c"
+				color_value = "#2fca00"
+				skip_warning = 1
+		indicator.dir = get_dir(current_turf,target)
+		indicator.overlays += icon(icon = overlay_icon,icon_state = overlay_icon_state, dir = indicator.dir)
+		indicator.color = color_value
+		indicator.transform = M
+		animated_mob.vis_contents += indicator
+		animate(indicator,time = fade_in,alpha = 255, transform = N, pixel_y = 20)
+		var/current_tick = 0
+		while(current_tick < flash)
+			var/color_to_change
+			if(indicator.color == blink_value)
+				color_to_change = color_value
+			else
+				color_to_change = blink_value
+			animate(time = 1, color = color_to_change)
+			current_tick += 1
+		animate(time = fade_out, alpha = 0, transform = O)
 
 	switch(type) // Attack animations go here
 		if("n") // Normal attack - mob pulls back, then pushes forward. Strike counted at apex of pushing animation.
@@ -518,6 +522,7 @@
 			icon_obj.dir = animated_mob.dir
 			icon_obj.pixel_x = animated_mob.pixel_x
 			icon_obj.pixel_y = animated_mob.pixel_y
+			icon_obj.color = blink_value
 			var/matrix/P = new
 			P.Scale(1.5)
 			animated_mob.vis_contents += icon_obj
@@ -556,9 +561,12 @@
 			icon_obj.appearance = animated_mob.appearance
 			icon_obj.layer = EFFECTS_LAYER
 			icon_obj.dir = animated_mob.dir
+			icon_obj.pixel_x = animated_mob.pixel_x
+			icon_obj.pixel_y = animated_mob.pixel_y
+			icon_obj.color = blink_value
 			var/matrix/P = new
 			P.Scale(1.5)
-			target.vis_contents += icon_obj
+			animated_mob.vis_contents += icon_obj
 			animate(icon_obj, time = wind_up, color = blink_value, transform = P, alpha = 0)
 			sleep(wind_up)
 			animated_mob.vis_contents -= icon_obj
@@ -573,44 +581,32 @@
 			switch(get_dir(current_turf,target))
 				if(NORTH)
 					animated_mob.dir = NORTH
-					pull_y -= 24
-					push_y = 24
+					pull_y -= 30
 				if(NORTHEAST)
 					animated_mob.dir = EAST
-					pull_y -= 12
-					push_y = 12
-					pull_x -= 12
-					push_x = 12
+					pull_y -= 15
+					pull_x -= 15
 				if(EAST)
 					animated_mob.dir = EAST
-					pull_x -= 24
-					push_x = 24
+					pull_x -= 30
 				if(SOUTHEAST)
 					animated_mob.dir = EAST
-					pull_x -= 12
-					push_x = 12
-					pull_y += 12
-					push_y = -12
+					pull_x -= 15
+					pull_y += 15
 				if(SOUTH)
 					animated_mob.dir = SOUTH
-					pull_y += 24
-					push_y = -24
+					pull_y += 30
 				if(SOUTHWEST)
 					animated_mob.dir = WEST
-					pull_y += 12
-					push_y = -12
-					pull_x += 12
-					push_x = -12
+					pull_y += 15
+					pull_x += 15
 				if(WEST)
 					animated_mob.dir = WEST
-					pull_x += 24
-					push_x = -24
+					pull_x += 30
 				if(NORTHWEST)
 					animated_mob.dir = WEST
-					pull_x += 12
-					push_x = -12
-					pull_y -= 12
-					push_y = 12
+					pull_x += 15
+					pull_y -= 15
 			animate(animated_mob,time = wind_up, pixel_x = pull_x, pixel_y = pull_y)
 			animate(time = attack, pixel_x = push_x, pixel_y = push_y)
 		if("f")
@@ -637,7 +633,7 @@
 				if(SOUTHWEST)
 					push_x = -4
 					push_y = -4
-			animate(animated_mob,time = attack, pixel_x = push_x, pixel_y = push_y)
+			animate(animated_mob,time = anim_time, pixel_x = push_x, pixel_y = push_y)
 
 	animate(animated_mob,time = 1, pixel_x = starting_x, pixel_y = starting_y, flags = ANIMATION_CONTINUE)
 	sleep(anim_time + 1)
@@ -710,13 +706,16 @@
 	if(health == 0) return
 	var/damage_to_deal = damage_number - armor
 	return_override = 0
+	var/turf/attacker_turf = get_turf(owner.lastattacker)
+	var/turf/owner_turf = get_turf(owner)
+	var/attacker_direction = get_dir(owner_turf,attacker_turf)
 	if(in_grab == 1)
 		grab_durability -= damage_to_deal
 		if(grab_durability <= 0)
 			poise = 0
 			in_grab = 0
 			INVOKE_ASYNC(src,PROC_REF(damage_animation),owner,"poise_break")
-			INVOKE_ASYNC(src,PROC_REF(process_knockback),owner,1)
+			INVOKE_ASYNC(src,PROC_REF(process_knockback),owner,1,attacker_direction)
 			INVOKE_ASYNC(src,PROC_REF(combat_stun))
 			return
 
@@ -726,7 +725,7 @@
 			if(poise <= 0)
 				poise = 0
 				INVOKE_ASYNC(src,PROC_REF(damage_animation),owner,"poise_break")
-				INVOKE_ASYNC(src,PROC_REF(process_knockback),owner,1)
+				INVOKE_ASYNC(src,PROC_REF(process_knockback),owner,1,attacker_direction)
 				INVOKE_ASYNC(src,PROC_REF(combat_stun))
 				return
 			else
@@ -749,13 +748,55 @@
 	if(poise > 0) INVOKE_ASYNC(src, PROC_REF(process_damage),(damage_number * 2),"poise")
 	INVOKE_ASYNC(src, PROC_REF(process_damage),(damage_number),"health")
 
-/datum/combat_ai/proc/list_turfs_in_line(turf/origin_turf,turf/target_turf)
-	var/list/turf_list = list()
+/datum/combat_ai/proc/list_turfs_in_line(turf/origin_turf,direction,distance,flag) // flag = 1 returns list of turfs, 2 returns just last turf
 	var/turf/current_turf = origin_turf
-	while(current_turf != target_turf)
-		current_turf = get_step_towards(current_turf,target_turf)
-		turf_list += current_turf
-	return turf_list
+	switch(flag)
+		if(1)
+			var/list/turf_list = list()
+			var/distance_checked = 1
+			var/turf/next_turf
+			while(distance_checked <= distance)
+				switch(direction)
+					if(NORTH)
+						next_turf = locate(current_turf.x, current_turf.y + distance_checked, current_turf.z)
+					if(NORTHEAST)
+						next_turf = locate(current_turf.x + distance_checked, current_turf.y + distance_checked, current_turf.z)
+					if(EAST)
+						next_turf = locate(current_turf.x + distance_checked, current_turf.y, current_turf.z)
+					if(SOUTHEAST)
+						next_turf = locate(current_turf.x + distance_checked, current_turf.y - distance_checked, current_turf.z)
+					if(SOUTH)
+						next_turf = locate(current_turf.x, current_turf.y - distance_checked, current_turf.z)
+					if(SOUTHWEST)
+						next_turf = locate(current_turf.x - distance_checked, current_turf.y - distance_checked, current_turf.z)
+					if(WEST)
+						next_turf = locate(current_turf.x - distance_checked, current_turf.y, current_turf.z)
+					if(NORTHWEST)
+						next_turf = locate(current_turf.x - distance_checked, current_turf.y + distance_checked, current_turf.z)
+				turf_list.Add(next_turf)
+				distance_checked += 1
+			return turf_list
+		if(2)
+			var/turf/turf_to_return
+			switch(direction)
+				if(NORTH)
+					turf_to_return = locate(current_turf.x, current_turf.y + distance, current_turf.z)
+				if(NORTHEAST)
+					turf_to_return = locate(current_turf.x + distance, current_turf.y + distance, current_turf.z)
+				if(EAST)
+					turf_to_return = locate(current_turf.x + distance, current_turf.y, current_turf.z)
+				if(SOUTHEAST)
+					turf_to_return = locate(current_turf.x + distance, current_turf.y - distance, current_turf.z)
+				if(SOUTH)
+					turf_to_return = locate(current_turf.x, current_turf.y - distance, current_turf.z)
+				if(SOUTHWEST)
+					turf_to_return = locate(current_turf.x - distance, current_turf.y - distance, current_turf.z)
+				if(WEST)
+					turf_to_return = locate(current_turf.x - distance, current_turf.y, current_turf.z)
+				if(NORTHWEST)
+					turf_to_return = locate(current_turf.x - distance, current_turf.y + distance, current_turf.z)
+			return turf_to_return
+
 
 /datum/combat_ai/proc/animate_knockback(mob/target_mob,turf/target_turf,collision = 0,distance)
 	var/turf/turf_to_target = target_turf
@@ -818,7 +859,7 @@
 				else
 					attacked_carbon_mob.apply_damage((rand(owner.melee_damage_lower,owner.melee_damage_upper)) / 2)
 				var/owner_turf = get_turf(owner)
-				INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob)
+				INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob,"dam_hit")
 				INVOKE_ASYNC(src, PROC_REF(process_knockback),attacked_carbon_mob,thrust_power,get_diagonal(owner_turf,turf_to_hit))
 				if(istype(attacked_mob,/mob/living/carbon/human))
 					var/mob/living/carbon/human/attacked_human_mob = attacked_mob
@@ -837,35 +878,16 @@
 	mob_to_animate.forceMove(target_turf)
 	mob_to_animate.pixel_x += displacement_x
 	mob_to_animate.pixel_y += displacement_y
-	animate(mob_to_animate,time = distance_to_animate * 2, pixel_x = origin_px, pixel_y = origin_py, easing = SINE_EASING|EASE_IN)
+	animate(mob_to_animate,time = distance_to_animate * 2, pixel_x = origin_px, pixel_y = origin_py, easing = SINE_EASING|EASE_IN, flags = ANIMATION_PARALLEL)
 
 /datum/combat_ai/proc/process_knockback(mob/target_mob,distance,direction)
 	var/turf/mob_turf = get_turf(target_mob)
-	var/turf/target_turf
 	var/knockback_dir
 	if(!direction)
 		knockback_dir = target_mob.dir
 	else
 		knockback_dir = direction
-	switch(knockback_dir)
-		if(NORTH)
-			target_turf = locate(mob_turf.x,(mob_turf.y - distance),mob_turf.z)
-		if(SOUTH)
-			target_turf = locate(mob_turf.x,(mob_turf.y + distance),mob_turf.z)
-		if(EAST)
-			target_turf = locate((mob_turf.x - distance),mob_turf.y,mob_turf.z)
-		if(WEST)
-			target_turf = locate((mob_turf.x + distance),mob_turf.y,mob_turf.z)
-		//I dont think diagonals are ever needed but just in case :P
-		if(NORTHEAST)
-			target_turf = locate((mob_turf.x - distance),(mob_turf.y - distance),mob_turf.z)
-		if(NORTHWEST)
-			target_turf = locate((mob_turf.x + distance),(mob_turf.y - distance),mob_turf.z)
-		if(SOUTHEAST)
-			target_turf = locate((mob_turf.x - distance),(mob_turf.y + distance),mob_turf.z)
-		if(SOUTHWEST)
-			target_turf = locate((mob_turf.x + distance),(mob_turf.y + distance),mob_turf.z)
-	var/list/crossed_turfs = list_turfs_in_line(mob_turf, target_turf)
+	var/list/crossed_turfs = list_turfs_in_line(mob_turf, knockback_dir, distance,1)
 	var/distance_to_animate = 0
 	var/collision = 0
 	var/turf/ending_turf = mob_turf
@@ -886,6 +908,7 @@
 	var/mob/living/carbon/grabbed_mob = target_mob
 	switch(grab_type)
 		if(1)
+			in_grab = 1
 			target_mob.anchored = 1
 			owner.anchored = 1
 			var/turf/owner_turf = get_turf(owner)
@@ -894,34 +917,35 @@
 			var/owner_py = owner.pixel_y
 			var/target_px = grabbed_mob.pixel_x
 			var/target_py = grabbed_mob.pixel_y
-			switch(get_dir(owner_turf,target_turf))
-				if(NORTH)
-					animate(owner,time = 2,pixel_y = 12)
-					animate(grabbed_mob,time = 2,pixel_y = -12)
-				if(SOUTH)
-					animate(owner,time = 2,pixel_y = -12)
-					animate(grabbed_mob,time = 2,pixel_y = 12)
-				if(EAST)
-					animate(owner,time = 2,pixel_x = 12)
-					animate(grabbed_mob,time = 2,pixel_x = -12)
-				if(WEST)
-					animate(owner,time = 2,pixel_x = -12)
-					animate(grabbed_mob,time = 2,pixel_x = 12)
-				if(NORTHEAST)
-					animate(owner,time = 2,pixel_y = 12, pixel_x = 12)
-					animate(grabbed_mob,time = 2,pixel_y = -12, pixel_x = -12)
-				if(NORTHWEST)
-					animate(owner,time = 2,pixel_y = 12, pixel_x = -12)
-					animate(grabbed_mob,time = 2,pixel_y = -12, pixel_x = 12)
-				if(SOUTHEAST)
-					animate(owner,time = 2,pixel_y = -12, pixel_x = 12)
-					animate(grabbed_mob,time = 2,pixel_y = 12, pixel_x = -12)
-				if(SOUTHWEST)
-					animate(owner,time = 2,pixel_y = -12, pixel_x = -12)
-					animate(grabbed_mob,time = 2,pixel_y = 12, pixel_x = 12)
-			sleep(2)
 			var/hits_animated = 0
 			while(in_grab == 1 && (hits_animated < 3))
+				switch(get_dir(owner_turf,target_turf))
+					if(NORTH)
+						animate(owner,time = 2,pixel_y = 12)
+						animate(grabbed_mob,time = 2,pixel_y = -12)
+					if(SOUTH)
+						animate(owner,time = 2,pixel_y = -12)
+						animate(grabbed_mob,time = 2,pixel_y = 12)
+					if(EAST)
+						animate(owner,time = 2,pixel_x = 12)
+						animate(grabbed_mob,time = 2,pixel_x = -12)
+					if(WEST)
+						animate(owner,time = 2,pixel_x = -12)
+						animate(grabbed_mob,time = 2,pixel_x = 12)
+					if(NORTHEAST)
+						animate(owner,time = 2,pixel_y = 12, pixel_x = 12)
+						animate(grabbed_mob,time = 2,pixel_y = -12, pixel_x = -12)
+					if(NORTHWEST)
+						animate(owner,time = 2,pixel_y = 12, pixel_x = -12)
+						animate(grabbed_mob,time = 2,pixel_y = -12, pixel_x = 12)
+					if(SOUTHEAST)
+						animate(owner,time = 2,pixel_y = -12, pixel_x = 12)
+						animate(grabbed_mob,time = 2,pixel_y = 12, pixel_x = -12)
+					if(SOUTHWEST)
+						animate(owner,time = 2,pixel_y = -12, pixel_x = -12)
+						animate(grabbed_mob,time = 2,pixel_y = 12, pixel_x = 12)
+				sleep(2)
+				if(in_grab == 0) break
 				switch(get_dir(owner_turf,target_turf))
 					if(NORTH)
 						animate(owner,time = 3,pixel_y = -12, easing = SINE_EASING|EASE_IN)
@@ -950,18 +974,33 @@
 				sleep(6)
 				if(in_grab == 1)
 					grabbed_mob.apply_damage(rand(owner.melee_damage_lower / 2,owner.melee_damage_upper / 2))
+					INVOKE_ASYNC(src, PROC_REF(damage_animation),grabbed_mob,"dam_hit")
 				hits_animated += 1
+				if(hits_animated < 3) sleep(3)
+
 			animate(owner,time = 2,pixel_x = owner_px, pixel_y = owner_py)
 			animate(grabbed_mob,time = 2,pixel_x = target_px, pixel_y = target_py)
+			in_grab = 0
 			grabbed_mob.anchored = 0
+			INVOKE_ASYNC(src, PROC_REF(process_knockback),grabbed_mob,1,get_dir(owner_turf,target_turf))
 			if(loop_terminator == 1 && health > 0 && poise > 0)
 				loop_terminator = 0
+				sleep(attack_delay)
 				INVOKE_ASYNC(src, PROC_REF(ai_loop))
 
 
-/datum/combat_ai/proc/process_attack(turf/turf_target)
+/datum/combat_ai/proc/process_attack(turf/target_turf)
+	var/turf/attacked_turf
+	if(!target_turf)
+		var/turf/owner_turf = get_turf(owner)
+		var/turf/turf_to_target = get_turf(target_player)
+		var/target_dir = get_dir(owner_turf,turf_to_target)
+		attacked_turf = list_turfs_in_line(owner_turf,target_dir,1,2)
+	else
+		attacked_turf = target_turf
 	var/list/attack_list = pick(attack_cadence)
 	attacking_flag = 1
+	var/target_recheck = 1
 	var/current_position = 1
 	while(current_position <= attack_list.len)
 		if(loop_terminator)
@@ -981,19 +1020,24 @@
 		var/attack_type = copytext(current_line,number_bits+1,number_bits+2)
 		var/attack_factor
 		if(length(current_line) > number_bits + 1) attack_factor = text2num(copytext(current_line,number_bits+2,0))
-		INVOKE_ASYNC(src, PROC_REF(attack_animation),owner,turf_target,attack_type,attack_time,attack_factor)
+		if(target_recheck == 1)
+			var/turf/owner_turf = get_turf(owner)
+			var/turf/turf_to_target = get_turf(target_player)
+			var/target_dir = get_dir(owner_turf,turf_to_target)
+			attacked_turf = list_turfs_in_line(owner_turf,target_dir,1,2)
+		owner.dir = get_dir(get_turf(owner),attacked_turf)
+		INVOKE_ASYNC(src, PROC_REF(attack_animation),owner,attacked_turf,attack_type,attack_time,attack_factor)
 		sleep(attack_time)
-
 		// Attack types and parrying
 
 		switch(attack_type)
 			if("n")
-				for(var/mob/living/attacked_mob in turf_target)
+				for(var/mob/living/attacked_mob in attacked_turf)
 					if(istype(attacked_mob,/mob/living/carbon/))
 						var/mob/living/carbon/attacked_carbon_mob = attacked_mob
 						if(world.time > attacked_carbon_mob.blocking_timestamp + parry_time)
 							attacked_carbon_mob.apply_damage(rand(owner.melee_damage_lower,owner.melee_damage_upper))
-							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob)
+							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob,"dam_hit")
 						else
 							process_damage(2,"poise")
 						if(istype(attacked_mob,/mob/living/carbon/human))
@@ -1022,14 +1066,12 @@
 					for(var/mob/living/attacked_mob in turf_to_check)
 						if(istype(attacked_mob,/mob/living/carbon/))
 							var/mob/living/carbon/attacked_carbon_mob = attacked_mob
-							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob)
+							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob,"dam_hit")
 							if(world.time > attacked_carbon_mob.blocking_timestamp + parry_time)
 								attacked_carbon_mob.apply_damage(ceil(owner.melee_damage_upper / 3))
-								var/owner_turf = get_turf(owner)
-								var/kd_dir = get_dir(turf_to_check,owner_turf)
-								if(attack_factor == 1) INVOKE_ASYNC(src, PROC_REF(process_knockback),attacked_carbon_mob,1,kd_dir)
 							else
 								attacked_carbon_mob.apply_damage(ceil(owner.melee_damage_upper / 6))
+							if(attack_factor == 1)
 								var/owner_turf = get_turf(owner)
 								var/kd_dir = get_dir(turf_to_check,owner_turf)
 								INVOKE_ASYNC(src, PROC_REF(process_knockback),attacked_carbon_mob,1,kd_dir)
@@ -1041,7 +1083,7 @@
 				var/list/turfs_attacked = list()
 				var/turf/own_turf = get_turf(owner)
 				var/turf/turf_to_add
-				switch(get_dir(own_turf,turf_target))
+				switch(get_dir(own_turf,attacked_turf))
 					if(NORTH)
 						turf_to_add = locate(own_turf.x,own_turf.y + 1, own_turf.z)
 						turfs_attacked += turf_to_add
@@ -1102,7 +1144,7 @@
 					for(var/mob/living/attacked_mob in turf_to_check)
 						if(istype(attacked_mob,/mob/living/carbon/))
 							var/mob/living/carbon/attacked_carbon_mob = attacked_mob
-							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob)
+							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob,"dam_hit")
 							if(world.time > attacked_carbon_mob.blocking_timestamp + parry_time)
 								attacked_carbon_mob.apply_damage(ceil(owner.melee_damage_upper / 2))
 								var/owner_turf = get_turf(owner)
@@ -1118,23 +1160,23 @@
 								if(attacked_human_mob.blocking == TRUE) attacked_human_mob.SwitchBlocking()
 							if(attacked_carbon_mob.blocking == TRUE) attacked_carbon_mob.blocking = FALSE
 			if("p")
-				for(var/mob/living/attacked_mob in turf_target)
+				for(var/mob/living/attacked_mob in attacked_turf)
 					if(istype(attacked_mob,/mob/living/carbon/))
 						var/mob/living/carbon/attacked_carbon_mob = attacked_mob
-						if(world.time > attacked_carbon_mob.blocking_timestamp + 2)
+						if(world.time > attacked_carbon_mob.blocking_timestamp + (ceil(parry_time / 2)))
 							attacked_carbon_mob.apply_damage(rand(owner.melee_damage_lower * 1.5,owner.melee_damage_upper * 1.5))
-							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob)
+							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob,"dam_hit")
 							var/owner_turf = get_turf(owner)
-							var/kd_dir = get_dir(turf_target,owner_turf)
+							var/kd_dir = get_dir(owner_turf,attacked_turf)
 							INVOKE_ASYNC(src, PROC_REF(process_knockback),attacked_carbon_mob,2,kd_dir)
 						else
 							if(attack_factor == 1)
 								process_damage(poise,"poise")
 							else
 								attacked_carbon_mob.apply_damage(rand(owner.melee_damage_lower,owner.melee_damage_upper))
-								INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob)
+								INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob,"dam_hit")
 								var/owner_turf = get_turf(owner)
-								var/kd_dir = get_dir(turf_target,owner_turf)
+								var/kd_dir = get_dir(owner_turf,attacked_turf)
 								INVOKE_ASYNC(src, PROC_REF(process_knockback),attacked_carbon_mob,1,kd_dir)
 						if(istype(attacked_mob,/mob/living/carbon/human))
 							var/mob/living/carbon/human/attacked_human_mob = attacked_mob
@@ -1142,29 +1184,35 @@
 						if(attacked_carbon_mob.blocking == TRUE) attacked_carbon_mob.blocking = FALSE
 			if("t")
 				var/distance_to_thrust = attack_factor
-				var/final_turf = get_turf(owner)
+				var/turf/own_turf = get_turf(owner)
+				var/thrust_direction = get_dir(own_turf,attacked_turf)
+				var/final_turf = list_turfs_in_line(own_turf,thrust_direction,distance_to_thrust,2)
 				var/list/turfs_to_ping = list()
-				var/current_step = 0
-				while(current_step < distance_to_thrust)
-					var/tested_turf = get_step(final_turf,owner.dir)
-					if(istype(tested_turf,/turf/closed/))
-						break
-					for(var/obj/item/item_to_test in tested_turf)
-						if(item_to_test.density == 1)
-							break
-					final_turf = tested_turf
-					turfs_to_ping += tested_turf
-					current_step += 1
+				turfs_to_ping = list_turfs_in_line(own_turf,thrust_direction,distance_to_thrust,1)
 				if(turfs_to_ping.len > 0)
 					INVOKE_ASYNC(src, PROC_REF(animate_thrust),owner,final_turf)
 					INVOKE_ASYNC(src, PROC_REF(process_thrust),turfs_to_ping,attack_factor)
 			if("g")
-				for(var/mob/living/attacked_mob in turf_target)
+				for(var/mob/living/attacked_mob in attacked_turf)
 					if(istype(attacked_mob,/mob/living/carbon/))
 						var/mob/living/carbon/attacked_carbon_mob = attacked_mob
 						if(attacked_carbon_mob.client)
 							INVOKE_ASYNC(src, PROC_REF(process_grab),attacked_carbon_mob,attack_factor)
 							break
+			if("f")
+				if(attack_factor == 1) skip_warning = 0
+				for(var/mob/living/attacked_mob in attacked_turf)
+					if(istype(attacked_mob,/mob/living/carbon/))
+						var/mob/living/carbon/attacked_carbon_mob = attacked_mob
+						if(world.time > attacked_carbon_mob.blocking_timestamp + parry_time)
+							attacked_carbon_mob.apply_damage(rand(owner.melee_damage_lower,owner.melee_damage_upper) / 2)
+							INVOKE_ASYNC(src, PROC_REF(damage_animation),attacked_carbon_mob,"dam_hit")
+						else
+							process_damage(1,"poise")
+						if(istype(attacked_mob,/mob/living/carbon/human))
+							var/mob/living/carbon/human/attacked_human_mob = attacked_mob
+							if(attacked_human_mob.blocking == TRUE) attacked_human_mob.SwitchBlocking()
+						if(attacked_carbon_mob.blocking == TRUE) attacked_carbon_mob.blocking = FALSE
 		if(loop_terminator)
 			attack_list = list()
 			break
@@ -1316,6 +1364,6 @@
 			sleep(mob_heartbeat)
 			continue
 		if(process_movement(own_turf,target_turf) == 1)
-			process_attack(target_turf)
+			process_attack()
 			if(attack_delay != 0) sleep(attack_delay)
 
