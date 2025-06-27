@@ -155,3 +155,5 @@
 #define LIGHT_COLOR_TUNGSTEN   "#FAE1AF"
 /// Barely visible cyan-ish hue, as the doctor prescribed. rgb(240, 250, 250)
 #define LIGHT_COLOR_HALOGEN    "#F0FAFA"
+
+#define DEFAULT_HEX_COLOR_LEN 6

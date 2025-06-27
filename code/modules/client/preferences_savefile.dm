@@ -331,6 +331,12 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if (clan_type)
 		clan = GLOB.vampire_clans[clan_type]
 
+	READ_FILE(S["clan_accessory"], clan_accessory)
+	if(clan?.accessories)
+		clan_accessory = sanitize_inlist(clan_accessory, clan.accessories, null)
+	else
+		clan_accessory = null
+
 	var/auspice_id
 	READ_FILE(S["auspice"], auspice_id)
 	if(auspice_id)
@@ -407,7 +413,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["backpack"], backpack)
 	READ_FILE(S["jumpsuit_style"], jumpsuit_style)
 	READ_FILE(S["uplink_loc"], uplink_spawn_loc)
-	READ_FILE(S["clan_accessory"], clan_accessory)
+	// READ_FILE(S["clan_accessory"], clan_accessory)
 	READ_FILE(S["playtime_reward_cloak"], playtime_reward_cloak)
 	READ_FILE(S["phobia"], phobia)
 	READ_FILE(S["randomise"],  randomise)
@@ -580,11 +586,11 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	masquerade				= sanitize_integer(masquerade, 0, 5, initial(masquerade))
 	generation				= sanitize_integer(generation, 3, 13, initial(generation))
 	generation_bonus				= sanitize_integer(generation_bonus, 0, 6, initial(generation_bonus))
-	hair_color			= sanitize_hexcolor(hair_color, 3, 0)
-	facial_hair_color			= sanitize_hexcolor(facial_hair_color, 3, 0)
-	underwear_color			= sanitize_hexcolor(underwear_color, 3, 0)
-	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
-	skin_tone		= sanitize_hexcolor(skin_tone, 3, 0)
+	hair_color			= sanitize_hexcolor(hair_color)
+	facial_hair_color			= sanitize_hexcolor(facial_hair_color)
+	underwear_color			= sanitize_hexcolor(underwear_color)
+	eye_color		= sanitize_hexcolor(eye_color)
+	skin_tone		= sanitize_hexcolor(skin_tone)
 	backpack			= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
 	jumpsuit_style	= sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
@@ -593,7 +599,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	else
 		clan_accessory = null
 	playtime_reward_cloak = sanitize_integer(playtime_reward_cloak)
-	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
+	features["mcolor"]	= sanitize_hexcolor(features["mcolor"])
 	features["ethcolor"]	= copytext_char(features["ethcolor"], 1, 7)
 	features["tail_lizard"]	= sanitize_inlist(features["tail_lizard"], GLOB.tails_list_lizard)
 	features["tail_human"] 	= sanitize_inlist(features["tail_human"], GLOB.tails_list_human, "None")

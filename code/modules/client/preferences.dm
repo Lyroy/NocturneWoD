@@ -313,12 +313,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	headshot_link = null
 	save_character()
 
-/proc/reset_shit(mob/M)
-	if(M.key)
-		var/datum/preferences/P = GLOB.preferences_datums[ckey(M.key)]
-		if(P)
-			P.reset_character()
-
 /datum/preferences/New(client/C)
 	parent = C
 
@@ -329,24 +323,25 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	if(istype(C))
 		if(!IsGuestKey(C.key))
 			load_path(C.ckey)
-//			unlock_content = C.IsByondMember()
-//			if(unlock_content)
-//				max_save_slots = 8
+
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
 		if(load_character())
 			return
-	//we couldn't load character data so just randomize the character appearance + name
+
+	// we couldn't load character data so just randomize the character appearance + name
 	random_species()
-	random_character()		//let's create a random character then - rather than a fat, bald and naked man.
+	random_character()
+
 	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
 	C?.set_macros()
-//	pref_species = new /datum/species/kindred()
+	// pref_species = new /datum/species/kindred()
 	real_name = pref_species.random_name(gender,1)
 	if(!loaded_preferences_successfully)
 		save_preferences()
-	save_character()		//let's save this new random character so it doesn't keep generating new ones.
+	save_character() // let's save this new random character so it doesn't keep generating new ones.
 	menuoptions = list()
+
 	return
 
 #define APPEARANCE_CATEGORY_COLUMN "<td valign='top' width='14%'>"

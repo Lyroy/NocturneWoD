@@ -397,10 +397,10 @@
 /mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)
 	..()
 	var/structure = dna.uni_identity
-	hair_color = sanitize_hexcolor(getblock(structure, DNA_HAIR_COLOR_BLOCK))
-	facial_hair_color = sanitize_hexcolor(getblock(structure, DNA_FACIAL_HAIR_COLOR_BLOCK))
-	skin_tone = sanitize_hexcolor(getblock(structure, DNA_SKIN_TONE_BLOCK))
-	eye_color = sanitize_hexcolor(getblock(structure, DNA_EYE_COLOR_BLOCK))
+	hair_color = sanitize_hexcolor(getblock(structure, DNA_HAIR_COLOR_BLOCK), 6)
+	facial_hair_color = sanitize_hexcolor(getblock(structure, DNA_FACIAL_HAIR_COLOR_BLOCK), 6)
+	skin_tone = sanitize_hexcolor(getblock(structure, DNA_SKIN_TONE_BLOCK), 6)
+	eye_color = sanitize_hexcolor(getblock(structure, DNA_EYE_COLOR_BLOCK), 6)
 	facial_hairstyle = GLOB.facial_hairstyles_list[deconstruct_block(getblock(structure, DNA_FACIAL_HAIRSTYLE_BLOCK), GLOB.facial_hairstyles_list.len)]
 	hairstyle = GLOB.hairstyles_list[deconstruct_block(getblock(structure, DNA_HAIRSTYLE_BLOCK), GLOB.hairstyles_list.len)]
 	if(icon_update)
