@@ -34,9 +34,9 @@
 		dat += "<p><center><h2>Memories</h2></center></p>"
 		dat += "<p>[icon2html(getFlatIcon(host), host)]I am "
 		if(host.real_name)
-			dat += "[host.real_name],"
+			dat += "[host.real_name]"
 		if(!host.real_name)
-			dat += "Unknown,"
+			dat += "Unknown"
 
 		if(host.mind)
 
@@ -44,7 +44,12 @@
 				if(host.mind.special_role)
 					dat += ", carrying the [host.mind.assigned_role] (<font color=red>[host.mind.special_role]</font>) role."
 				else
-					dat += ", carrying the [host.mind.assigned_role] role."
+					// TFN EDIT START: alt job titles
+					var/displayed_rank = host.mind.assigned_role
+					if(host?.client?.prefs?.alt_titles_preferences[host.mind.assigned_role])
+						displayed_rank = host.client.prefs.alt_titles_preferences[host.mind.assigned_role]
+					dat += ", carrying the [displayed_rank] role."
+					// TFN EDIT END
 			if(!host.mind.assigned_role)
 				dat += "."
 			dat += "</p>"

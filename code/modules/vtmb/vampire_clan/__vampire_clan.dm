@@ -30,9 +30,9 @@
 	var/clan_keys
 
 	/// List of unnatural features that members of this Clan can choose
-	var/list/accessories
+	var/list/accessories = list()
 	/// Associative list of layers for unnatural features that members of this Clan can choose
-	var/list/accessories_layers
+	var/list/accessories_layers = list()
 	/// Clan accessory that's selected by default
 	var/default_accessory
 
