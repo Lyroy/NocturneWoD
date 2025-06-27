@@ -2079,7 +2079,7 @@
 /turf/open/floor/plating/rough,
 /area/vtm/sewer)
 "ahE" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/illegal,
+/obj/structure/retail/black_market,
 /obj/structure/table/wood,
 /turf/open/floor/plating/rough,
 /area/vtm/sewer)
@@ -4102,7 +4102,7 @@
 /area/vtm/interior/shop)
 "aoY" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/products,
+/obj/structure/retail/junkfood_menu,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/shop)
 "aoZ" = (
@@ -4542,7 +4542,7 @@
 /area/vtm/interior/shop)
 "aqw" = (
 /obj/structure/rack/bubway/horizontal,
-/obj/machinery/mineral/equipment_vendor/fastfood/bubway,
+/obj/structure/retail/bubway_menu,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/shop)
 "aqx" = (
@@ -4593,7 +4593,7 @@
 /area/vtm/interior/shop)
 "aqE" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/clothing,
+/obj/structure/retail/clothing_store,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/shop)
 "aqF" = (
@@ -7886,7 +7886,7 @@
 /area/vtm/interior/shop)
 "aBv" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/smoking,
+/obj/structure/retail/smoke_menu,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/shop)
 "aBw" = (
@@ -8845,7 +8845,7 @@
 /area/vtm/interior/shop)
 "aEy" = (
 /obj/structure/rack/tacobell/horizontal,
-/obj/machinery/mineral/equipment_vendor/fastfood/bacotell,
+/obj/structure/retail/bacotell_menu,
 /turf/open/floor/plating/bacotell,
 /area/vtm/interior/shop)
 "aEz" = (
@@ -9944,13 +9944,13 @@
 /area/vtm/interior/shop)
 "aIq" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/gas{
+/obj/structure/retail/gas_station{
 	pixel_x = 8
 	},
 /obj/structure/window/reinforced/indestructable{
 	dir = 1
 	},
-/obj/machinery/mineral/equipment_vendor/fastfood/products{
+/obj/structure/retail/junkfood_menu{
 	pixel_x = -8
 	},
 /turf/open/floor/plating/concrete,
@@ -11918,7 +11918,7 @@
 /area/vtm/sewer)
 "aOX" = (
 /obj/structure/table/wood/fancy/red,
-/obj/machinery/mineral/equipment_vendor/fastfood/library,
+/obj/structure/retail/library,
 /turf/open/floor/plating/parquetry/old,
 /area/vtm/interior/chantry)
 "aOY" = (
@@ -14783,7 +14783,7 @@
 /area/vtm/interior/shop)
 "aZC" = (
 /obj/structure/table/wood,
-/obj/machinery/mineral/equipment_vendor/fastfood/gummaguts,
+/obj/structure/retail/gummaguts_menu,
 /turf/open/floor/plating/gummaguts,
 /area/vtm/interior/shop)
 "aZD" = (
@@ -15146,7 +15146,7 @@
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/shop)
 "baO" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/america,
+/obj/structure/retail/gun_store,
 /obj/structure/table,
 /obj/structure/window/reinforced/indestructable{
 	dir = 1
@@ -28622,7 +28622,7 @@
 /turf/open/floor/plating/vampwood,
 /area/vtm/interior/chantry)
 "dbc" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/coffeevendor,
+/obj/structure/retail/coffee_vendor,
 /turf/open/floor/plating/parquetry,
 /area/vtm/interior)
 "dbe" = (
@@ -28701,7 +28701,7 @@
 /turf/open/floor/carpet/black,
 /area/vtm/interior/laundromat)
 "dcC" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/sodavendor{
+/obj/structure/retail/drink_vendor{
 	pixel_y = 20
 	},
 /turf/open/floor/plating/vampplating,
@@ -29433,7 +29433,7 @@
 /turf/open/floor/plating/rough,
 /area/vtm/interior/mansion)
 "drO" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/sodavendor{
+/obj/structure/retail/drink_vendor{
 	density = 0;
 	pixel_y = 24
 	},
@@ -40019,7 +40019,7 @@
 /area/vtm/interior/bianchiBank)
 "iam" = (
 /obj/structure/table/wood,
-/obj/machinery/mineral/equipment_vendor/fastfood/costumes,
+/obj/structure/retail/costume_store,
 /turf/open/floor/plating/rough,
 /area/vtm/sewer/nosferatu_town)
 "iav" = (
@@ -40074,7 +40074,7 @@
 /turf/open/floor/plating/parquetry/old,
 /area/vtm/dwelling/chinatown02)
 "ibs" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/coffeevendor{
+/obj/structure/retail/coffee_vendor{
 	density = 0;
 	pixel_y = 24
 	},
@@ -42420,7 +42420,7 @@
 /area/vtm/sewer/nosferatu_town)
 "jay" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/costumes,
+/obj/structure/retail/costume_store,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior)
 "jaF" = (
@@ -48534,7 +48534,7 @@
 /area/vtm/interior)
 "lVR" = (
 /obj/structure/table/wood,
-/obj/machinery/mineral/equipment_vendor/fastfood/pharmacy,
+/obj/structure/retail/pharmacy,
 /turf/closed/wall/vampwall/painted/low,
 /area/vtm/interior)
 "lWf" = (
@@ -49073,7 +49073,7 @@
 /turf/open/floor/plating/vampwood,
 /area/vtm/interior/bianchiBank)
 "mgL" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/snacks{
+/obj/structure/retail/snack_vendor{
 	pixel_x = -3
 	},
 /turf/open/floor/plating/vampplating/mono,
@@ -49853,7 +49853,7 @@
 	},
 /area/vtm/cabaret)
 "myH" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/coffeevendor,
+/obj/structure/retail/coffee_vendor,
 /turf/open/floor/wood,
 /area/vtm/clinic)
 "myK" = (
@@ -53660,8 +53660,8 @@
 /area/vtm/interior)
 "orB" = (
 /obj/structure/table/wood,
-/obj/machinery/mineral/equipment_vendor/fastfood/smoking,
-/obj/machinery/mineral/equipment_vendor/fastfood/products{
+/obj/structure/retail/smoke_menu,
+/obj/structure/retail/junkfood_menu{
 	pixel_y = 10
 	},
 /turf/closed/wall/vampwall/brick/low,
@@ -55330,7 +55330,7 @@
 /turf/open/floor/plating/vampgrass,
 /area/vtm/financialdistrict)
 "pce" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/coffeevendor{
+/obj/structure/retail/coffee_vendor{
 	pixel_x = -5
 	},
 /turf/open/floor/plating/vampplating/mono,
@@ -56895,7 +56895,7 @@
 /area/vtm/interior)
 "pNw" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/costumes,
+/obj/structure/retail/costume_store,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/shop)
 "pNA" = (
@@ -57369,7 +57369,7 @@
 	dir = 4;
 	pixel_y = 16
 	},
-/obj/machinery/mineral/equipment_vendor/fastfood/illegal,
+/obj/structure/retail/black_market,
 /turf/closed/wall/vampwall/city/low,
 /area/vtm/interior/laundromat)
 "qai" = (
@@ -62312,7 +62312,7 @@
 /turf/open/floor/plating/concrete,
 /area/vtm/anarch)
 "shk" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/sodavendor{
+/obj/structure/retail/drink_vendor{
 	density = 0;
 	pixel_y = 24
 	},
@@ -64936,7 +64936,7 @@
 /turf/open/floor/plating/parquetry/old,
 /area/vtm/dwelling/ghetto07)
 "tpT" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/sodavendor/blue,
+/obj/structure/retail/drink_vendor_blue,
 /turf/open/floor/plating/sidewalk,
 /area/vtm/unionsquare)
 "tqq" = (
@@ -67389,7 +67389,7 @@
 /turf/open/floor/plating/vampdirt,
 /area/vtm)
 "uxg" = (
-/obj/machinery/mineral/equipment_vendor/fastfood/america,
+/obj/structure/retail/gun_store,
 /obj/structure/table,
 /obj/structure/window/reinforced/indestructable{
 	dir = 1
@@ -67848,7 +67848,7 @@
 /area/vtm/pacificheights)
 "uJa" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/flowershop,
+/obj/structure/retail/flower_shop,
 /turf/open/floor/plating/concrete,
 /area/vtm/interior/shop)
 "uJe" = (
@@ -72913,7 +72913,7 @@
 /area/vtm/interior/millennium_tower/f2)
 "wRD" = (
 /obj/structure/table,
-/obj/machinery/mineral/equipment_vendor/fastfood/clothing,
+/obj/structure/retail/clothing_store,
 /obj/effect/decal/wallpaper/blue/low,
 /turf/closed/wall/vampwall/market/low,
 /area/vtm/financialdistrict)
