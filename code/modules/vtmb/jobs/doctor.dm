@@ -28,6 +28,17 @@
 	experience_addition = 15
 	allowed_bloodlines = list("Daughters of Cacophony", "Salubri", "Baali", "Brujah", "Tremere", "Ventrue", "Nosferatu", "Gangrel", "Toreador", "Malkavian", "Banu Haqim", "Giovanni", "Ministry", "Tzimisce", "Lasombra", "Caitiff", "Kiasyd")
 	known_contacts = list("Clinic Director")
+	alt_titles = list(
+		"Medical Student",
+		"Intern",
+		"Nurse",
+		"Resident",
+		"General Practitioner",
+		"Surgeon",
+		"Physician",
+		"Paramedic",
+		"EMT",
+	)
 
 /datum/outfit/job/vdoctor
 	name = "Doctor"

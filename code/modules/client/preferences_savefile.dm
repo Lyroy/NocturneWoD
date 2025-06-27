@@ -464,6 +464,16 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	READ_FILE(S["headshot_link"], headshot_link)
 
+	// TFN EDIT START: alt job titles
+	READ_FILE(S["alt_titles_preferences"], alt_titles_preferences)
+	alt_titles_preferences = SANITIZE_LIST(alt_titles_preferences)
+	if(SSjob)
+		for(var/datum/job/job in sortList(SSjob.occupations, /proc/cmp_job_display_asc))
+			if(alt_titles_preferences[job.title])
+				if(!(alt_titles_preferences[job.title] in job.alt_titles))
+					alt_titles_preferences.Remove(job.title)
+	// TFN EDIT END
+
 	//try to fix any outdated data if necessary
 	//preference updating will handle saving the updated data for us.
 	if(needs_update >= 0)
@@ -584,7 +594,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	backpack			= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
 	jumpsuit_style	= sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
-	clan_accessory = sanitize_inlist(clan_accessory, clan.accessories, null)
+	if(clan?.accessories)
+		clan_accessory = sanitize_inlist(clan_accessory, clan.accessories, null)
+	else
+		clan_accessory = null
 	playtime_reward_cloak = sanitize_integer(playtime_reward_cloak)
 	features["mcolor"]	= sanitize_hexcolor(features["mcolor"])
 	features["ethcolor"]	= copytext_char(features["ethcolor"], 1, 7)
@@ -705,7 +718,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["enemy_text"]			, enemy_text)
 	WRITE_FILE(S["lover_text"]			, lover_text)
 	WRITE_FILE(S["reason_of_death"]			, reason_of_death)
-	WRITE_FILE(S["clan"]			, clan.type)
+	WRITE_FILE(S["clan"]			, clan?.type)
 	WRITE_FILE(S["generation"]			, generation)
 	WRITE_FILE(S["generation_bonus"]			, generation_bonus)
 	WRITE_FILE(S["masquerade"]			, masquerade)
@@ -772,6 +785,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["joblessrole"]		, joblessrole)
 	//Write prefs
 	WRITE_FILE(S["job_preferences"] , job_preferences)
+	WRITE_FILE(S["alt_titles_preferences"], alt_titles_preferences)
 
 	//Quirks
 	WRITE_FILE(S["all_quirks"]			, all_quirks)

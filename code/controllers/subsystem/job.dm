@@ -545,7 +545,13 @@ SUBSYSTEM_DEF(job)
 	if(living_mob.mind)
 		living_mob.mind.assigned_role = rank
 
-	to_chat(M, "<b>You are the [rank].</b>")
+	// TFN EDIT START: alt job titles
+	var/display_rank = rank
+	if(M?.client?.prefs?.alt_titles_preferences[rank])
+		display_rank = M.client.prefs.alt_titles_preferences[rank]
+	// TFN EDIT START
+
+	to_chat(M, "<b>You are the [display_rank].</b>")
 	if(job)
 		var/new_mob = job.equip(living_mob, null, null, joined_late , null, M.client)//silicons override this proc to return a mob
 		if(ismob(new_mob))
@@ -563,17 +569,17 @@ SUBSYSTEM_DEF(job)
 			else
 				handle_auto_deadmin_roles(M.client, rank)
 
-		to_chat(M, "<b>As the [rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
+		to_chat(M, "<b>As the [display_rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
 		var/mob/living/carbon/human/human = living_mob
 		if((iskindred(human) && human.clan) || iscathayan(human) || isgarou(human))
 			if(job.v_duty && job.v_duty != "")
-				to_chat(M, "<span class='notice'><b>[job.v_duty]</b></span>")
+				to_chat(M, span_notice("<b>[job.v_duty]</b>"))
 			if(job.title != "Prince")
-				to_chat(M, "<span class='notice' style='color:red;'><b>The Camarilla rule the city. You should obey them, their laws and the Prince, at least in public.</b></span>")
+				to_chat(M, span_notice("<b>The Camarilla rule the city. You should obey them, their laws and the Prince, at least in public.</b>"))
 			if(job.title == "Chantry Archivist")
-				to_chat(M, "<span class='notice'><b>As a member of the Chantry, you are part of the Tremere Pyramid and are blood bonded to the Regent. Always be loyal.</b></span>")
+				to_chat(M, span_notice("<b>As a member of the Chantry, you are part of the Tremere Pyramid and are blood bonded to the Regent. Always be loyal.</b>"))
 		else if(job.duty && job.duty != "")
-			to_chat(M, "<span class='notice'><b>[job.duty]</b></span>")
+			to_chat(M, span_notice("<b>[job.v_duty]</b>"))
 //		job.radio_help_message(M)
 		if(job.req_admin_notify)
 			to_chat(M, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")
@@ -742,7 +748,8 @@ SUBSYSTEM_DEF(job)
 		if (HAS_TRAIT(M, TRAIT_MASQUERADE_VIOLATING_FACE))
 			destination = pick(GLOB.masquerade_latejoin)
 		// Garou are sent to their Tribe totems
-		if (isgarou(H))
+		if (isgarou(M))
+			var/mob/living/carbon/human/H = M
 			for(var/obj/structure/werewolf_totem/W in GLOB.totems)
 				if(W.tribe == H.auspice.tribe)
 					destination = W
