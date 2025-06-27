@@ -137,6 +137,8 @@
 #define ATMOS_GROUP_PLANE 21
 #define ATMOS_GROUP_LAYER 21
 
+#define TYPING_LAYER 24
+
 //HUD layer defines
 
 #define FULLSCREEN_PLANE 31
