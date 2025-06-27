@@ -117,6 +117,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/preferred_ai_core_display = "Blue"
 	var/prefered_security_department = SEC_DEPT_RANDOM
 
+	var/list/alt_titles_preferences = list() // TFN EDIT: alt job titles
+
 	//Quirk list
 	var/list/all_quirks = list()
 
@@ -337,7 +339,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	//we couldn't load character data so just randomize the character appearance + name
 	random_species()
 	random_character()		//let's create a random character then - rather than a fat, bald and naked man.
-	if(!IsGuestKey(C.key)) reset_shit()
 	key_bindings = deepCopyList(GLOB.hotkey_keybinding_list_by_key) // give them default keybinds and update their movement keys
 	C?.set_macros()
 //	pref_species = new /datum/species/kindred()
@@ -411,7 +412,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			if(CONFIG_GET(flag/roundstart_traits))
 				dat += "<center><h2>[make_font_cool("QUIRK SETUP")]</h2>"
 				dat += "<a href='byond://?_src_=prefs;preference=trait;task=menu'>Configure Quirks</a><br></center>"
-				dat += "<center><b>Current Quirks:</b> [all_quirks.len ? all_quirks.Join(", ") : "None"]</center>"
+				dat += "<center><b>Current Quirks:</b> [length(all_quirks) ? all_quirks.Join(", ") : "None"]</center>"
 			dat += "<h2>[make_font_cool("IDENTITY")]</h2>"
 			dat += "<table width='100%'><tr><td width='75%' valign='top'>"
 			if(is_banned_from(user.ckey, "Appearance"))
@@ -1381,9 +1382,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		if(!alloww && !bypass)
 			return "<font color=#290204>[rank]</font></td><td><font color=#290204> \[[clan.name] RESTRICTED\]</font></td></tr>"
 	if((job_preferences[SSjob.overflow_role] == JP_LOW) && (rank != SSjob.overflow_role) && !is_banned_from(user.ckey, SSjob.overflow_role))
-		return "<font color=orange>[rank]</font></td>"
+		return "<font color=orange>[rank]</font></td><td></td></tr>"
 
-	return "<font color=black>[rank]</font></td>"
+	return ""
 
 /datum/preferences/proc/SetChoices(mob/user, limit = 17, list/splitJobs = list("Chief Engineer"), widthPerColumn = 295, height = 620)
 	if(!SSjob)
@@ -1428,10 +1429,29 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			HTML += "<tr bgcolor='[job.selection_color]'><td width='60%' align='right'>"
 			var/rank = job.title
+			// TFN EDIT START: alt job titles
+			var/displayed_rank = rank
+			if(length(job.alt_titles) && (rank in alt_titles_preferences))
+				displayed_rank = alt_titles_preferences[rank]
+			// TFN EDIT END
 			lastJob = job
 
 			var/rank_color = return_job_color(user, job, rank)
 			HTML += rank_color
+
+			if(rank_color != "")
+				continue
+
+			// TFN EDIT START: alt job titles
+			var/rank_title_line = "[displayed_rank]"
+			if(length(job.alt_titles) && (rank in GLOB.leader_positions))//Bold head jobs
+				rank_title_line = "<b><a href='?_src_=prefs;preference=job;task=alt_title;job_title=[job.title]'>[rank_title_line]</a></b>"
+			else if(length(job.alt_titles))
+				rank_title_line = "<a href='?_src_=prefs;preference=job;task=alt_title;job_title=[job.title]'>[rank_title_line]</a>"
+			else
+				rank_title_line = "<span class='dark'>[rank]</span>"
+			HTML += rank_title_line
+			// TFN EDIT END
 
 			HTML += "</td><td width='40%'>"
 
@@ -1685,6 +1705,23 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(BERANDOMJOB)
 						joblessrole = RETURNTOLOBBY
 				SetChoices(user)
+			// TFN EDIT START: alt job titles
+			if("alt_title")
+				var/job_title = href_list["job_title"]
+				var/titles_list = list(job_title)
+				var/datum/job/J = SSjob.GetJob(job_title)
+				for(var/alternative_titles in J.alt_titles)
+					titles_list += alternative_titles
+				var/chosen_title
+				chosen_title = tgui_input_list(user, "Choose your job's title:", "Job Preference", sortList(titles_list))
+				if(chosen_title)
+					if(chosen_title == job_title)
+						if(alt_titles_preferences[job_title])
+							alt_titles_preferences.Remove(job_title)
+					else
+						alt_titles_preferences[job_title] = chosen_title
+				SetChoices(user)
+			// TFN EDIT END
 			if("setJobLevel")
 				UpdateJobPreference(user, href_list["text"], text2num(href_list["level"]))
 			else

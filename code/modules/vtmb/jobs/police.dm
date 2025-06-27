@@ -24,6 +24,10 @@
 	minimal_masquerade = 0
 	my_contact_is_important = FALSE
 	known_contacts = list("Police Chief")
+	alt_titles = list(
+		"Police Cadet",
+		"Senior Police Officer",
+	)
 
 /datum/outfit/job/police_officer
 	name = "Police Officer"
