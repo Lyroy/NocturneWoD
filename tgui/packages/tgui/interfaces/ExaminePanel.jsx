@@ -43,6 +43,7 @@ export const ExaminePanel = (props) => {
     obscured,
     flavor_text,
     ooc_notes,
+    headshot,
   } = data;
   return (
     <Window
@@ -52,6 +53,15 @@ export const ExaminePanel = (props) => {
     >
       <Window.Content>
         <Stack fill>
+          <Stack.Item width="30%">
+            <Section height="310px" title="Headshot">
+              <img
+                src={resolveAsset(headshot)}
+                height="250px"
+                width="250px"
+              />
+            </Section>
+          </Stack.Item>
           <Stack.Item grow>
             <Tabs fluid>
               <Tabs.Tab
