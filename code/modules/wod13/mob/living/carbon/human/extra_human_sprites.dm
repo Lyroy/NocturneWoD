@@ -87,13 +87,13 @@
 			set_body_sprite("rotten2")
 		if (3)
 			set_body_sprite("rotten3")
-			skin_tone = "albino"
+			skin_tone = ALBINO
 			hairstyle = "Bald"
 			facial_hairstyle = "Shaved"
 			ADD_TRAIT(src, TRAIT_MASQUERADE_VIOLATING_FACE, MAGIC_TRAIT)
 		if (4)
 			set_body_sprite("rotten4")
-			skin_tone = "albino"
+			skin_tone = ALBINO
 			hairstyle = "Bald"
 			facial_hairstyle = "Shaved"
 			ADD_TRAIT(src, TRAIT_MASQUERADE_VIOLATING_FACE, MAGIC_TRAIT)

@@ -64,7 +64,7 @@
 	// Apply alternative sprites
 	if (alt_sprite)
 		if (!alt_sprite_greyscale)
-			vampire.skin_tone = "albino"
+			vampire.skin_tone = ALBINO
 		vampire.set_body_sprite(alt_sprite)
 
 	// Remove hair if the Clan demands it

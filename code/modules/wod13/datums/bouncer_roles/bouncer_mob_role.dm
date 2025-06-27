@@ -1,22 +1,7 @@
 /datum/socialrole/bouncer
 	is_criminal = TRUE
 
-	//Appearence
-	s_tones = list(
-		"albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2"
-	)
-
+	// appearance
 	min_age = 18
 	max_age = 85
 	male_names = null
