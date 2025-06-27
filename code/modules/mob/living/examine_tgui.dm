@@ -52,6 +52,7 @@
 	var/obscured
 	var/name = ""
 	var/ooc_notes = ""
+	var/headshot = ""
 
 	if(ishuman(holder))
 		var/mob/living/carbon/human/holder_human = holder
@@ -63,6 +64,7 @@
 			flavor_text = "Obscured"
 			name = "Unknown"
 		else
+			headshot = holder_human.headshot_link
 			flavor_text = holder_human.flavor_text
 			name = holder.name
 
@@ -70,4 +72,5 @@
 	data["character_name"] = name
 	data["flavor_text"] = flavor_text
 	data["ooc_notes"] = ooc_notes
+	data["headshot"] = headshot
 	return data

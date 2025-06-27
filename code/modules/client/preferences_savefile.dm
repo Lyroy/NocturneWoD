@@ -456,6 +456,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Quirks
 	READ_FILE(S["all_quirks"], all_quirks)
 
+	READ_FILE(S["headshot_link"], headshot_link)
+
 	//try to fix any outdated data if necessary
 	//preference updating will handle saving the updated data for us.
 	if(needs_update >= 0)
@@ -601,8 +603,13 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(job_preferences[j] != JP_LOW && job_preferences[j] != JP_MEDIUM && job_preferences[j] != JP_HIGH)
 			job_preferences -= j
 
+	// validate quirks
 	all_quirks = SANITIZE_LIST(all_quirks)
 	validate_quirks()
+
+	// validate headshot link
+	if(!valid_headshot_link(null, headshot_link, TRUE))
+		headshot_link = null
 
 	//Convert jank old Discipline system to new Discipline system
 	if ((istype(pref_species, /datum/species/kindred) || istype(pref_species, /datum/species/ghoul)) && !discipline_types.len)
@@ -763,6 +770,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//Quirks
 	WRITE_FILE(S["all_quirks"]			, all_quirks)
 
+	WRITE_FILE(S["headshot_link"], headshot_link)
+
 	return TRUE
 
 
@@ -773,6 +782,39 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		if(!length(base_bindings[key]))
 			base_bindings -= key
 	return base_bindings
+
+/proc/valid_headshot_link(mob/user, value, silent = FALSE)
+	var/static/link_regex = regex("i.gyazo.com|a.l3n.co|b.l3n.co|c.l3n.co|images2.imgbox.com|thumbs2.imgbox.com|files.catbox.moe") //gyazo, discord, lensdump, imgbox, catbox
+	var/static/list/valid_extensions = list("jpg", "png", "jpeg") // Regex works fine, if you know how it works
+
+	if(!length(value))
+		return FALSE
+
+	var/find_index = findtext(value, "https://")
+	if(find_index != 1)
+		if(!silent)
+			to_chat(user, span_warning("Your link must be https!"))
+		return FALSE
+
+	if(!findtext(value, "."))
+		if(!silent)
+			to_chat(user, span_warning("Invalid link!"))
+		return FALSE
+	var/list/value_split = splittext(value, ".")
+
+	// extension will always be the last entry
+	var/extension = value_split[length(value_split)]
+	if(!(extension in valid_extensions))
+		if(!silent)
+			to_chat(usr, span_warning("The image must be one of the following extensions: '[english_list(valid_extensions)]'"))
+		return FALSE
+
+	find_index = findtext(value, link_regex)
+	if(find_index != 9)
+		if(!silent)
+			to_chat(usr, span_warning("The image must be hosted on one of the following sites: 'Gyazo, Lensdump, Imgbox, Catbox'"))
+		return FALSE
+	return TRUE
 
 #undef SAVEFILE_VERSION_MAX
 #undef SAVEFILE_VERSION_MIN

@@ -132,6 +132,7 @@
 	yin_chi = 2
 	max_yin_chi = 2
 
+	var/headshot_link = null
 	var/ooc_notes
 
 	///The Examine Panel TGUI.

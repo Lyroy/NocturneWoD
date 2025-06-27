@@ -198,6 +198,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/lover = FALSE
 
 	var/flavor_text
+	var/headshot_link
 	var/ooc_notes
 
 	var/friend_text
@@ -282,6 +283,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	body_model = rand(SLIM_BODY_MODEL_NUMBER, FAT_BODY_MODEL_NUMBER)
 	true_experience = 50
 	real_name = random_unique_name(gender)
+	headshot_link = null
 	save_character()
 
 /proc/reset_shit(mob/M)
@@ -727,6 +729,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			else
 				dat += "<BR><b>Flavor Text:</b> [copytext_char(flavor_text, 1, 110)]... <a href='byond://?_src_=prefs;preference=flavor_text;task=input'>Change</a>"
 				dat += "<a href='byond://?_src_=prefs;preference=view_flavortext;task=input'>Show More</a><BR>"
+
+			dat += "<br><b>Headshot(1:1):</b> <a href='byond://?_src_=prefs;preference=headshot;task=input'>Change</a>"
+			if(headshot_link != null)
+				dat += "<a href='byond://?_src_=prefs;preference=view_headshot;task=input'>View</a>"
 
 			dat += "<BR><b>OOC Notes:</b> [ooc_notes] <a href='byond://?_src_=prefs;preference=ooc_notes;task=input'>Change</a><BR>"
 
@@ -2408,6 +2414,32 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					popup.open(FALSE)
 					return
 
+				if("headshot")
+					to_chat(user, span_notice("Please use a relatively SFW image of the head and shoulder area to maintain immersion level. Lastly, ["<b>do not use a real life photo or use any image that is less than serious.</b>"]"))
+					to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
+					to_chat(user, span_notice("Resolution: 250x250 pixels."))
+					var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", headshot_link, encode = FALSE)
+					if(isnull(new_headshot_link))
+						return
+					if(!length(new_headshot_link))
+						headshot_link = null
+						ShowChoices(user)
+						return
+					if(!valid_headshot_link(user, new_headshot_link))
+						headshot_link = null
+						ShowChoices(user)
+						return
+					headshot_link = new_headshot_link
+					to_chat(user, span_notice("Successfully updated headshot picture!"))
+					log_game("[user] has set their Headshot image to '[headshot_link]'.")
+
+				if("view_headshot")
+					var/list/dat = list("<table width='100%' height='100%'><td align='center' valign='middle'><img src='[headshot_link]' width='250px' height='250px'></td></table>")
+					var/datum/browser/popup = new(user, "[real_name]'s Headshot", "<div align='center'>Headshot</div>", 310, 330)
+					popup.set_content(dat.Join())
+					popup.open(FALSE)
+					return
+
 				if("change_appearance")
 					if(!slotlocked)
 						return
@@ -3088,6 +3120,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	character.dna.real_name = character.real_name
 
 	character.diablerist = diablerist
+	character.headshot_link = headshot_link
 	character.info_known = info_known
 
 	character.physique = physique
