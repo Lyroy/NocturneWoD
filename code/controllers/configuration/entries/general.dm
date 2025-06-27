@@ -82,6 +82,10 @@
 /datum/config_entry/flag/log_adminchat	// log admin chat messages
 	protection = CONFIG_ENTRY_LOCKED
 
+/datum/config_entry/flag/log_subtle  // log subtle emotes
+
+/datum/config_entry/flag/log_subtler  // log subtler emotes
+
 /datum/config_entry/flag/log_pda	// log pda messages
 
 /datum/config_entry/flag/log_uplink	// log uplink/spellbook/codex ciatrix purchases and refunds

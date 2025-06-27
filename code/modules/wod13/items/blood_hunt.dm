@@ -10,10 +10,10 @@
 
 /obj/item/blood_hunt/attack_self(mob/user)
 	. = ..()
-	var/chosen_name = tgui_input_text(user, "Write the hunted or forgiven character name:", "Blood Hunt")  as text|null
+	var/chosen_name = tgui_input_text(user, "Write the hunted or forgiven character name:", "Blood Hunt")
 	if(chosen_name)
 		chosen_name = sanitize_name(chosen_name)
-		var/reason = tgui_input_text(user, "Write the reason of the Blood Hunt:", "Blood Hunt Reason")  as text|null
+		var/reason = tgui_input_text(user, "Write the reason of the Blood Hunt:", "Blood Hunt Reason")
 		if(reason)
 			reason = sanitize(reason)
 		else
