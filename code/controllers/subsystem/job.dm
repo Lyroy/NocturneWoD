@@ -748,7 +748,8 @@ SUBSYSTEM_DEF(job)
 		if (HAS_TRAIT(M, TRAIT_MASQUERADE_VIOLATING_FACE))
 			destination = pick(GLOB.masquerade_latejoin)
 		// Garou are sent to their Tribe totems
-		if (isgarou(H))
+		if (isgarou(M))
+			var/mob/living/carbon/human/H = M
 			for(var/obj/structure/werewolf_totem/W in GLOB.totems)
 				if(W.tribe == H.auspice.tribe)
 					destination = W
