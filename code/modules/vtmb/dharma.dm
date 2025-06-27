@@ -75,7 +75,7 @@
 	else
 		animated = "Yin"
 		mob.yin_chi = max(0, mob.yin_chi-1)
-		mob.skin_tone = get_vamp_skin_color(mob.skin_tone)
+		// mob.skin_tone = get_vamp_skin_color(mob.skin_tone)
 		mob.dna?.species.brutemod = initial(mob.dna?.species.brutemod)
 		mob.dna?.species.burnmod = initial(mob.dna?.species.burnmod)
 

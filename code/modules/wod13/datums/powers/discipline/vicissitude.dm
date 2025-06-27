@@ -302,7 +302,7 @@
 		if ("Skin armor")
 			user.set_body_sprite("tziarmor")
 			original_skin_tone = user.skin_tone
-			user.skin_tone = "albino"
+			user.skin_tone = ALBINO
 			original_hairstyle = user.hairstyle
 			user.hairstyle = "Bald"
 			original_body_mod = user.base_body_mod
@@ -322,7 +322,7 @@
 			user.change_number_of_hands(limbs + 2)
 			user.remove_overlay(PROTEAN_LAYER)
 			upgrade_overlay = mutable_appearance('code/modules/wod13/icons.dmi', "2hands", -PROTEAN_LAYER)
-			upgrade_overlay.color = "#[skintone2hex(user.skin_tone)]"
+			upgrade_overlay.color = "#[H.skin_tone]"
 			user.overlays_standing[PROTEAN_LAYER] = upgrade_overlay
 			user.apply_overlay(PROTEAN_LAYER)
 		if ("Leather wings")

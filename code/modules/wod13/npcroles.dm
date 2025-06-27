@@ -1,18 +1,5 @@
 
 /datum/socialrole/bandit
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2")
-
 	min_age = 18
 	max_age = 45
 	preferedgender = MALE
@@ -137,20 +124,6 @@
 	)
 
 /datum/socialrole/usualmale
-	s_tones = list(
-		"albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2")
-
 	min_age = 18
 	max_age = 85
 	preferedgender = MALE
@@ -280,19 +253,6 @@
 	)
 
 /datum/socialrole/usualfemale
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2")
-
 	min_age = 18
 	max_age = 85
 	preferedgender = FEMALE
@@ -417,19 +377,6 @@
 	)
 
 /datum/socialrole/poormale
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2")
-
 	min_age = 45
 	max_age = 85
 	preferedgender = MALE
@@ -521,19 +468,6 @@
 											"Dick!")
 
 /datum/socialrole/poorfemale
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2")
-
 	min_age = 45
 	max_age = 85
 	preferedgender = FEMALE
@@ -632,10 +566,6 @@
 											"Dick!")
 
 /datum/socialrole/richmale
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2")
-
 	min_age = 18
 	max_age = 85
 	preferedgender = MALE
@@ -705,10 +635,6 @@
 											"Someone, call the cops!")
 
 /datum/socialrole/richfemale
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2")
-
 	min_age = 18
 	max_age = 85
 	preferedgender = FEMALE
@@ -934,19 +860,6 @@
 				beastmaster.bloodpool = min(beastmaster.maxbloodpool, beastmaster.bloodpool+1)
 
 /datum/socialrole/shop
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2")
-
 	min_age = 18
 	max_age = 45
 	preferedgender = MALE
@@ -1091,11 +1004,6 @@
 	AssignSocialRole(/datum/socialrole/shop/garden)
 
 /datum/socialrole/police
-	s_tones = list("albino",
-								"caucasian1",
-								"caucasian2",
-								"caucasian3")
-
 	min_age = 18
 	max_age = 45
 	male_names = null
@@ -1245,13 +1153,6 @@
 
 
 /datum/socialrole/guard
-	s_tones = list(
-		"albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3"
-	)
-
 	min_age = 18
 	max_age = 85
 	preferedgender = MALE
@@ -1375,19 +1276,6 @@
 	staying = TRUE
 
 /datum/socialrole/stripfemale
-	s_tones = list("albino",
-		"caucasian1",
-		"caucasian2",
-		"caucasian3",
-		"latino",
-		"mediterranean",
-		"asian1",
-		"asian2",
-		"arab",
-		"indian",
-		"african1",
-		"african2")
-
 	min_age = 18
 	max_age = 30
 	preferedgender = FEMALE

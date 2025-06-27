@@ -177,7 +177,7 @@ GLOBAL_LIST_EMPTY(las_mirrors)
 
 	var/mob/living/carbon/human/H = user
 
-	var/choice = input(user, "Something to change?", "Magical Grooming") as null|anything in list("name", "race", "gender", "hair", "eyes")
+	var/choice = input(user, "Something to change?", "Magical Grooming") as null|anything in list("name", "gender", "hair", "eyes")
 
 	if(!user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 		return
@@ -196,6 +196,7 @@ GLOBAL_LIST_EMPTY(las_mirrors)
 			if(H.mind)
 				H.mind.name = newname
 
+		/*
 		if("race")
 			var/newrace
 			var/racechoice = input(H, "What are we again?", "Race change") as null|anything in choosable_races
@@ -233,6 +234,7 @@ GLOBAL_LIST_EMPTY(las_mirrors)
 			H.update_hair()
 			H.update_body_parts()
 			H.update_mutations_overlay() // no hulk lizard
+		*/
 
 		if("gender")
 			if(!(H.gender in list("male", "female"))) //blame the patriarchy

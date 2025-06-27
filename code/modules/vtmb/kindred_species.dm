@@ -425,7 +425,7 @@
 						BLOODBONDED.set_clan(null)
 						if(H.generation < 13)
 							BLOODBONDED.generation = 13
-							BLOODBONDED.skin_tone = get_vamp_skin_color(BLOODBONDED.skin_tone)
+							// BLOODBONDED.skin_tone = get_vamp_skin_color(BLOODBONDED.skin_tone)
 							BLOODBONDED.update_body()
 							if (H.clan.whitelisted)
 								if (!SSwhitelists.is_whitelisted(BLOODBONDED.ckey, H.clan.name))
@@ -446,7 +446,7 @@
 								BLOODBONDED.set_clan(H.clan)
 
 							if(BLOODBONDED.clan.alt_sprite)
-								BLOODBONDED.skin_tone = "albino"
+								BLOODBONDED.skin_tone = ALBINO
 								BLOODBONDED.update_body()
 
 							//Gives the Childe the Sire's first three Disciplines
@@ -472,7 +472,7 @@
 
 								BLOODBONDED_prefs_v.clan = BLOODBONDED.clan
 								BLOODBONDED_prefs_v.generation = 13
-								BLOODBONDED_prefs_v.skin_tone = get_vamp_skin_color(BLOODBONDED.skin_tone)
+								// BLOODBONDED_prefs_v.skin_tone = get_vamp_skin_color(BLOODBONDED.skin_tone)
 								BLOODBONDED_prefs_v.enlightenment = H.clan.enlightenment
 
 

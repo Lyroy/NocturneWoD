@@ -571,7 +571,7 @@
 	SEND_SOUND(usr, sound('code/modules/wod13/sounds/chi_use.ogg', 0, 0, 75))
 	kueijin.visible_message("<span class='warning'>Some of [kueijin]'s visible injuries disappear!</span>", "<span class='warning'>Some of your injuries disappear!</span>")
 	kueijin.mind.dharma?.animated = "Yin"
-	kueijin.skin_tone = get_vamp_skin_color(kueijin.skin_tone)
+	// kueijin.skin_tone = get_vamp_skin_color(kueijin.skin_tone)
 	kueijin.dna?.species.brutemod = initial(kueijin.dna?.species.brutemod)
 	kueijin.dna?.species.burnmod = initial(kueijin.dna?.species.burnmod)
 	kueijin.update_body()
