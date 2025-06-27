@@ -336,7 +336,7 @@
 			.= TRUE
 		if("contacts")
 			var/list/options = list("Add","Remove","Choose","Block", "Unblock", "My Number", "Publish Number", "Published Numbers", "Call History", "Delete Call History")
-			var/option =  input(usr, "Select an option", "Contacts Option") as null|anything in options
+			var/option =  tgui_input_list(usr, "Select an option", "Contacts Option", options)
 			var/result
 			switch(option)
 				if("Publish Number")
@@ -345,7 +345,7 @@
 					if (!islist(GLOB.published_number_names))
 						GLOB.published_number_names = list()
 
-					var/name = input(usr, "Input name", "Publish Number") as null|text
+					var/name = tgui_input_text(usr, "Input name", "Publish Number")
 					if(name && src.number)
 						name = trim(copytext_char(sanitize(name), 1, MAX_MESSAGE_LEN))
 						if(src.number in GLOB.published_numbers)
@@ -387,14 +387,14 @@
 						var/name = GLOB.published_number_names[i]
 						to_chat(usr, "- [name]: [split_number]")
 				if("Add")
-					var/new_contact = input(usr, "Input phone number", "Add Contact")  as null|text
+					var/new_contact = tgui_input_text(usr, "Input phone number", "Add Contact", null, 15)
 					if(new_contact)
 						new_contact = trim(copytext_char(sanitize(new_contact), 1, MAX_MESSAGE_LEN))
 						var/datum/phonecontact/NEWC = new()
 						new_contact = replacetext(new_contact, " ", "") //Removes spaces
 						NEWC.number = "[new_contact]"
 						contacts += NEWC
-						var/new_contact_name = input(usr, "Input name", "Add Contact")  as null|text
+						var/new_contact_name = tgui_input_text(usr, "Input name", "Add Contact")
 						new_contact_name = trim(copytext_char(sanitize(new_contact_name), 1, MAX_MESSAGE_LEN))
 						if(new_contact_name)
 							NEWC.name = "[new_contact_name]"
@@ -407,18 +407,18 @@
 						if(CNT_REMOVE)
 							removing += CNT_REMOVE.name
 					if(length(removing) >= 1)
-						result = input(usr, "Select a contact", "Contact Selection") as null|anything in removing
+						result = tgui_input_list(usr, "Select a contact", "Contact Selection", sortNames(removing))
 						if(result)
 							for(var/datum/phonecontact/CNT_REMOVE in contacts)
 								if(CNT_REMOVE.name == result)
 									contacts -= CNT_REMOVE
 				if("Choose")
-					var/list/shit = list()
+					var/list/personal_contacts = list()
 					for(var/datum/phonecontact/CNTCT in contacts)
 						if(CNTCT)
-							shit += CNTCT.name
-					if(length(shit) >= 1)
-						result = input(usr, "Select a contact", "Contact Selection") as null|anything in shit
+							personal_contacts += CNTCT.name
+					if(length(personal_contacts) >= 1)
+						result = tgui_input_list(usr, "Select a contact", "Contact Selection", sortNames(personal_contacts))
 						if(result)
 							for(var/datum/phonecontact/CNTCT in contacts)
 								if(CNTCT.name == result)
@@ -428,13 +428,13 @@
 											to_chat(usr, "<span class='notice'>Sorry, [CNTCT.name] does not have a number.</span>")
 									choosed_number = CNTCT.number
 				if("Block")
-					var/block_number = input(usr, "Input phone number", "Block Number")  as text|null
+					var/block_number = tgui_input_text(usr, "Input phone number", "Block Number")
 					if(block_number)
 						var/datum/phonecontact/BlockC = new()
 						block_number = replacetext(block_number, " ", "") //Removes spaces
 						BlockC.number = "[block_number]"
 						blocked_contacts += BlockC
-						var/block_contact_name = input(usr, "Input name", "Add name of the Blocked number")  as text|null
+						var/block_contact_name = tgui_input_text(usr, "Input name", "Add name of the Blocked number")
 						if(block_contact_name)
 							BlockC.name = "[block_contact_name]"
 						else
@@ -446,7 +446,7 @@
 						if(CNT_UNBLOCK)
 							unblocking += CNT_UNBLOCK.name
 					if(length(unblocking) >= 1)
-						result = input(usr, "Select a blocked number", "Blocked Selection") as null|anything in unblocking
+						result = tgui_input_list(usr, "Select a blocked number", "Blocked Selection", sortNames(unblocking))
 						if(result)
 							for(var/datum/phonecontact/CNT_UNBLOCK in blocked_contacts)
 								if(CNT_UNBLOCK.name == result)
@@ -464,7 +464,7 @@
 				if("Delete Call History")
 					if(phone_history_list.len > 0)
 						to_chat(usr, "Your total amount of history saved is: [phone_history_list.len]")
-						var/number_of_deletions = text2num(input(usr, "Input the amount that you want to delete", "Deletion Amount")  as null|text)
+						var/number_of_deletions = tgui_input_number(usr, "Input the amount that you want to delete", "Deletion Amount", max_value = length(phone_history_list))
 						//Delete the call history depending on the amount inputed by the User
 						if(number_of_deletions > phone_history_list.len)
 						// Verify if the requested amount in bigger than the history list.
@@ -486,7 +486,7 @@
 		if("settings")
 			//Wrench Icon, more focused on toggles or later more complex options.
 			var/list/options = list("Notifications and Sounds Toggle", "Published Numbers as Contacts Toggle")
-			var/option =  input(usr, "Select a setting", "Settings Selection") as null|anything in options
+			var/option =  tgui_input_list(usr, "Select a setting", "Settings Selection", options)
 			switch(option)
 				if("Notifications and Sounds Toggle")
 					if(!silence)
@@ -586,128 +586,6 @@
 			playsound(src, 'code/modules/wod13/sounds/phone.ogg', 10, FALSE)
 			playsound(online, online.call_sound, 25, FALSE)
 		addtimer(CALLBACK(src, PROC_REF(Recall), online, usar), 20)
-//	usar << browse(null, "window=phone")
-//	OpenMenu(usar)
-/*
-/obj/item/vamp/phone/Topic(href, href_list)
-	..()
-	var/mob/living/U = usr
-	if(usr.canUseTopic(src, FALSE, FALSE, NO_TK) && !href_list["close"] && !closed)
-		switch(href_list["choice"])
-			if("hang")
-				last_call = 0
-				if(talking)
-					talking = FALSE
-					if(online)
-						online.talking = FALSE
-				if(online)
-					playsound(online, 'code/modules/wod13/sounds/phonestop.ogg', 25, FALSE)
-					online.online = null
-					online = null
-			if("accept")
-				if(online)
-					talking = TRUE
-					online.online = src
-					online.talking = TRUE
-					for(var/mob/living/L in oviewers(online))
-						L << browse(null, "window=phone")
-						online.OpenMenu(L)
-			if("decline")
-				talking = FALSE
-				if(online)
-					playsound(online, 'code/modules/wod13/sounds/phonestop.ogg', 25, FALSE)
-					online.online = null
-					online.talking = FALSE
-					online = null
-			if("call")
-				for(var/obj/item/vamp/phone/PHN in GLOB.phones_list)
-					if(PHN.number == choosed_number)
-						if(!PHN.online && !PHN.talking)
-							last_call = world.time
-							online = PHN
-							PHN.online = src
-							Recall(online, usr)
-						else
-							to_chat(usr, "<span class='notice'>Abonent is busy.</span>")
-				if(online)
-					for(var/mob/living/L in oviewers(online))
-						L << browse(null, "window=phone")
-						online.OpenMenu(L)
-				else
-					if(choosed_number == "#111")
-						call_sound = 'code/modules/wod13/sounds/call.ogg'
-						to_chat(usr, "<span class='notice'>Settings are now reset to default.</span>")
-					else if(choosed_number == "#228")
-						call_sound = 'code/modules/wod13/sounds/nokia.ogg'
-						to_chat(usr, "<span class='notice'>Code activated.</span>")
-					else if(choosed_number == "#666")
-						call_sound = 'sound/voice/human/malescream_6.ogg'
-						to_chat(usr, "<span class='notice'>Code activated.</span>")
-					else if(choosed_number == "#34")
-						usr << link("https://rule34.xxx/index.php?page=post&s=list&tags=werewolf")
-						to_chat(usr, "<span class='notice'>Code activated.</span>")
-					else
-						to_chat(usr, "<span class='notice'>Invalid number.</span>")
-			if("contacts")
-				var/list/shit = list()
-				for(var/datum/phonecontact/CNTCT in contacts)
-					if(CNTCT)
-						shit += CNTCT.name
-				if(length(shit) >= 1)
-					var/result = input(usr, "Select a contact", "Contact Selection") as null|anything in shit
-					if(result)
-						for(var/datum/phonecontact/CNTCT in contacts)
-							if(CNTCT.name == result)
-								if(CNTCT.number == "")
-									CNTCT.check_global_contacts()
-									if(CNTCT.number == "")
-										to_chat(usr, "<span class='notice'>Sorry, [CNTCT.name] still got no actual number.</span>")
-								choosed_number = CNTCT.number
-			if("add")
-				var/new_contact = input(usr, "Input phone number", "Add Contact")  as text|null
-				if(new_contact)
-					var/datum/phonecontact/NEWC = new()
-					NEWC.number = "[new_contact]"
-					contacts += NEWC
-					var/new_contact_name = input(usr, "Input name", "Add Contact")  as text|null
-					if(new_contact_name)
-						NEWC.name = "[new_contact_name]"
-					else
-						var/numbrr = length(contacts)+1
-						NEWC.name = "Contact [numbrr]"
-			if("1")
-				choosed_number += "1"
-			if("2")
-				choosed_number += "2"
-			if("3")
-				choosed_number += "3"
-			if("4")
-				choosed_number += "4"
-			if("5")
-				choosed_number += "5"
-			if("6")
-				choosed_number += "6"
-			if("7")
-				choosed_number += "7"
-			if("8")
-				choosed_number += "8"
-			if("9")
-				choosed_number += "9"
-			if("0")
-				choosed_number += "0"
-			if("space")
-				choosed_number += " "
-			if("cage")
-				choosed_number += "#"
-			if("reset")
-				choosed_number = ""
-		U << browse(null, "window=phone")
-		OpenMenu(usr)
-		playsound(loc, 'sound/machines/terminal_select.ogg', 15, TRUE)
-	else
-		U << browse(null, "window=phone")
-*/
-
 
 /obj/item/vamp/phone/proc/handle_hearing(datum/source, list/hearing_args)
 	var/message = hearing_args[HEARING_RAW_MESSAGE]
@@ -1018,5 +896,3 @@
 	..()
 	var/datum/phonecontact/tremere/REGENT = new()
 	contacts += REGENT
-
-
