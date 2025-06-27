@@ -3601,6 +3601,7 @@
 #include "code\modules\wod13\subsystems\ssBouncerBarrier.dm"
 #include "code\modules\wod13\subsystems\ssWeed.dm"
 #include "code\modules\wod13\verbs\dice.dm"
+#include "code\modules\wod13_nocturne\subtle.dm"
 #include "code\modules\zombie\items.dm"
 #include "code\modules\zombie\organs.dm"
 #include "interface\interface.dm"
