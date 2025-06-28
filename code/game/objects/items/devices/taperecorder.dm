@@ -12,7 +12,10 @@
 	slot_flags = ITEM_SLOT_BELT
 	custom_materials = list(/datum/material/iron=60, /datum/material/glass=30)
 	force = 2
-	throwforce = 0
+	throwforce = 2
+	speech_span = SPAN_TAPE_RECORDER
+	drop_sound = 'sound/items/handling/taperecorder_drop.ogg'
+	pickup_sound = 'sound/items/handling/taperecorder_pickup.ogg'
 	var/recording = FALSE
 	var/playing = FALSE
 	var/playsleepseconds = 0
@@ -64,7 +67,7 @@
 		if(!user.transferItemToLoc(I,src))
 			return
 		mytape = I
-		to_chat(user, "<span class='notice'>You insert [I] into [src].</span>")
+		to_chat(user, span_notice("You insert [I] into [src]."))
 		playsound(src, 'sound/items/taperecorder/taperecorder_close.ogg', 50, FALSE)
 		update_icon()
 
@@ -72,7 +75,7 @@
 /obj/item/taperecorder/proc/eject(mob/user)
 	if(mytape)
 		playsound(src, 'sound/items/taperecorder/taperecorder_open.ogg', 50, FALSE)
-		to_chat(user, "<span class='notice'>You remove [mytape] from [src].</span>")
+		to_chat(user, span_notice("You remove [mytape] from [src]."))
 		stop()
 		user.put_in_hands(mytape)
 		mytape = null
@@ -83,7 +86,7 @@
 	..()
 
 //ATTACK HAND IGNORING PARENT RETURN VALUE
-/obj/item/taperecorder/attack_hand(mob/user)
+/obj/item/taperecorder/attack_hand(mob/user, list/modifiers)
 	if(loc != user || !mytape || !user.is_holding(src))
 		return ..()
 	eject(user)
@@ -137,6 +140,8 @@
 	if(playing)
 		return
 
+	playsound(src, 'sound/items/taperecorder/taperecorder_play.ogg', 50, FALSE)
+
 	if(mytape.used_capacity < mytape.max_capacity)
 		to_chat(usr, "<span class='notice'>Recording started.</span>")
 		playsound(src, 'sound/items/taperecorder/taperecorder_play.ogg', 50, FALSE)
@@ -154,6 +159,7 @@
 		update_icon()
 	else
 		to_chat(usr, "<span class='notice'>The tape is full.</span>")
+		playsound(src, 'sound/items/taperecorder/taperecorder_stop.ogg', 50, FALSE)
 
 
 /obj/item/taperecorder/verb/stop()
@@ -191,9 +197,9 @@
 	if(playing)
 		return
 
-	playing = 1
+	playing = TRUE
 	update_icon()
-	to_chat(usr, "<span class='notice'>Playing started.</span>")
+	say("Playback started.")
 	playsound(src, 'sound/items/taperecorder/taperecorder_play.ogg', 50, FALSE)
 	var/used = mytape.used_capacity	//to stop runtimes when you eject the tape
 	var/max = mytape.max_capacity
@@ -223,10 +229,10 @@
 
 /obj/item/taperecorder/attack_self(mob/user)
 	if(!mytape)
-		to_chat(user, "<span class='notice'>The [src] does not have a tape inside.</span>")
+		to_chat(user, span_notice("\The [src] is empty."))
 		return
 	if(mytape.ruined)
-		to_chat(user, "<span class='notice'>The tape inside the [src] appears to be broken.</span>")
+		to_chat(user, span_warning("\The tape inside \the [src] is broken!"))
 		return
 
 	update_available_icons()
@@ -257,7 +263,7 @@
 	if(!mytape)
 		return
 	if(!canprint)
-		to_chat(usr, "<span class='notice'>The recorder can't print that fast!</span>")
+		to_chat(usr, span_warning("The recorder can't print that fast!"))
 		return
 	if(recording || playing)
 		return
@@ -268,7 +274,7 @@
 	var/t1 = "<B>Transcript:</B><BR><BR>"
 	for(var/i = 1, mytape.storedinfo.len >= i, i++)
 		t1 += "[mytape.storedinfo[i]]<BR>"
-	P.info = t1
+	P.add_raw_text(t1)
 	P.name = "paper- 'Transcript'"
 	P.update_icon_state()
 	usr.put_in_hands(P)

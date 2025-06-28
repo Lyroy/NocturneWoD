@@ -20,7 +20,6 @@
 	construction_actions.Add(new /datum/action/innate/construction/build()) //Action for using the RCD
 	construction_actions.Add(new /datum/action/innate/construction/airlock_type()) //Action for setting the airlock type
 	construction_actions.Add(new /datum/action/innate/construction/window_type()) //Action for setting the window type
-	construction_actions.Add(new /datum/action/innate/construction/place_structure/fan()) //Action for spawning fans
 	construction_actions.Add(new /datum/action/innate/construction/place_structure/turret()) //Action for spawning turrets
 
 /obj/machinery/computer/camera_advanced/base_construction/aux/find_spawn_spot()

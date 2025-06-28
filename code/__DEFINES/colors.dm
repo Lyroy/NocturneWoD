@@ -8,11 +8,14 @@
 #define COLOR_DARKMODE_TEXT				"#a4bad6"
 
 #define COLOR_WHITE						"#FFFFFF"
+#define COLOR_OFF_WHITE					"#FFF5ED"
 #define COLOR_VERY_LIGHT_GRAY			"#EEEEEE"
 #define COLOR_SILVER					"#C0C0C0"
 #define COLOR_GRAY						"#808080"
 #define COLOR_FLOORTILE_GRAY			"#8D8B8B"
+#define COLOR_WEBSAFE_DARK_GRAY 		"#484848"
 #define COLOR_ALMOST_BLACK				"#333333"
+#define COLOR_FULL_TONER_BLACK 			"#101010"
 #define COLOR_BLACK						"#000000"
 #define COLOR_HALF_TRANSPARENT_BLACK    "#0000007A"
 
@@ -53,11 +56,13 @@
 #define COLOR_PINK						"#FFC0CB"
 #define COLOR_LIGHT_PINK				"#ff3cc8"
 #define COLOR_MOSTLY_PURE_PINK			"#E4005B"
+#define COLOR_FADED_PINK 				"#ff80d5"
 #define COLOR_MAGENTA					"#FF00FF"
 #define COLOR_STRONG_MAGENTA			"#B800B8"
 #define COLOR_PURPLE					"#800080"
 #define COLOR_VIOLET					"#B900F7"
 #define COLOR_STRONG_VIOLET				"#6927c5"
+#define COLOR_DARK_PURPLE 				"#551A8B"
 
 #define COLOR_ORANGE					"#FF9900"
 #define COLOR_MOSTLY_PURE_ORANGE		"#ff8000"
@@ -71,6 +76,7 @@
 
 #define COLOR_BROWN						"#BA9F6D"
 #define COLOR_DARK_BROWN				"#997C4F"
+#define COLOR_ORANGE_BROWN 				"#a9734f"
 
 #define COLOR_GREEN_GRAY       "#99BB76"
 #define COLOR_RED_GRAY         "#B4696A"
