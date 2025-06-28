@@ -45,6 +45,13 @@
 	layer = ABOVE_ALL_MOB_LAYERS_LAYER
 	anchored = TRUE
 
+/obj/effect/decal/lamplight
+	alpha = 0
+
+/obj/effect/decal/lamplight/Initialize()
+	. = ..()
+	set_light(4, 3, "#ffde9b")
+
 /obj/structure/lamppost
 	name = "lamppost"
 	desc = "Gives some light to the streets."
@@ -55,15 +62,8 @@
 	var/number_of_lamps
 	pixel_w = -32
 	anchored = TRUE
-	density = TRUE
+	density = FALSE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-
-/obj/effect/decal/lamplight
-	alpha = 0
-
-/obj/effect/decal/lamplight/Initialize()
-	. = ..()
-	set_light(4, 3, "#ffde9b")
 
 /obj/structure/lamppost/Initialize()
 	. = ..()
@@ -123,6 +123,9 @@
 		else
 			new /obj/effect/decal/lamplight(loc)
 
+/obj/structure/lamppost/ComponentInitialize()
+	add_object_fade_zone(1,4,0,0)
+
 /obj/structure/lamppost/one
 	icon_state = "one"
 	number_of_lamps = 1
@@ -142,6 +145,9 @@
 /obj/structure/lamppost/sidewalk
 	icon_state = "civ"
 	number_of_lamps = 5
+
+/obj/structure/lamppost/sidewalk/ComponentInitialize()
+	add_object_fade_zone(1,3,0,0)
 
 /obj/structure/lamppost/sidewalk/chinese
 	icon_state = "chinese"
@@ -1362,6 +1368,10 @@
 			if(V.upper)
 				icon_state = "[initial(icon_state)][rand(1, 11)]-snow"
 
+/obj/structure/vamptree/ComponentInitialize()
+	add_object_fade_zone(3,2,-1,0)
+
+
 /obj/structure/vamptree/proc/burnshit()
 	if(!burned)
 		burned = TRUE
@@ -1390,6 +1400,17 @@
 	if(prob(2))
 		burned = TRUE
 		icon_state = "dead[rand(1, 5)]"
+
+/obj/structure/vamptree/pine/ComponentInitialize()
+	switch(icon_state)
+		if("pine1", "pine1-snow")
+			add_object_fade_zone(3,8,-1,0)
+		if("pine2", "pine2-snow")
+			add_object_fade_zone(3,7,-1,0)
+		if("pine3", "pine4", "pine3-snow", "pine4-snow")
+			add_object_fade_zone(3,6,-1,0)
+		if("dead1", "dead2", "dead3")
+			add_object_fade_zone(3,7,-1,0)
 
 /obj/structure/vamptree/pine/burnshit()
 	if(!burned)
@@ -1497,6 +1518,10 @@
 	. = ..()
 	icon_state = "rock[rand(1, 4)]"
 
+/obj/structure/big_vamprocks/ComponentInitialize()
+	. = ..()
+	add_object_fade_zone(1,1,0,1)
+
 /obj/structure/stalagmite
 	name = "stalagmite"
 	desc = "Rokk."
@@ -1512,6 +1537,9 @@
 /obj/structure/stalagmite/Initialize()
 	. = ..()
 	icon_state = "stalagmite[rand(1, 5)]"
+
+/obj/structure/stalagmite/ComponentInitialize()
+	add_object_fade_zone(1,1,0,1)
 
 /obj/were_ice
 	name = "ice block"
