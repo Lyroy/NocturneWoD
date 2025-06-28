@@ -797,7 +797,7 @@
 /area/vtm/sewer/nosferatu_town)
 "acH" = (
 /obj/item/paper/guides/conveyor{
-	info = "YOU ARE NOW THE KING OF SHIT";
+	default_raw_text = "YOU ARE NOW THE KING OF SHIT";
 	name = "Note"
 	},
 /turf/open/floor/plating/rough/cave,
@@ -2051,7 +2051,7 @@
 /obj/item/reagent_containers/food/drinks/beer/vampire,
 /obj/item/food/vampire/pizza,
 /obj/item/paper{
-	info = "Chetitutishes,peedor?Tvoymamuebalponyaldahuesos."
+	default_raw_text = "Chetitutishes,peedor?Tvoymamuebalponyaldahuesos."
 	},
 /turf/open/floor/plating/rough,
 /area/vtm/sewer)
@@ -23053,7 +23053,7 @@
 /area/vtm)
 "bBu" = (
 /obj/item/paper{
-	info = "I'M STUCK HERE PLEASE HELP!!"
+	default_raw_text = "I'M STUCK HERE PLEASE HELP!!"
 	},
 /turf/open/floor/plating/sidewalk/poor,
 /area/vtm/interior)
@@ -27190,7 +27190,7 @@
 "crx" = (
 /obj/structure/table,
 /obj/item/paper/guides/conveyor{
-	info = "Communicate with your friends and your boss. Stay in a group, turn radio on, call Prince or Sheriff and ask for recommendations. If none of this is available - go to Clerk office nearby and look for him. In that case wait for anyone from upper Camarilla to appear in the city...";
+	default_raw_text = "Communicate with your friends and your boss. Stay in a group, turn radio on, call Prince or Sheriff and ask for recommendations. If none of this is available - go to Clerk office nearby and look for him. In that case wait for anyone from upper Camarilla to appear in the city...";
 	name = "COMMUNICATE GUIDE'"
 	},
 /obj/fusebox,
@@ -32720,7 +32720,7 @@
 "eOB" = (
 /obj/structure/closet/crate,
 /obj/item/paper{
-	info = "Follow your calling."
+	default_raw_text = "Follow your calling."
 	},
 /obj/effect/turf_decal/weather/dirt{
 	dir = 6
@@ -37161,7 +37161,7 @@
 "gNU" = (
 /obj/structure/table,
 /obj/item/paper{
-	info = "Soon these bastards will pay for my beloved... I'm ready, but lately there's been a lot of noise... who's here?"
+	default_raw_text = "Soon these bastards will pay for my beloved... I'm ready, but lately there's been a lot of noise... who's here?"
 	},
 /turf/open/floor/plating/parquetry/old,
 /area/vtm/interior)
@@ -41811,7 +41811,7 @@
 /area/vtm)
 "iPz" = (
 /obj/item/paper{
-	info = "I'M STUCK HERE PLEASE HELP!!"
+	default_raw_text = "I'M STUCK HERE PLEASE HELP!!"
 	},
 /turf/open/floor/plating/rough/cave,
 /area/vtm/interior)
@@ -42009,7 +42009,7 @@
 /area/vtm/graveyard)
 "iTE" = (
 /obj/item/paper{
-	info = "haha idiot"
+	default_raw_text = "haha idiot"
 	},
 /turf/open/floor/plating/vampgrass,
 /area/vtm/pacificheights)
@@ -62348,7 +62348,7 @@
 /area/vtm/interior/glasswalker)
 "sif" = (
 /obj/item/paper{
-	info = "EPSTEIN DIDN'T KILL HIMSELF!!!"
+	default_raw_text = "EPSTEIN DIDN'T KILL HIMSELF!!!"
 	},
 /turf/open/floor/plating/vampbeach,
 /area/vtm)
@@ -68561,7 +68561,7 @@
 "uYD" = (
 /obj/structure/table/wood,
 /obj/item/paper{
-	info = "06/03/2003Some strange guy gave a tip to this abandoned estate.... Damn, what the hell is going on there?After a long preparation, I understand that it’s time to move there...."
+	default_raw_text = "06/03/2003Some strange guy gave a tip to this abandoned estate.... Damn, what the hell is going on there?After a long preparation, I understand that it’s time to move there...."
 	},
 /turf/open/floor/plating/parquetry/old,
 /area/vtm/interior)
@@ -71005,7 +71005,7 @@
 	dir = 8
 	},
 /obj/item/paper{
-	info = "Clinic - 7008062 | Police Department - 7009221 | Millennium Tower - 7009121 | Cleaners - 7007349";
+	default_raw_text = "Clinic - 7008062 | Police Department - 7009221 | Millennium Tower - 7009121 | Cleaners - 7007349";
 	name = "Important Numbers"
 	},
 /turf/open/floor/plating/parquetry,
@@ -71566,7 +71566,7 @@
 /area/vtm/dwelling/pacific01)
 "wnn" = (
 /obj/item/paper{
-	info = "MICHAEL, DON'T LEAVE ME HERE, MICHAEL!!!!"
+	default_raw_text = "MICHAEL, DON'T LEAVE ME HERE, MICHAEL!!!!"
 	},
 /obj/effect/decal/cleanable/gasoline,
 /turf/open/floor/plating/rough,

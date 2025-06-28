@@ -1,7 +1,7 @@
 /datum/action/innate/camera_off/base_construction
 	name = "Log out"
 
-///Generic construction action for base [construction consoles][/obj/machinery/computer/camera_advanced/base_construction]. 
+///Generic construction action for base [construction consoles][/obj/machinery/computer/camera_advanced/base_construction].
 /datum/action/innate/construction
 	icon_icon = 'icons/mob/actions/actions_construction.dmi'
 	///Console's eye mob
@@ -125,13 +125,6 @@
 ///Proc to handle additional behavior after placing an object
 /datum/action/innate/construction/place_structure/proc/after_place()
 	return
-
-/datum/action/innate/construction/place_structure/fan
-	name = "Place Tiny Fan"
-	button_icon_state = "build_fan"
-	structure_name = "fans"
-	structure_path = /obj/structure/fans/tiny
-	place_sound =  'sound/machines/click.ogg'
 
 /datum/action/innate/construction/place_structure/turret/after_place(obj/placed_structure, remaining)
 	to_chat(owner, "<span class='notice'>Tiny fan placed. [remaining] fans remaining.</span>")

@@ -42,6 +42,13 @@
 	upper = FALSE
 	wall_rating = HIGH_WALL_RATING
 
+/area/vtm/library
+	name = "Library"
+	icon_state = "interior"
+	ambience_index = AMBIENCE_INTERIOR
+	upper = FALSE
+	wall_rating = HIGH_WALL_RATING
+
 /area/vtm/interior/shop
 	name = "Shop"
 	icon_state = "shop"

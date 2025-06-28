@@ -599,11 +599,7 @@
 		/obj/item/retractor/alien = 1,
 		/obj/item/circular_saw/alien = 1,
 		/obj/item/surgicaldrill/alien = 1,
-		/obj/item/cautery/alien = 1,
-		/obj/item/wrench/caravan = 1,
-		/obj/item/wirecutters/caravan = 1,
-		/obj/item/screwdriver/caravan = 1,
-		/obj/item/crowbar/red/caravan = 1
+		/obj/item/cautery/alien = 1
 	)
 
 /// Space loot spawner. A bunch of rarer seeds. /obj/item/seeds/random is not a random seed, but an exotic seed.

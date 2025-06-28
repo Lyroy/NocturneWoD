@@ -56,9 +56,8 @@
 			sortTag = O.currTag
 			playsound(loc, 'sound/machines/twobeep_high.ogg', 100, TRUE)
 
-	else if(istype(W, /obj/item/pen))
-		if(!user.is_literate())
-			to_chat(user, "<span class='notice'>You scribble illegibly on the side of [src]!</span>")
+	else if(IS_WRITING_UTENSIL(W))
+		if(!user.can_write(W))
 			return
 		var/str = stripped_input(user, "Label text?", "Set label", "", MAX_NAME_LEN)
 		if(!user.canUseTopic(src, BE_CLOSE))
@@ -66,8 +65,10 @@
 		if(!str || !length(str))
 			to_chat(user, "<span class='warning'>Invalid text!</span>")
 			return
-		user.visible_message("<span class='notice'>[user] labels [src] as [str].</span>")
+		playsound(src, SFX_WRITING_PEN, 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE, SOUND_FALLOFF_EXPONENT + 3, ignore_walls = FALSE)
+		user.visible_message(span_notice("[user] labels [src] as [str]."))
 		name = "[name] ([str])"
+		update_icon()
 
 	else if(istype(W, /obj/item/stack/wrapping_paper) && !giftwrapped)
 		var/obj/item/stack/wrapping_paper/WP = W

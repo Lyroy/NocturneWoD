@@ -9,8 +9,7 @@
 	layer = BELOW_OBJ_LAYER
 	density = TRUE
 	use_power = IDLE_POWER_USE
-	idle_power_usage = 5
-	active_power_usage = 100
+	resistance_flags = FLAMMABLE
 	circuit = /obj/item/circuitboard/machine/smartfridge
 
 	var/base_build_path = /obj/machinery/smartfridge ///What path boards used to construct it should build into when dropped. Needed so we don't accidentally have them build variants with items preloaded in them.

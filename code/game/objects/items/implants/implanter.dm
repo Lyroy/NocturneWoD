@@ -26,36 +26,23 @@
 		return
 	if(user && imp)
 		if(M != user)
-			M.visible_message("<span class='warning'>[user] is attempting to implant [M].</span>")
+			M.visible_message(span_warning("[user] is attempting to implant [M]."))
 
 		var/turf/T = get_turf(M)
 		if(T && (M == user || do_mob(user, M, 50)))
 			if(src && imp)
 				if(imp.implant(M, user))
 					if (M == user)
-						to_chat(user, "<span class='notice'>You implant yourself.</span>")
+						to_chat(user, span_notice("You implant yourself."))
 					else
-						M.visible_message("<span class='notice'>[user] implants [M].</span>", "<span class='notice'>[user] implants you.</span>")
+						M.visible_message(span_notice("[user] implants [M].</span>"), span_notice("[user] implants you."))
 					imp = null
 					update_icon()
 				else
-					to_chat(user, "<span class='warning'>[src] fails to implant [M].</span>")
+					to_chat(user, span_warning("[user] fails to implant [src]."))
 
-/obj/item/implanter/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/pen))
-		if(!user.is_literate())
-			to_chat(user, "<span class='notice'>You prod at [src] with [W]!</span>")
-			return
-		var/t = stripped_input(user, "What would you like the label to be?", name, null)
-		if(user.get_active_held_item() != W)
-			return
-		if(!user.canUseTopic(src, BE_CLOSE))
-			return
-		if(t)
-			name = "implanter ([t])"
-		else
-			name = "implanter"
-	else
+/obj/item/implanter/attackby(obj/item/I, mob/living/user, params)
+	if(IS_WRITING_UTENSIL(I))
 		return ..()
 
 /obj/item/implanter/Initialize(mapload)
