@@ -278,4 +278,7 @@
 	. = ..()
 	icon_state = "vat[rand(1, 3)]"
 
+/obj/food_cart/ComponentInitialize()
+	add_object_fade_zone(1,1,0,1)
+
 

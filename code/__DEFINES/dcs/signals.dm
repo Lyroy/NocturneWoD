@@ -1055,3 +1055,8 @@
 #define COMSIG_TRANSFORMING_ON_TRANSFORM "transforming_on_transform"
 /// Return COMPONENT_NO_DEFAULT_MESSAGE to prevent the transforming component from displaying the default transform message / sound.
 #define COMPONENT_NO_DEFAULT_MESSAGE (1<<0)
+
+// Fade Zone Signals
+
+#define COMSIG_ATOM_FADE_ZONE_EXISTS "atom_fade_zone_exists"
+#define COMSIG_ATOM_FADE_ZONE_ADD "atom_fade_zone_add"

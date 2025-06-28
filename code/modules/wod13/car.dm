@@ -145,6 +145,7 @@ SUBSYSTEM_DEF(carpool)
 	STR.max_w_class = baggage_max
 	STR.max_items = baggage_limit
 	STR.locked = TRUE
+	add_object_fade_zone(3,3,-1,-1, 80, FALSE)
 
 /obj/vampire_car/bullet_act(obj/projectile/P, def_zone, piercing_hit = FALSE)
 	. = ..()
@@ -945,9 +946,9 @@ SUBSYSTEM_DEF(carpool)
 				animate(rider.client, \
 					pixel_x = last_pos["x_pix"] + moved_x * 2, \
 					pixel_y = last_pos["y_pix"] + moved_y * 2, \
-					SScarpool.wait, 1)
+					SScarpool.wait, 1, flags = ANIMATION_PARALLEL)
 
-	animate(src, pixel_x = last_pos["x_pix"]+moved_x, pixel_y = last_pos["y_pix"]+moved_y, SScarpool.wait, 1)
+	animate(src, pixel_x = last_pos["x_pix"]+moved_x, pixel_y = last_pos["y_pix"]+moved_y, SScarpool.wait, 1, flags = ANIMATION_PARALLEL)
 
 	last_pos["x_frwd"] = last_pos["x_pix"] + moved_x * 2
 	last_pos["y_frwd"] = last_pos["y_pix"] + moved_y * 2
