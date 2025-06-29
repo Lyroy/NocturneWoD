@@ -1,12 +1,3 @@
-//This is the lowest supported version, anything below this is completely obsolete and the entire savefile will be wiped.
-#define SAVEFILE_VERSION_MIN	38
-
-//This is the current version, anything below this will attempt to update (if it's not obsolete)
-//	You do not need to raise this if you are adding new values that have sane defaults.
-//	Only raise this value when changing the meaning/format/name/layout of an existing value
-//	where you would want the updater procs below to run
-#define SAVEFILE_VERSION_MAX	39
-
 /*
 SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Carn
 	This proc checks if the current directory of the savefile S needs updating
@@ -446,11 +437,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 		READ_FILE(S["feature_human_tail"], features["tail_human"])
 		READ_FILE(S["feature_human_ears"], features["ears"])
 
-	//Custom names
-	for(var/custom_name_id in GLOB.preferences_custom_names)
-		var/savefile_slot_name = custom_name_id + "_name" //TODO remove this
-		READ_FILE(S[savefile_slot_name], custom_names[custom_name_id])
-
 	READ_FILE(S["preferred_ai_core_display"], preferred_ai_core_display)
 	READ_FILE(S["prefered_security_department"], prefered_security_department)
 
@@ -494,12 +480,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	if(dharma_level <= 0)
 		dharma_level = 1
-
-	for(var/custom_name_id in GLOB.preferences_custom_names)
-		var/namedata = GLOB.preferences_custom_names[custom_name_id]
-		custom_names[custom_name_id] = reject_bad_name(custom_names[custom_name_id],namedata["allow_numbers"])
-		if(!custom_names[custom_name_id])
-			custom_names[custom_name_id] = get_default_name(custom_name_id)
 
 	if(!features["mcolor"] || features["mcolor"] == "#000")
 		features["mcolor"] = pick("FFFFFF","7F7F7F", "7FFF7F", "7F7FFF", "FF7F7F", "7FFFFF", "FF7FFF", "FFFF7F")
@@ -772,11 +752,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["yin"], yin)
 	WRITE_FILE(S["chi_types"], chi_types)
 	WRITE_FILE(S["chi_levels"], chi_levels)
-
-	//Custom names
-	for(var/custom_name_id in GLOB.preferences_custom_names)
-		var/savefile_slot_name = custom_name_id + "_name" //TODO remove this
-		WRITE_FILE(S[savefile_slot_name],custom_names[custom_name_id])
 
 	WRITE_FILE(S["preferred_ai_core_display"] ,  preferred_ai_core_display)
 	WRITE_FILE(S["prefered_security_department"] , prefered_security_department)
