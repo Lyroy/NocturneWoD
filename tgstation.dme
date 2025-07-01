@@ -163,6 +163,7 @@
 #include "code\__DEFINES\wod13\dcs\bouncer_signals.dm"
 #include "code\__DEFINES\wod13\dcs\gun_signals.dm"
 #include "code\__DEFINES\wod13\dcs\power_signals.dm"
+#include "code\__DEFINES\wod13_nocturne\mobs.dm"
 #include "code\__DEFINES\wod13_nocturne\preferences.dm"
 #include "code\__DEFINES\wod13_nocturne\skintones.dm"
 #include "code\__HELPERS\_lists.dm"

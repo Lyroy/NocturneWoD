@@ -1,0 +1,1 @@
+#define TOTAL_AGE_MAX 1120

@@ -181,10 +181,7 @@
 	var/enlightenment = FALSE
 	var/humanity = 7
 
-	//Legacy
-	var/exper = 1440
-	var/exper_plus = 0
-
+	/*
 	var/discipline1level = 1
 	var/discipline2level = 1
 	var/discipline3level = 1
@@ -194,6 +191,7 @@
 	var/discipline2type
 	var/discipline3type
 	var/discipline4type
+	*/
 
 	//Character sheet stats
 	var/true_experience = 50

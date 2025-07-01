@@ -99,12 +99,7 @@
 				hairstyle = "Bald"
 			else
 				var/new_hairstyle
-				if(gender == MALE)
-					new_hairstyle = tgui_input_list(user, "Choose your character's hairstyle:", "Character Preference", GLOB.hairstyles_male_list)
-				else if(gender == FEMALE)
-					new_hairstyle = tgui_input_list(user, "Choose your character's hairstyle:", "Character Preference", GLOB.hairstyles_female_list)
-				else
-					new_hairstyle = tgui_input_list(user, "Choose your character's hairstyle:", "Character Preference", GLOB.hairstyles_list)
+				new_hairstyle = tgui_input_list(user, "Choose your character's hairstyle:", "Character Preference", GLOB.hairstyles_list)
 				if(new_hairstyle)
 					hairstyle = new_hairstyle
 
@@ -115,12 +110,7 @@
 			if(clan.no_hair)
 				hairstyle = "Bald"
 			else
-				if (gender == MALE)
-					hairstyle = next_list_item(hairstyle, GLOB.hairstyles_male_list)
-				else if(gender == FEMALE)
-					hairstyle = next_list_item(hairstyle, GLOB.hairstyles_female_list)
-				else
-					hairstyle = next_list_item(hairstyle, GLOB.hairstyles_list)
+				hairstyle = next_list_item(hairstyle, GLOB.hairstyles_list)
 
 		if("previous_hairstyle")
 			if(slotlocked)
@@ -129,12 +119,7 @@
 			if(clan.no_hair)
 				hairstyle = "Bald"
 			else
-				if (gender == MALE)
-					hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_male_list)
-				else if(gender == FEMALE)
-					hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_female_list)
-				else
-					hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_list)
+				hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_list)
 
 		if("facial")
 			if(slotlocked)
@@ -152,12 +137,7 @@
 				facial_hairstyle = "Shaved"
 			else
 				var/new_facial_hairstyle
-				if(gender == MALE)
-					new_facial_hairstyle = tgui_input_list(user, "Choose your character's facial-hairstyle:", "Character Preference", GLOB.facial_hairstyles_male_list)
-				else if(gender == FEMALE)
-					new_facial_hairstyle = tgui_input_list(user, "Choose your character's facial-hairstyle:", "Character Preference", GLOB.facial_hairstyles_female_list)
-				else
-					new_facial_hairstyle = tgui_input_list(user, "Choose your character's facial-hairstyle:", "Character Preference", GLOB.facial_hairstyles_list)
+				new_facial_hairstyle = tgui_input_list(user, "Choose your character's facial-hairstyle:", "Character Preference", GLOB.facial_hairstyles_list)
 				if(new_facial_hairstyle)
 					facial_hairstyle = new_facial_hairstyle
 
@@ -168,12 +148,7 @@
 			if(clan.no_facial)
 				facial_hairstyle = "Shaved"
 			else
-				if (gender == MALE)
-					facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_male_list)
-				else if(gender == FEMALE)
-					facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_female_list)
-				else
-					facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
+				facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
 
 		if("previous_facehairstyle")
 			if(slotlocked)
@@ -182,21 +157,11 @@
 			if(clan.no_facial)
 				facial_hairstyle = "Shaved"
 			else
-				if (gender == MALE)
-					facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_male_list)
-				else if (gender == FEMALE)
-					facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_female_list)
-				else
-					facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
+				facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
 
 		if("underwear")
 			var/new_underwear
-			if(gender == MALE)
-				new_underwear = tgui_input_list(user, "Choose your character's underwear:", "Character Preference", GLOB.underwear_m)
-			else if(gender == FEMALE)
-				new_underwear = tgui_input_list(user, "Choose your character's underwear:", "Character Preference", GLOB.underwear_f)
-			else
-				new_underwear = tgui_input_list(user, "Choose your character's underwear:", "Character Preference", GLOB.underwear_list)
+			new_underwear = tgui_input_list(user, "Choose your character's underwear:", "Character Preference", GLOB.underwear_list)
 			if(new_underwear)
 				underwear = new_underwear
 
@@ -207,12 +172,7 @@
 
 		if("undershirt")
 			var/new_undershirt
-			if(gender == MALE)
-				new_undershirt = tgui_input_list(user, "Choose your character's undershirt:", "Character Preference", GLOB.undershirt_m)
-			else if(gender == FEMALE)
-				new_undershirt = tgui_input_list(user, "Choose your character's undershirt:", "Character Preference", GLOB.undershirt_f)
-			else
-				new_undershirt = tgui_input_list(user, "Choose your character's undershirt:", "Character Preference", GLOB.undershirt_list)
+			new_undershirt = tgui_input_list(user, "Choose your character's undershirt:", "Character Preference", GLOB.undershirt_list)
 
 			if(new_undershirt)
 				undershirt = new_undershirt
