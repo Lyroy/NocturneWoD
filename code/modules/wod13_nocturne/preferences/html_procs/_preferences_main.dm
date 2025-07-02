@@ -6,7 +6,7 @@
 		return coolfont
 
 /proc/make_lockable_button(text, link, locked=FALSE, br=TRUE)
-	return locked ? "<span class='linkOff'>[text]</span>[br ? "<br>" : ""][br ? "<br>" : ""]" : "<a href='[link]'>[text]</a>[br ? "<br>" : ""]"
+	return locked ? "<span class='linkOff'>[text]</span>[br ? "<br>" : ""]" : "<a href='[link]'>[text]</a>[br ? "<br>" : ""]"
 
 // preferences menu main code
 /datum/preferences/proc/ShowChoices(mob/user)

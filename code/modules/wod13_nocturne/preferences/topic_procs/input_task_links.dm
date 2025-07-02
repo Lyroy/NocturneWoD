@@ -384,7 +384,10 @@
 				if("none" in clan.accessories)
 					clan_accessory = null
 				else
-					clan_accessory = pick(clan.accessories)
+					if(clan.default_accessory)
+						clan_accessory = clan.default_accessory
+					else
+						clan_accessory = pick(clan.accessories)
 
 		if("auspice_level")
 			var/cost = max(10, auspice_level * 10)

@@ -41,6 +41,7 @@
 		discipline_levels += 1
 	humanity = clan.start_humanity
 	enlightenment = clan.enlightenment
+	clan_accessory = null
 
 	true_experience = 50
 

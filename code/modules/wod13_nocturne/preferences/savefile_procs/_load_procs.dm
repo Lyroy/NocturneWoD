@@ -363,7 +363,7 @@
 
 	READ_FILE(S["clan_accessory"], clan_accessory)
 	if(clan?.accessories)
-		clan_accessory = sanitize_inlist(clan_accessory, clan.accessories, null)
+		clan_accessory = sanitize_inlist(clan_accessory, clan.accessories)
 	else
 		clan_accessory = null
 

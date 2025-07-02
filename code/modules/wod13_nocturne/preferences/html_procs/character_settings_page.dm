@@ -57,10 +57,11 @@
 				dat += "<a href='byond://?_src_=prefs;preference=path;task=input'>Increase [enlightenment ? "Enlightenment" : "Humanity"] ([humanity * 2])</a>"
 			*/
 
-			dat += make_lockable_button( \
-				"Increase [enlightenment ? "Enlightenment" : "Humanity"] ([humanity * 2])", \
-				"byond://?_src_=prefs;preference=path;task=input", \
-				(true_experience >= (humanity * 2)) && (humanity < 10))
+			if(humanity < 10)
+				dat += make_lockable_button( \
+					"Increase [enlightenment ? "Enlightenment" : "Humanity"] ([humanity * 2])", \
+					"byond://?_src_=prefs;preference=path;task=input", \
+					true_experience >= (humanity * 2))
 
 			if(!slotlocked)
 				dat += "<a href='byond://?_src_=prefs;preference=pathof;task=input'>Switch Path</a><br>"
@@ -72,28 +73,68 @@
 
 			if(generation_allowed)
 				if(generation_bonus)
-					dat += "<b>Generation Bonus:</b> [generation_bonus]/[min(6, generation-7)]"
+					dat += "<b>Generation Bonus:</b> [generation_bonus]/[min(6, generation-7)]<br>"
 
-				if(true_experience >= 20 && generation_bonus < max(0, generation-7))
-					dat += "<a href='byond://?_src_=prefs;preference=generation;task=input'>Claim Generation Bonus (20)</a><br>"
-			else
-				dat += "<br>"
+				if(generation_bonus < max(6, generation-7))
+					dat += make_lockable_button( \
+						"Claim Generation Bonus (20)", \
+						"byond://?_src_=prefs;preference=generation;task=input", \
+						true_experience >= 20)
 
-		/*
-		if("Kuei-Jin")
-			var/datum/dharma/D = new dharma_type()
-			dat += "<b>Dharma:</b> [D.name] [dharma_level]/6 <a href='byond://?_src_=prefs;preference=dharmatype;task=input'>Switch</a><BR>"
-			dat += "[D.desc]<BR>"
-			if(true_experience >= min((dharma_level * 5), 20) && (dharma_level < 6))
-				var/dharma_cost = min((dharma_level * 5), 20)
-				dat += " <a href='byond://?_src_=prefs;preference=dharmarise;task=input'>Raise Dharmic Enlightenment ([dharma_cost])</a><BR>"
-			dat += "<b>P'o Personality</b>: [po_type] <a href='byond://?_src_=prefs;preference=potype;task=input'>Switch</a><BR>"
-			dat += "<b>Awareness:</b> [masquerade]/5<BR>"
-			dat += "<b>Yin/Yang</b>: [yin]/[yang] <a href='byond://?_src_=prefs;preference=chibalance;task=input'>Adjust</a><BR>"
-			dat += "<b>Hun/P'o</b>: [hun]/[po] <a href='byond://?_src_=prefs;preference=demonbalance;task=input'>Adjust</a><BR>"
-		if("Werewolf")
-			dat += "<b>Veil:</b> [masquerade]/5<BR>"
+			// clans
+			dat += "<h2>[make_font_cool("CLAN")]</h2>"
+
+			dat += "<b>Clan/Bloodline:</b> "
+			dat += make_lockable_button(clan.name, "byond://?_src_=prefs;preference=clan;task=input", slotlocked)
+			dat += "<b>Description:</b> [clan.desc]<br>"
+			dat += "<b>Curse:</b> [clan.curse]<br>"
+
+			// clan accessories
+			if (length(clan.accessories))
+				dat += "<b>Marks:</b> <a href='byond://?_src_=prefs;preference=clan_acc;task=input'>[clan_accessory ? clan_accessory : "none"]</a><br>"
+
+			// disciplines
+			dat += "<h2>[make_font_cool("DISCIPLINES (WORK IN PROGRESS)")]</h2>"
+
+
 		if("Ghoul")
-			dat += "<b>Masquerade:</b> [masquerade]/5<BR>"
-		*/
+			dat += "<b>Masquerade:</b> [masquerade]/5<br>"
+
+			// disciplines
+			dat += "<h2>[make_font_cool("DISCIPLINES (WORK IN PROGRESS)")]</h2>"
+
+		if("Kuei-Jin")
+			// dharma
+			var/datum/dharma/D = new dharma_type()
+			dat += "<b>Dharma:</b> "
+			dat += make_lockable_button(D.name, "byond://?_src_=prefs;preference=dharmatype;task=input", slotlocked, FALSE)
+			dat += " [dharma_level]/6<br>"
+			dat += "[D.desc]<br>"
+			if(dharma_level < 6)
+				var/dharma_cost = min((dharma_level * 5), 20)
+				make_lockable_button( \
+					"Raise Dharmic Enlightenment ([dharma_cost])", \
+					"byond://?_src_=prefs;preference=dharmarise;task=input", \
+					true_experience >= dharma_cost)
+
+			dat += "<b>P'o Personality</b>: "
+			dat += make_lockable_button(po_type, "byond://?_src_=prefs;preference=potype;task=input", slotlocked)
+
+			dat += "<b>Awareness:</b> [masquerade]/5<BR>"
+
+			dat += "<b>Yin/Yang</b>: [yin]/[yang] <a href='byond://?_src_=prefs;preference=chibalance;task=input'>Adjust</a><br>"
+			dat += "<b>Hun/P'o</b>: [hun]/[po] <a href='byond://?_src_=prefs;preference=demonbalance;task=input'>Adjust</a><br>"
+
+			// disciplines
+			dat += "<h2>[make_font_cool("DISCIPLINES (WORK IN PROGRESS)")]</h2>"
+
+		if("Werewolf")
+			dat += "<b>Veil:</b> [masquerade]/5<br>"
+
+			// disciplines
+			dat += "<h2>[make_font_cool("TRIBE (WORK IN PROGRESS)")]</h2>"
+
 	dat += "</td></tr></table>"
+
+	// REMOVE THIS WHEN THE MENU IS ACTUALLY FUCKING FINISHED
+	dat += "<center><h2>[make_font_cool("WORK IN PROGRESS")]</h2></center>"
