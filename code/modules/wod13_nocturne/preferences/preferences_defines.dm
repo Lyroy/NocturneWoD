@@ -125,8 +125,7 @@
 		// Want randomjob if preferences already filled - Donkie
 	var/joblessrole = BERANDOMJOB  //defaults to 1 for fewer assistants
 
-	// 0 = character settings, 1 = game preferences
-	var/current_tab = 0
+	var/current_tab = PREFS_CHARACTER_SETTINGS_TAB
 
 	var/unlock_content = 0
 
