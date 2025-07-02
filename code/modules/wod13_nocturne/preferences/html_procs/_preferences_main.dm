@@ -1,8 +1,14 @@
+// some html helpers
+
 /proc/make_font_cool(text)
 	if(text)
 		var/coolfont = "<font face='Percolator'>[text]</font>"
 		return coolfont
 
+/proc/make_lockable_button(text, link, locked=FALSE, br=TRUE)
+	return locked ? "<span class='linkOff'>[text]</span>[br ? "<br>" : ""][br ? "<br>" : ""]" : "<a href='[link]'>[text]</a>[br ? "<br>" : ""]"
+
+// preferences menu main code
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!SSatoms.initialized)
 		to_chat(user, span_warning("Please wait for the game to do a little more setup first...!"))
@@ -13,8 +19,10 @@
 		load_character(default_slot) // Reloads the character slot. Prevents random features from overwriting the slot if saved.
 		slot_randomized = FALSE
 
+	/*
 	show_loadout = (current_tab == PREFS_LOADOUT_TAB) ? show_loadout : FALSE
 	update_preview_icon(show_loadout)
+	*/
 	var/list/dat = list()
 
 	if(path)
@@ -41,9 +49,9 @@
 	dat += "<center>"
 	if(istype(user, /mob/dead/new_player))
 		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_CHARACTER_SETTINGS_TAB]' [current_tab == PREFS_CHARACTER_SETTINGS_TAB ? "class='linkOn'" : ""]>[make_font_cool("CHARACTER SETTINGS")]</a> "
-		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_MERITS_TAB]' [current_tab == PREFS_MERITS_TAB ? "class='linkOn'" : ""]>[make_font_cool("MERITS & FLAWS")]</a> "
+		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_QUIRKS_TAB]' [current_tab == PREFS_QUIRKS_TAB ? "class='linkOn'" : ""]>[make_font_cool("MERITS & FLAWS")]</a> "
 		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_ATTRIBUTES_TAB]' [current_tab ==PREFS_ATTRIBUTES_TAB  ? "class='linkOn'" : ""]>[make_font_cool("ATTRIBUTES")]</a> "
-		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_LOADOUT_TAB]' [current_tab == PREFS_LOADOUT_TAB ? "class='linkOn'" : ""]>[make_font_cool("LOADOUT")]</a> "
+		// dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_LOADOUT_TAB]' [current_tab == PREFS_LOADOUT_TAB ? "class='linkOn'" : ""]>[make_font_cool("LOADOUT")]</a> "
 		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_CONNECTIONS_TAB]' [current_tab == PREFS_CONNECTIONS_TAB ? "class='linkOn'" : ""]>[make_font_cool("CONNECTIONS")]</a> "
 		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_OCCUPATION_TAB]' [current_tab == PREFS_OCCUPATION_TAB ? "class='linkOn'" : ""]>[make_font_cool("OCCUPATION")]</a>"
 		dat += "<br>"
@@ -54,27 +62,29 @@
 	dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_KEYBINDINGS_TAB]' [current_tab == PREFS_KEYBINDINGS_TAB ? "class='linkOn'" : ""]>[make_font_cool("CUSTOM KEYBINDINGS")]</a>"
 	dat += "</center>"
 
-	dat += "<HR>"
+	dat += "<hr>"
 
 	switch(current_tab)
 		if (1)
 			character_settings_page(user, dat)
 		if (2)
-			merit_page(user, dat)
+			quirk_page(user, dat)
 		if (3)
-			attributes_page(user, dat)
+			stat_page(user, dat)
+		/*
 		if (4)
 			loadout_page(user, dat)
-		if (5)
+		*/
+		if (4)
 			connections_page(user, dat)
-		if (6)
+		if (5)
 			occupation_page(user, dat)
-		if (7)
+		if (6)
 			game_preferences_page(user, dat)
-		if(8)
+		if(7)
 			ooc_preferences_page(user, dat)
-		if(9)
-			custom_keybindings_page(user, dat)
+		if(8)
+			keybindings_page(user, dat)
 	dat += "<hr><center>"
 
 	if(!IsGuestKey(user.key))
