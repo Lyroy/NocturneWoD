@@ -8,7 +8,7 @@
 /proc/make_lockable_button(text, link, locked=FALSE, br=TRUE)
 	return locked ? "<span class='linkOff'>[text]</span>[br ? "<br>" : ""]" : "<a href='[link]'>[text]</a>[br ? "<br>" : ""]"
 
-/proc/make_dots(current, max)
+/proc/make_dots(current, max, br=TRUE)
 	var/current_clamped = min(current, max)
 
 	var/dat = ""
@@ -18,7 +18,9 @@
 		else
 			dat += "o"
 
-	dat += "<br>"
+	if(br)
+		dat += "<br>"
+
 	return dat
 
 // preferences menu main code
