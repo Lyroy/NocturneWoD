@@ -8,6 +8,19 @@
 /proc/make_lockable_button(text, link, locked=FALSE, br=TRUE)
 	return locked ? "<span class='linkOff'>[text]</span>[br ? "<br>" : ""]" : "<a href='[link]'>[text]</a>[br ? "<br>" : ""]"
 
+/proc/make_dots(current, max)
+	var/current_clamped = min(current, max)
+
+	var/dat = ""
+	for(var/i in 1 to max)
+		if(i <= current_clamped)
+			dat += "•"
+		else
+			dat += "o"
+
+	dat += "<br>"
+	return dat
+
 // preferences menu main code
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!SSatoms.initialized)
