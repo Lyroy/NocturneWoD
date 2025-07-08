@@ -10,7 +10,7 @@
 		var/datum/keybinding/kb = GLOB.keybindings_by_name[name]
 		kb_categories[kb.category] += list(kb)
 
-	dat += "<style>label { display: inline-block; width: 200px; }</style><body>"
+	dat += "<style>label { display: inline-block; width: 200px; }</style>"
 
 	for (var/category in kb_categories)
 		dat += "<h3>[category]</h3>"
