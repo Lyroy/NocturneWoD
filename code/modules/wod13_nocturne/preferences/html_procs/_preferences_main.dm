@@ -64,8 +64,8 @@
 	dat += "<center>"
 	if(istype(user, /mob/dead/new_player))
 		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_CHARACTER_SETTINGS_TAB]' [current_tab == PREFS_CHARACTER_SETTINGS_TAB ? "class='linkOn'" : ""]>[make_font_cool("CHARACTER SETTINGS")]</a> "
-		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_QUIRKS_TAB]' [current_tab == PREFS_QUIRKS_TAB ? "class='linkOn'" : ""]>[make_font_cool("MERITS & FLAWS")]</a> "
-		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_ATTRIBUTES_TAB]' [current_tab ==PREFS_ATTRIBUTES_TAB  ? "class='linkOn'" : ""]>[make_font_cool("ATTRIBUTES")]</a> "
+		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_ATTRIBUTES_TAB]' [current_tab == PREFS_ATTRIBUTES_TAB  ? "class='linkOn'" : ""]>[make_font_cool("ATTRIBUTES")]</a> "
+		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_QUIRKS_TAB]' [current_tab == PREFS_QUIRKS_TAB ? "class='linkOn'" : ""]>[make_font_cool("QUIRKS")]</a> "
 		// dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_LOADOUT_TAB]' [current_tab == PREFS_LOADOUT_TAB ? "class='linkOn'" : ""]>[make_font_cool("LOADOUT")]</a> "
 		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_CONNECTIONS_TAB]' [current_tab == PREFS_CONNECTIONS_TAB ? "class='linkOn'" : ""]>[make_font_cool("CONNECTIONS")]</a> "
 		dat += "<a href='byond://?_src_=prefs;preference=tab;tab=[PREFS_OCCUPATION_TAB]' [current_tab == PREFS_OCCUPATION_TAB ? "class='linkOn'" : ""]>[make_font_cool("OCCUPATION")]</a>"
