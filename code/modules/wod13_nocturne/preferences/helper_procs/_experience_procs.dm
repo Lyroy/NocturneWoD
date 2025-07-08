@@ -11,15 +11,10 @@
 // a proc that creates the score circles based on attribute and the additional bonus for the attribute
 /datum/preferences/proc/build_attribute_score(var/attribute, var/bonus_number, var/price, var/variable_name)
 	var/dat
-	for(var/a in 1 to attribute)
-		dat += "•"
-	for(var/b in 1 to bonus_number)
-		dat += "•"
-	var/leftover_circles = 5 - attribute //5 is the default number of blank circles
-	for(var/c in 1 to leftover_circles)
-		dat += "o"
+
+	dat += make_dots(attribute + bonus_number, 5 + bonus_number, FALSE)
+
 	var/real_price = attribute ? (attribute*price) : price //In case we have an attribute of 0, we don't multiply by 0
-	if((true_experience >= real_price) && (attribute < ATTRIBUTE_BASE_LIMIT))
-		dat += "<a href='byond://?_src_=prefs;preference=[variable_name];task=input'>Increase ([real_price])</a>"
-	dat += "<br>"
+	if(attribute < ATTRIBUTE_BASE_LIMIT)
+		dat += make_lockable_button("Increase ([real_price])", "byond://?_src_=prefs;preference=[variable_name];task=input", true_experience < real_price)
 	return dat

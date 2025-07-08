@@ -47,39 +47,6 @@
 	// species stats
 	switch(pref_species.name)
 		if("Vampire")
-			dat += "<b>Masquerade:</b> [masquerade]/5<br>"
-			dat += "<b>Generation:</b> [generation]<br>"
-			dat += "<b>Path of [enlightenment ? "Enlightenment" : "Humanity"]:</b> [humanity]/10<br>"
-
-			/*
-			// if(SSwhitelists.is_whitelisted(parent.ckey, "enlightenment") && !slotlocked)
-			if ((true_experience >= (humanity * 2)) && (humanity < 10))
-				dat += "<a href='byond://?_src_=prefs;preference=path;task=input'>Increase [enlightenment ? "Enlightenment" : "Humanity"] ([humanity * 2])</a>"
-			*/
-
-			if(humanity < 10)
-				dat += make_lockable_button( \
-					"Increase [enlightenment ? "Enlightenment" : "Humanity"] ([humanity * 2])", \
-					"byond://?_src_=prefs;preference=path;task=input", \
-					true_experience >= (humanity * 2))
-
-			if(!slotlocked)
-				dat += "<a href='byond://?_src_=prefs;preference=pathof;task=input'>Switch Path</a><br>"
-
-			// generation bonus
-			var/generation_allowed = TRUE
-			if(clan?.name == "Caitiff")
-				generation_allowed = FALSE
-
-			if(generation_allowed)
-				if(generation_bonus)
-					dat += "<b>Generation Bonus:</b> [generation_bonus]/[min(6, generation-7)]<br>"
-
-				if(generation_bonus < max(6, generation-7))
-					dat += make_lockable_button( \
-						"Claim Generation Bonus (20)", \
-						"byond://?_src_=prefs;preference=generation;task=input", \
-						true_experience >= 20)
 
 			// clans
 			dat += "<h2>[make_font_cool("CLAN")]</h2>"
@@ -93,46 +60,107 @@
 			if (length(clan.accessories))
 				dat += "<b>Marks:</b> <a href='byond://?_src_=prefs;preference=clan_acc;task=input'>[clan_accessory ? clan_accessory : "none"]</a><br>"
 
-			// disciplines
-			dat += "<h2>[make_font_cool("DISCIPLINES (WORK IN PROGRESS)")]</h2>"
-
-
-		if("Ghoul")
-			dat += "<b>Masquerade:</b> [masquerade]/5<br>"
-
-			// disciplines
-			dat += "<h2>[make_font_cool("DISCIPLINES (WORK IN PROGRESS)")]</h2>"
-
-		if("Kuei-Jin")
-			// dharma
-			var/datum/dharma/D = new dharma_type()
-			dat += "<b>Dharma:</b> "
-			dat += make_lockable_button(D.name, "byond://?_src_=prefs;preference=dharmatype;task=input", slotlocked, FALSE)
-			dat += " [dharma_level]/6<br>"
-			dat += "[D.desc]<br>"
-			if(dharma_level < 6)
-				var/dharma_cost = min((dharma_level * 5), 20)
-				make_lockable_button( \
-					"Raise Dharmic Enlightenment ([dharma_cost])", \
-					"byond://?_src_=prefs;preference=dharmarise;task=input", \
-					true_experience >= dharma_cost)
-
-			dat += "<b>P'o Personality</b>: "
-			dat += make_lockable_button(po_type, "byond://?_src_=prefs;preference=potype;task=input", slotlocked)
-
-			dat += "<b>Awareness:</b> [masquerade]/5<BR>"
-
-			dat += "<b>Yin/Yang</b>: [yin]/[yang] <a href='byond://?_src_=prefs;preference=chibalance;task=input'>Adjust</a><br>"
-			dat += "<b>Hun/P'o</b>: [hun]/[po] <a href='byond://?_src_=prefs;preference=demonbalance;task=input'>Adjust</a><br>"
-
-			// disciplines
-			dat += "<h2>[make_font_cool("DISCIPLINES (WORK IN PROGRESS)")]</h2>"
+			dat += "<h2>[make_font_cool("NOTORIETY")]</h2>"
+			dat += "<BR><b>Fame:</b><BR><a href ='byond://?_src_=prefs;preference=info_choose;task=input'>[info_known]</a>"
 
 		if("Werewolf")
-			dat += "<b>Veil:</b> [masquerade]/5<br>"
 
-			// disciplines
-			dat += "<h2>[make_font_cool("TRIBE (WORK IN PROGRESS)")]</h2>"
+			// tribe/breed
+			dat += "<h2>[make_font_cool("TRIBE")]</h2>"
+
+			dat += "<b>Tribe:</b> "
+			dat += make_lockable_button(tribe, "byond://?_src_=prefs;preference=tribe;task=input", slotlocked)
+
+			// gifts
+			var/gifts_text = ""
+			var/num_of_gifts = 0
+			for(var/i in 1 to auspice_level)
+				var/zalupa
+				switch (tribe)
+					if ("Glasswalkers")
+						zalupa = auspice.glasswalker[i]
+					if ("Wendigo")
+						zalupa = auspice.wendigo[i]
+					if ("Black Spiral Dancers")
+						zalupa = auspice.spiral[i]
+				var/datum/action/T = new zalupa()
+				gifts_text += "[T.name], "
+			for(var/i in auspice.gifts)
+				var/datum/action/ACT = new i()
+				num_of_gifts = min(num_of_gifts+1, length(auspice.gifts))
+				if(num_of_gifts != length(auspice.gifts))
+					gifts_text += "[ACT.name], "
+				else
+					gifts_text += "[ACT.name].<BR>"
+				qdel(ACT)
+			dat += "<b>Initial Gifts:</b> [gifts_text]"
+
+			// werewolf body
+			dat += "<h2>[make_font_cool("WOLF FORM")]</h2>"
+
+			// icon preview
+			// These mobs should be made in nullspace to avoid dumping them onto the map somewhere.
+			var/mob/living/carbon/werewolf/crinos/DAWOF = new
+			var/mob/living/carbon/werewolf/lupus/DAWOF2 = new
+
+			DAWOF.sprite_color = werewolf_color
+			DAWOF2.sprite_color = werewolf_color
+
+			var/obj/effect/overlay/eyes_crinos = new(DAWOF)
+			eyes_crinos.icon = 'code/modules/wod13/werewolf.dmi'
+			eyes_crinos.icon_state = "eyes"
+			eyes_crinos.layer = ABOVE_HUD_LAYER
+			eyes_crinos.color = werewolf_eye_color
+			DAWOF.overlays |= eyes_crinos
+
+			var/obj/effect/overlay/scar_crinos = new(DAWOF)
+			scar_crinos.icon = 'code/modules/wod13/werewolf.dmi'
+			scar_crinos.icon_state = "scar[werewolf_scar]"
+			scar_crinos.layer = ABOVE_HUD_LAYER
+			DAWOF.overlays |= scar_crinos
+
+			var/obj/effect/overlay/hair_crinos = new(DAWOF)
+			hair_crinos.icon = 'code/modules/wod13/werewolf.dmi'
+			hair_crinos.icon_state = "hair[werewolf_hair]"
+			hair_crinos.layer = ABOVE_HUD_LAYER
+			hair_crinos.color = werewolf_hair_color
+			DAWOF.overlays |= hair_crinos
+
+			var/obj/effect/overlay/eyes_lupus = new(DAWOF2)
+			eyes_lupus.icon = 'code/modules/wod13/werewolf_lupus.dmi'
+			eyes_lupus.icon_state = "eyes"
+			eyes_lupus.layer = ABOVE_HUD_LAYER
+			eyes_lupus.color = werewolf_eye_color
+			DAWOF2.overlays |= eyes_lupus
+
+			DAWOF.update_icons()
+			DAWOF2.update_icons()
+			dat += "[icon2html(getFlatIcon(DAWOF), user)][icon2html(getFlatIcon(DAWOF2), user)]<br>"
+			qdel(DAWOF)
+			qdel(DAWOF2)
+
+			// the actual options
+			dat += "<b>Werewolf Name:</b> "
+			dat += make_lockable_button(werewolf_name, "byond://?_src_=prefs;preference=werewolf_name;task=input", slotlocked)
+
+			dat += "<b>Breed:</b> "
+			dat += make_lockable_button(breed, "byond://?_src_=prefs;preference=breed;task=input", slotlocked)
+
+			dat += "<b>Color:</b> "
+			dat += make_lockable_button(werewolf_color, "byond://?_src_=prefs;preference=werewolf_color;task=input", slotlocked)
+
+			dat += "<b>Eyes:</b> "
+			dat += make_lockable_button(werewolf_eye_color, "byond://?_src_=prefs;preference=werewolf_eye_color;task=input", slotlocked)
+
+			dat += "<b>Scars:</b> "
+			dat += make_lockable_button(werewolf_scar, "byond://?_src_=prefs;preference=werewolf_scar;task=input", slotlocked)
+
+			dat += "<b>Hair:</b> "
+			dat += make_lockable_button(werewolf_hair, "byond://?_src_=prefs;preference=werewolf_hair;task=input", slotlocked)
+
+			dat += "<b>Hair Color:</b> "
+			dat += make_lockable_button(werewolf_hair_color, "byond://?_src_=prefs;preference=werewolf_hair_color;task=input", slotlocked)
+
 
 	dat += "</td></tr></table>"
 
