@@ -14,7 +14,7 @@
 	else
 		dat += "<b>Choose occupation chances</b><br>"
 		dat += "<div align='center'>Left-click to raise an occupation preference, right-click to lower it.<br></div>"
-		dat += "<script type='text/javascript'>function setJobPrefRedirect(level, rank) { window.location.href='?_src_=prefs;preference=job;task=setJobLevel;level=' + level + ';text=' + encodeURIComponent(rank); return false; }</script>"
+		dat += "<script type='text/javascript'>function setJobPrefRedirect(level, rank) { window.location.href='?_src_=prefs;preference=job;task=set_job_level;level=' + level + ';text=' + encodeURIComponent(rank); return false; }</script>"
 		dat += "<table width='100%' cellpadding='1' cellspacing='0' border='1px solid white' border-collapse='collapse'><tr><td width='20%' valign='top'>" // Table within a table for alignment, also allows you to easily add more colomns.
 		dat += "<table width='100%' cellpadding='1' cellspacing='0'><tr>"
 		var/index = -1
@@ -117,7 +117,7 @@
 					prefUpperLevel = 3
 					prefLowerLevel = 1
 
-			dat += "<a class='white' href='byond://?_src_=prefs;preference=job;task=setJobLevel;level=[prefUpperLevel];text=[rank]' oncontextmenu='javascript:return setJobPrefRedirect([prefLowerLevel], \"[rank]\");'>"
+			dat += "<a class='white' href='byond://?_src_=prefs;preference=job;task=set_job_level;level=[prefUpperLevel];text=[rank]' oncontextmenu='javascript:return setJobPrefRedirect([prefLowerLevel], \"[rank]\");'>"
 
 			if(rank == SSjob.overflow_role)//Overflow is special
 				if(job_preferences[SSjob.overflow_role] == JP_LOW)
