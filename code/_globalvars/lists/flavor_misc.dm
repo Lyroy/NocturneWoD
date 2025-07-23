@@ -41,6 +41,35 @@ GLOBAL_LIST_EMPTY(moth_markings_list)
 GLOBAL_LIST_EMPTY(caps_list)
 GLOBAL_LIST_EMPTY(tails_list_monkey)
 
+//a way to index the right bodypart list given the type of bodypart
+GLOBAL_LIST_INIT(mutant_reference_list, list(
+	"body_marking" = GLOB.body_markings_list,
+	"tail_lizard" = GLOB.tails_list_lizard,
+	"waggingtail_lizard" = GLOB.animated_tails_list_lizard,
+	"snout" = GLOB.snouts_list,
+	"horns" = GLOB.horns_list,
+	"frills" = GLOB.frills_list,
+	"spines" = GLOB.spines_list,
+	"legs" = GLOB.legs_list,
+	"waggingspines" = GLOB.animated_spines_list,
+	"tail_human" = GLOB.tails_list_human,
+	"waggingtail_human" = GLOB.animated_tails_list_human,
+	"ears" = GLOB.ears_list,
+	"wings" = GLOB.wings_list,
+	"wingsopen" = GLOB.wings_open_list,
+	"moth_wings" = GLOB.moth_wings_list,
+	"moth_antennae" = GLOB.moth_antennae_list,
+	"moth_markings" = GLOB.moth_markings_list,
+	"caps" = GLOB.caps_list,
+	"tail_monkey" = GLOB.tails_list_monkey,))
+
+//references wag types to regular types, wings open to wings, etc
+GLOBAL_LIST_INIT(mutant_transform_list, list(
+	"wingsopen" = "wings",
+	"waggingtail_human" = "tail_human",
+	"waggingtail_lizard" = "tail_lizard",
+	"waggingspines" = "spines",))
+
 GLOBAL_LIST_INIT(color_list_ethereal, list(
 	"Red" = "ff4d4d",
 	"Faint Red" = "ffb3b3",

@@ -1,9 +1,11 @@
 /datum/sprite_accessory/body_markings
 	icon = 'icons/mob/mutant_bodyparts.dmi'
+	relevant_layers = list(BODY_ADJ_LAYER, BODY_FRONT_LAYER)
 
 /datum/sprite_accessory/body_markings/none
 	name = "None"
 	icon_state = "none"
+	relevant_layers = null
 
 /datum/sprite_accessory/body_markings/dtiger
 	name = "Dark Tiger Body"
