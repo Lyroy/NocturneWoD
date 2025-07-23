@@ -179,10 +179,6 @@
 	READ_FILE(S["body_type"], body_type)
 	body_type = sanitize_gender(body_type, FALSE, FALSE, gender)
 
-	// may end up removing this down the line
-	READ_FILE(S["body_model"], body_model)
-	body_model = sanitize_integer(body_model, SLIM_BODY_MODEL_NUMBER, FAT_BODY_MODEL_NUMBER, initial(body_model))
-
 	READ_FILE(S["age"], age)
 	age	= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 

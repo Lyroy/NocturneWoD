@@ -36,7 +36,6 @@
 	var/original_haircolor
 	var/original_facialhaircolor
 	var/original_eyecolor
-	var/original_body_mod
 	var/original_body_sprite
 
 	var/datum/dna/impersonating_dna
@@ -47,7 +46,6 @@
 	var/impersonating_haircolor
 	var/impersonating_facialhaircolor
 	var/impersonating_eyecolor
-	var/impersonating_body_mod
 	var/impersonating_body_sprite
 
 	var/is_shapeshifted = FALSE
@@ -90,7 +88,6 @@
 	impersonating_haircolor = victim.hair_color
 	impersonating_facialhaircolor = victim.facial_hair_color
 	impersonating_eyecolor = victim.eye_color
-	impersonating_body_mod = victim.base_body_mod
 	impersonating_body_sprite = GET_BODY_SPRITE(victim)
 
 /datum/discipline_power/vicissitude/malleable_visage/proc/initialize_original()
@@ -108,7 +105,6 @@
 	original_haircolor = owner.hair_color
 	original_facialhaircolor = owner.facial_hair_color
 	original_eyecolor = owner.eye_color
-	original_body_mod = owner.base_body_mod
 	original_body_sprite = GET_BODY_SPRITE(owner)
 
 /datum/discipline_power/vicissitude/malleable_visage/proc/shapeshift(to_original = FALSE, instant = FALSE)
@@ -116,8 +112,6 @@
 		return
 	if (!instant)
 		var/time_delay = 10 SECONDS
-		if (original_body_mod != impersonating_body_mod)
-			time_delay += 5 SECONDS
 		if (original_body_sprite != impersonating_body_sprite)
 			time_delay += 10 SECONDS
 		to_chat(owner, span_notice("You begin molding your appearance... This will take [DisplayTimeText(time_delay)]."))
@@ -137,7 +131,6 @@
 		owner.hair_color = original_haircolor
 		owner.facial_hair_color = original_facialhaircolor
 		owner.eye_color = original_eyecolor
-		owner.set_body_model(original_body_mod)
 		owner.set_body_sprite(original_body_sprite)
 		is_shapeshifted = FALSE
 		QDEL_NULL(impersonating_dna)
@@ -153,7 +146,6 @@
 		owner.hair_color = impersonating_haircolor
 		owner.facial_hair_color = impersonating_facialhaircolor
 		owner.eye_color = impersonating_eyecolor
-		owner.set_body_model(impersonating_body_mod)
 		owner.set_body_sprite(impersonating_body_sprite)
 		is_shapeshifted = TRUE
 
@@ -275,7 +267,6 @@
 	var/mutable_appearance/upgrade_overlay
 	var/original_skin_tone
 	var/original_hairstyle
-	var/original_body_mod
 
 /datum/action/basic_vicissitude/Trigger()
 	. = ..()
@@ -305,8 +296,6 @@
 			user.skin_tone = ALBINO
 			original_hairstyle = user.hairstyle
 			user.hairstyle = "Bald"
-			original_body_mod = user.base_body_mod
-			user.set_body_model(NORMAL_BODY_MODEL)
 			user.physiology.armor.melee += 20
 			user.physiology.armor.bullet += 20
 		if ("Centipede legs")
@@ -344,7 +333,6 @@
 			user.set_body_sprite()
 			user.skin_tone = original_skin_tone
 			user.hairstyle = original_hairstyle
-			user.set_body_model(original_body_mod)
 			user.physiology.armor.melee -= 20
 			user.physiology.armor.bullet -= 20
 		if ("Centipede legs")

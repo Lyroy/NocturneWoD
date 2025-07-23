@@ -70,7 +70,6 @@
 	WRITE_FILE(S["gender"], gender)
 	WRITE_FILE(S["real_name"], real_name)
 	WRITE_FILE(S["body_type"], body_type)
-	WRITE_FILE(S["body_model"], body_model)
 	WRITE_FILE(S["age"], age)
 	WRITE_FILE(S["total_age"], total_age)
 	WRITE_FILE(S["hair_color"], hair_color)

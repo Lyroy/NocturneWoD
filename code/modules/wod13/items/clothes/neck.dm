@@ -10,7 +10,6 @@
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
 	inhand_icon_state = ""
 	w_class = WEIGHT_CLASS_SMALL
-	body_worn = TRUE
 
 /obj/item/clothing/neck/vampire/scarf
 	name = "black scarf"

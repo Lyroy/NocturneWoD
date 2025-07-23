@@ -23,7 +23,6 @@
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
 	worn_icon = 'code/modules/wod13/worn.dmi'
 	component_type = /datum/component/storage/concrete/vtm/backpack
-	body_worn = TRUE
 
 //obj/item/storage/backpack/ComponentInitialize()
 //	. = ..()

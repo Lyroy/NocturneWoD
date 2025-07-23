@@ -13,7 +13,6 @@
 	gender = PLURAL
 	can_be_tied = FALSE
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
-	body_worn = TRUE
 
 /obj/item/clothing/shoes/vampire/Initialize()
 	. = ..()

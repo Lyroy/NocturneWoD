@@ -1,25 +1,13 @@
 /obj/item
 	var/onflooricon
 	var/onflooricon_state
-	var/body_worn = FALSE
 
 /obj/item/proc/update_bodyfied(var/mob/living/carbon/human/human)
-	if(body_worn)
-		if(human.body_sprite)
-			worn_icon = human.body_sprite
-		else
-			worn_icon = initial(worn_icon)
 
 /obj/item/equipped(mob/M, slot)
 	if(onflooricon)
 		icon = initial(icon)
 		pixel_w = initial(pixel_w)
-	if(body_worn && ishuman(M))
-		var/mob/living/carbon/human/BS = M
-		if(BS.body_sprite)
-			worn_icon = BS.body_sprite
-		else
-			worn_icon = initial(worn_icon)
 	update_icon()
 	..()
 

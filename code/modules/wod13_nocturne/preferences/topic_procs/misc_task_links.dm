@@ -24,16 +24,6 @@
 				body_type = FEMALE
 			else
 				body_type = MALE
-		if("body_model")
-			if(slotlocked)
-				return
-
-			if(body_model == SLIM_BODY_MODEL_NUMBER)
-				body_model = NORMAL_BODY_MODEL_NUMBER
-			else if(body_model == NORMAL_BODY_MODEL_NUMBER)
-				body_model = FAT_BODY_MODEL_NUMBER
-			else if(body_model == FAT_BODY_MODEL_NUMBER)
-				body_model = SLIM_BODY_MODEL_NUMBER
 		if("hotkeys")
 			hotkeys = !hotkeys
 			if(hotkeys)
