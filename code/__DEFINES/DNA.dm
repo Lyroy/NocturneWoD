@@ -125,6 +125,8 @@
 #define NOBLOODOVERLAY 21
 ///No augments, for monkeys in specific because they will turn into fucking freakazoids https://cdn.discordapp.com/attachments/326831214667235328/791313258912153640/102707682-fa7cad80-4294-11eb-8f13-8c689468aeb0.png
 #define NOAUGMENTS 		22
+/// if sprite accessory icon is matrixed (NOT AN ACTUAL SPECIES TRAIT)
+#define MATRIXED 23
 
 //organ slots
 #define ORGAN_SLOT_BRAIN "brain"

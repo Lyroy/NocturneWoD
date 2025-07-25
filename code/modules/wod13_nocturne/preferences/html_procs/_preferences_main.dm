@@ -38,6 +38,9 @@
 	show_loadout = (current_tab == PREFS_LOADOUT_TAB) ? show_loadout : FALSE
 	update_preview_icon(show_loadout)
 	*/
+
+	update_preview_icon()
+
 	var/list/dat = list()
 
 	if(path)

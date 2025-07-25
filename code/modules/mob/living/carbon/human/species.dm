@@ -852,7 +852,21 @@ GLOBAL_LIST_EMPTY(selectable_races)
 			if(S.center)
 				accessory_overlay = center_image(accessory_overlay, S.dimension_x, S.dimension_y)
 
-			// going to need to put per-part coloring bullshit here
+			var/mutant_string = S.mutant_part_string
+			if(mutant_string == "tailwag") //wagging tails should be coloured the same way as your tail
+				mutant_string = "tail"
+
+			var/primary_string = "[mutant_string]_primary"
+			var/secondary_string = "[mutant_string]_secondary"
+			var/tertiary_string = "[mutant_string]_tertiary"
+
+			//failsafe: if there's no value for any of these, set it to white
+			if(!H.dna.features[primary_string])
+				H.dna.features[primary_string] = "FFFFFF"
+			if(!H.dna.features[secondary_string])
+				H.dna.features[secondary_string] = "FFFFFF"
+			if(!H.dna.features[tertiary_string])
+				H.dna.features[tertiary_string] = "FFFFFF"
 
 			if(!(HAS_TRAIT(H, TRAIT_HUSK)))
 				if(!forced_colour)
@@ -873,6 +887,33 @@ GLOBAL_LIST_EMPTY(selectable_races)
 							accessory_overlay.color = "#[H.facial_hair_color]"
 						if(EYECOLOR)
 							accessory_overlay.color = "#[H.eye_color]"
+						if(MATRIXED)
+							var/list/accessory_colorlist = list()
+
+							// primary color
+							if(S.matrixed_sections == MATRIX_RED || S.matrixed_sections == MATRIX_RED_GREEN || S.matrixed_sections == MATRIX_RED_BLUE || S.matrixed_sections == MATRIX_ALL)
+								accessory_colorlist += ReadRGB("[H.dna.features[primary_string]]00")
+							else
+								accessory_colorlist += ReadRGB("00000000")
+
+							// secondary color
+							if(S.matrixed_sections == MATRIX_GREEN || S.matrixed_sections == MATRIX_RED_GREEN || S.matrixed_sections == MATRIX_GREEN_BLUE || S.matrixed_sections == MATRIX_ALL)
+								accessory_colorlist += ReadRGB("[H.dna.features[secondary_string]]00")
+							else
+								accessory_colorlist += ReadRGB("00000000")
+
+							// tertiary color
+							if(S.matrixed_sections == MATRIX_BLUE || S.matrixed_sections == MATRIX_RED_BLUE || S.matrixed_sections == MATRIX_GREEN_BLUE || S.matrixed_sections == MATRIX_ALL)
+								accessory_colorlist += ReadRGB("[H.dna.features[tertiary_string]]00")
+							else
+								accessory_colorlist += ReadRGB("00000000")
+
+							accessory_colorlist += list(0, 0, 0, hair_alpha) // alpha
+
+							for(var/index in 1 to accessory_colorlist.len)
+								accessory_colorlist[index] /= 255
+
+							accessory_overlay.color = list(accessory_colorlist)
 				else
 					accessory_overlay.color = forced_colour
 			else
@@ -880,6 +921,17 @@ GLOBAL_LIST_EMPTY(selectable_races)
 					accessory_overlay.icon_state = "m_ears_none_[layertext]"
 				if(bodypart == "tail")
 					accessory_overlay.icon_state = "m_tail_husk_[layertext]"
+				if(S.color_src == MATRIXED)
+					var/list/accessory_colorlist = list()
+					accessory_colorlist += ReadRGB("#a3a3a3")
+					accessory_colorlist += ReadRGB("#a3a3a3")
+					accessory_colorlist += ReadRGB("#a3a3a3")
+					accessory_colorlist += list(0, 0, 0)
+
+					for(var/index in 1 to accessory_colorlist.len)
+						accessory_colorlist[index] /= 255
+
+					accessory_overlay.color = list(accessory_colorlist)
 
 			standing += accessory_overlay
 
@@ -894,17 +946,24 @@ GLOBAL_LIST_EMPTY(selectable_races)
 					inner_accessory_overlay = center_image(inner_accessory_overlay, S.dimension_x, S.dimension_y)
 
 				standing += inner_accessory_overlay
-				/*
+
 				if(S.color_src == MATRIXED)
 					var/list/accessory_colorlist = list()
-					accessory_colorlist += husk ? ReadRGB("#a3a3a3") : ReadRGB("[H.dna.features[primary_string]]00")
-					accessory_colorlist += husk ? ReadRGB("#a3a3a3") : ReadRGB("[H.dna.features[secondary_string]]00")
-					accessory_colorlist += husk ? ReadRGB("#a3a3a3") : ReadRGB("[H.dna.features[tertiary_string]]00")
-					accessory_colorlist += husk ? list(0, 0, 0) : list(0, 0, 0, hair_alpha)
+					if(!(HAS_TRAIT(H, TRAIT_HUSK)))
+						accessory_colorlist += ReadRGB("[H.dna.features[primary_string]]00")
+						accessory_colorlist += ReadRGB("[H.dna.features[secondary_string]]00")
+						accessory_colorlist += ReadRGB("[H.dna.features[tertiary_string]]00")
+						accessory_colorlist += list(0, 0, 0, hair_alpha)
+					else
+						accessory_colorlist += ReadRGB("#a3a3a3")
+						accessory_colorlist += ReadRGB("#a3a3a3")
+						accessory_colorlist += ReadRGB("#a3a3a3")
+						accessory_colorlist += list(0, 0, 0)
+
 					for(var/index in 1 to accessory_colorlist.len)
 						accessory_colorlist[index] /= 255
 					accessory_overlay.color = list(accessory_colorlist)
-				*/
+
 		H.overlays_standing[layernum] = standing.Copy()
 		standing = list()
 

@@ -8,7 +8,7 @@
 
 /datum/sprite_accessory/tails_animated
 	icon = 'icons/mob/mutant_bodyparts.dmi'
-	mutant_part_string = "waggingtail" //keep this the same, ALWAYS, this is incredibly important for colouring!
+	mutant_part_string = "tailwag" //keep this the same, ALWAYS, this is incredibly important for colouring!
 	relevant_layers = list(BODY_BEHIND_LAYER, BODY_FRONT_LAYER)
 
 // lizard tails
@@ -87,3 +87,18 @@
 	name = "Monkey"
 	icon_state = "monkey"
 	color_src = FALSE
+
+// for testing
+/datum/sprite_accessory/tails/human/fox
+	name = "Fox"
+	icon_state = "fox"
+	icon = 'icons/mob/sprite_accessories/tails.dmi'
+	color_src = MATRIXED
+	matrixed_sections = MATRIX_RED_GREEN
+
+/datum/sprite_accessory/tails_animated/human/fox
+	name = "Fox"
+	icon_state = "fox"
+	icon = 'icons/mob/sprite_accessories/tails.dmi'
+	color_src = MATRIXED
+	matrixed_sections = MATRIX_RED_GREEN

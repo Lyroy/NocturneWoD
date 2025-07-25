@@ -1,3 +1,5 @@
+#define MAX_MUTANT_ROWS 3
+
 /datum/preferences/proc/character_settings_page(mob/user, list/dat)
 	if(reason_of_death != "None")
 		dat += "<center><b>Last death</b>: [reason_of_death]</center>"
@@ -180,7 +182,7 @@
 		dat += "&nbsp;"
 		dat += make_lockable_button("Use Preset", "byond://?_src_=prefs;preference=s_tone_preset;task=input", slotlocked)
 
-	var/mutant_colors
+	// var/mutant_colors
 	if((MUTCOLORS in pref_species.species_traits) || (MUTCOLORS_PARTSONLY in pref_species.species_traits))
 
 		if(!appearance_column_skin)
@@ -192,7 +194,7 @@
 		dat += "<span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;</span> "
 		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=mutant_color;task=input", slotlocked)
 
-		mutant_colors = TRUE
+		// mutant_colors = TRUE
 
 	if(istype(pref_species, /datum/species/ethereal)) //not the best thing to do tbf but I dont know whats better.
 
@@ -308,6 +310,84 @@
 		dat += "<a href='byond://?_src_=prefs;preference=reset_with_bonus;task=input'>Create new character with generation bonus ([generation]-[generation_bonus])</a><br>"
 
 	dat += "</td></tr></table>"
+	// mutant part hell (help me god)
+	if(length(pref_species.mutant_bodyparts)) // if we actually have mutant parts that can be assigned
+		dat += "<table width='100%'><tr>"
+
+		var/mutant_row = 0
+
+		for(var/mutant_part in pref_species.mutant_bodyparts)
+			if(!(GLOB.mutant_name_list[mutant_part])) // mutant part has no display name
+				continue
+			if(mutant_part == "mam_body_markings") // skip body markings
+				continue
+
+			if(mutant_row == 0)
+				dat += "<td valign='top' width='25%'>"
+
+			dat += "<h3>[make_font_cool("[uppertext(GLOB.mutant_name_list[mutant_part])]")]</h3>"
+			dat += make_lockable_button(features[mutant_part], "byond://?_src_=prefs;preference=[mutant_part];task=input", slotlocked)
+
+			// PUT COLOR SHIT HERE
+			var/find_part = features[mutant_part] || pref_species.mutant_bodyparts[mutant_part]
+			var/find_part_list = GLOB.mutant_reference_list[mutant_part]
+			if(find_part && find_part != "None" && find_part_list)
+				var/datum/sprite_accessory/accessory = find_part_list[find_part]
+				if(accessory)
+					if(accessory.color_src == MATRIXED)
+						var/mutant_string = accessory.mutant_part_string
+
+						var/primary_feature = "[mutant_string]_primary"
+						var/secondary_feature = "[mutant_string]_secondary"
+						var/tertiary_feature = "[mutant_string]_tertiary"
+
+						// set to white as failsafe if no colors are set
+						if(!features[primary_feature])
+							features[primary_feature] = "FFFFFF"
+						if(!features[secondary_feature])
+							features[secondary_feature] = "FFFFFF"
+						if(!features[tertiary_feature])
+							features[tertiary_feature] = "FFFFFF"
+
+						var/matrixed_sections = accessory.matrixed_sections
+
+						if(accessory.color_src == MATRIXED && !matrixed_sections)
+							stack_trace("Sprite Accessory Failure (customization): Accessory [accessory.type] is a matrixed item without any matrixed sections set!")
+							continue
+
+						// swap around colors depending on matrixed colors
+						switch(matrixed_sections)
+							if(MATRIX_GREEN) //only composed of a green section
+								primary_feature = secondary_feature //swap primary for secondary, so it properly assigns the second colour, reserved for the green section
+							if(MATRIX_BLUE)
+								primary_feature = tertiary_feature //same as above, but the tertiary feature is for the blue section
+							if(MATRIX_RED_BLUE) //composed of a red and blue section
+								secondary_feature = tertiary_feature //swap secondary for tertiary, as blue should always be tertiary
+							if(MATRIX_GREEN_BLUE) //composed of a green and blue section
+								primary_feature = secondary_feature //swap primary for secondary, as first option is green, which is linked to the secondary
+								secondary_feature = tertiary_feature //swap secondary for tertiary, as second option is blue, which is linked to the tertiary
+
+						dat += "<b>Primary Color</b><BR>"
+						dat += "<span style='border:1px solid #161616; background-color: #[features[primary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[primary_feature];task=input'>Change</a><BR>"
+						if(matrixed_sections == MATRIX_RED_BLUE || matrixed_sections == MATRIX_GREEN_BLUE || matrixed_sections == MATRIX_RED_GREEN || matrixed_sections == MATRIX_ALL)
+							dat += "<b>Secondary Color</b><BR>"
+							dat += "<span style='border:1px solid #161616; background-color: #[features[secondary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[secondary_feature];task=input'>Change</a><BR>"
+							if(matrixed_sections == MATRIX_ALL)
+								dat += "<b>Tertiary Color</b><BR>"
+								dat += "<span style='border:1px solid #161616; background-color: #[features[tertiary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[tertiary_feature];task=input'>Change</a><BR>"
+
+			mutant_row++
+			if(mutant_row >= MAX_MUTANT_ROWS)
+				dat += "</td>"
+				mutant_row = 0
+
+		if(mutant_row == 0) // in case we didnt reach MAX_MUTANT_ROWS
+			dat += "<td valign='top' width='25%'>"
+
+		dat += "</tr></table>"
+
 
 	// REMOVE THIS WHEN THE MENU IS ACTUALLY FUCKING FINISHED
 	dat += "<center><h2>[make_font_cool("WORK IN PROGRESS")]</h2></center>"
+
+#undef MAX_MUTANT_ROWS

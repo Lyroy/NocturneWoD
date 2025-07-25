@@ -63,6 +63,24 @@ GLOBAL_LIST_INIT(mutant_reference_list, list(
 	"caps" = GLOB.caps_list,
 	"tail_monkey" = GLOB.tails_list_monkey,))
 
+// way to index mutant parts to their display names (jesus christ this piece of shit should just be rewritten to use datums FUCK TG)
+GLOBAL_LIST_INIT(mutant_name_list, list(
+	"body_marking" = "Markings",
+	"tail_lizard" = "Tail",
+	"snout" = "Snout",
+	"horns" = "Horns",
+	"frills" = "Frills",
+	"spines" = "Spines",
+	"legs" = "Legs",
+	"tail_human" = "Tail",
+	"ears" = "Ears",
+	"wings" = "Wings",
+	"moth_wings" = "Wings",
+	"moth_antennae" = "Antennae",
+	"moth_markings" = "Markings",
+	"caps" = "Cap",
+	"tail_monkey" = "Tail",))
+
 //references wag types to regular types, wings open to wings, etc
 GLOBAL_LIST_INIT(mutant_transform_list, list(
 	"wingsopen" = "wings",

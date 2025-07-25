@@ -1,6 +1,7 @@
 /datum/sprite_accessory/horns
 	icon = 'icons/mob/mutant_bodyparts.dmi'
 	relevant_layers = list(BODY_ADJ_LAYER)
+	mutant_part_string = "horns"
 
 /datum/sprite_accessory/horns/is_not_visible(mob/living/carbon/human/H)
 	var/obj/item/bodypart/head/HD = H.get_bodypart(BODY_ZONE_HEAD)

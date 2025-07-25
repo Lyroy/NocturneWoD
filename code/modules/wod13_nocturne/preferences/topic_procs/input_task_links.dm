@@ -905,4 +905,17 @@
 			if (!isnull(desiredlength))
 				max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+		if("tail_primary","tail_secondary","tail_tertiary")
+			var/the_feature = features[href_list["preference"]]
+
+			// set to white if feature color is not set
+			if(!the_feature)
+				features[href_list["preference"]] = "FFFFFF"
+				the_feature = "FFFFFF"
+
+			var/new_feature_color = input(user, "Choose your character's mutant part colour:", "Character Preference","#"+features[href_list["preference"]]) as color|null
+			if(new_feature_color)
+				// var/temp_hsv = RGBtoHSV(new_feature_color)
+				features[href_list["preference"]] = sanitize_hexcolor(new_feature_color, 6)
+
 	return TRUE
