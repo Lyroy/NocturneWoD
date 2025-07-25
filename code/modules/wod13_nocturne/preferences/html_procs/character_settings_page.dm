@@ -61,7 +61,7 @@
 				dat += "<b>Marks:</b> <a href='byond://?_src_=prefs;preference=clan_acc;task=input'>[clan_accessory ? clan_accessory : "none"]</a><br>"
 
 			dat += "<h2>[make_font_cool("NOTORIETY")]</h2>"
-			dat += "<BR><b>Fame:</b><BR><a href ='byond://?_src_=prefs;preference=info_choose;task=input'>[info_known]</a>"
+			dat += "<b>Fame:</b> <a href ='byond://?_src_=prefs;preference=info_choose;task=input'>[info_known]</a>"
 
 		if("Werewolf")
 
@@ -161,6 +161,151 @@
 			dat += "<b>Hair Color:</b> "
 			dat += make_lockable_button(werewolf_hair_color, "byond://?_src_=prefs;preference=werewolf_hair_color;task=input", slotlocked)
 
+	// appearance shit
+	dat += "</td></tr></table>"
+	dat += "<table width='100%'><tr>"
+
+	var/use_skintones = pref_species.use_skintones
+	var/appearance_column_skin = FALSE
+
+	if(use_skintones)
+
+		dat += "<td valign='top' width='25%'>"
+		appearance_column_skin = TRUE
+
+		dat += "<h3>[make_font_cool("SKIN")]</h3>"
+
+		dat += "<span style='border: 1px solid #161616; background-color: #[skin_tone];'>&nbsp;&nbsp;&nbsp;</span> "
+		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=s_tone;task=input", slotlocked, br=FALSE)
+		dat += "&nbsp;"
+		dat += make_lockable_button("Use Preset", "byond://?_src_=prefs;preference=s_tone_preset;task=input", slotlocked)
+
+	var/mutant_colors
+	if((MUTCOLORS in pref_species.species_traits) || (MUTCOLORS_PARTSONLY in pref_species.species_traits))
+
+		if(!appearance_column_skin)
+			dat += "<td valign='top' width='25%'>"
+			appearance_column_skin = TRUE
+
+		dat += "<h3>[make_font_cool("MUTANT COLOR")]</h3>"
+
+		dat += "<span style='border: 1px solid #161616; background-color: #[features["mcolor"]];'>&nbsp;&nbsp;&nbsp;</span> "
+		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=mutant_color;task=input", slotlocked)
+
+		mutant_colors = TRUE
+
+	if(istype(pref_species, /datum/species/ethereal)) //not the best thing to do tbf but I dont know whats better.
+
+		if(!appearance_column_skin)
+			dat += "<td valign='top' width='25%'>"
+			appearance_column_skin = TRUE
+
+		dat += "<h3>[make_font_cool("ETHEREAL COLOR")]</h3>"
+
+		dat += "<span style='border: 1px solid #161616; background-color: #[features["ethcolor"]];'>&nbsp;&nbsp;&nbsp;</span> "
+		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=color_ethereal;task=input", slotlocked)
+
+	if((EYECOLOR in pref_species.species_traits) && !(NOEYESPRITES in pref_species.species_traits))
+
+		if(!appearance_column_skin)
+			dat += "<td valign='top' width='25%'>"
+			appearance_column_skin = TRUE
+
+		dat += "<h3>[make_font_cool("EYES")]</h3>"
+
+		dat += "<span style='border: 1px solid #161616; background-color: #[eye_color];'>&nbsp;&nbsp;&nbsp;</span> "
+		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=eyes;task=input", slotlocked)
+
+	if(appearance_column_skin)
+		dat += "</td>"
+
+	if(HAIR in pref_species.species_traits)
+
+		dat += "<td valign='top' width='25%'>"
+
+		dat += "<h3>[make_font_cool("HAIR")]</h3>"
+
+		// hair style
+		dat += make_lockable_button(hairstyle, "byond://?_src_=prefs;preference=hairstyle;task=input", slotlocked, br=FALSE)
+		dat += make_lockable_button("&lt;", "byond://?_src_=prefs;preference=previous_hairstyle;task=input", slotlocked, br=FALSE)
+		dat += " "
+		dat += make_lockable_button("&gt;", "byond://?_src_=prefs;preference=next_hairstyle;task=input", slotlocked)
+
+		// hair color
+		dat += "<span style='border: 1px solid #161616; background-color: #[hair_color];'>&nbsp;&nbsp;&nbsp;</span> "
+		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=hair;task=input", slotlocked)
+
+		// add hair gradient shit here
+
+		dat += "<h3>[make_font_cool("FACIAL HAIR")]</h3>"
+
+		// facial hair style
+		dat += make_lockable_button(facial_hairstyle, "byond://?_src_=prefs;preference=facial_hairstyle;task=input", slotlocked, br=FALSE)
+		dat += make_lockable_button("&lt;", "byond://?_src_=prefs;preference=previous_facehairstyle;task=input", slotlocked, br=FALSE)
+		dat += " "
+		dat += make_lockable_button("&gt;", "byond://?_src_=prefs;preference=next_facehairstyle;task=input", slotlocked)
+
+		// facial hair color
+		dat += "<span style='border: 1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> "
+		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=facial;task=input", slotlocked)
+
+		dat += "</td>"
+
+	// underwear
+	dat += "<td width ='20%' valign='top'>"
+	dat += "<h2>[make_font_cool("UNDERWEAR")]</h2>"
+
+	dat += "<b>Underwear:</b><br>"
+	dat += "<a href ='byond://?_src_=prefs;preference=underwear;task=input'>[underwear]</a><br>"
+
+	dat += "<b>Underwear Color:</b><br>"
+	dat += "<span style='border: 1px solid #161616; background-color: #[underwear_color];'>&nbsp;&nbsp;&nbsp;</span>"
+	dat += "<a href='byond://?_src_=prefs;preference=underwear_color;task=input'>Change</a><br>"
+
+	dat += "<b>Undershirt:</b><br>"
+	dat += "<a href ='byond://?_src_=prefs;preference=undershirt;task=input'>[undershirt]</a><br>"
+
+	dat += "<b>Socks:</b><br>"
+	dat += "<a href ='byond://?_src_=prefs;preference=socks;task=input'>[socks]</a><br>"
+
+	dat += "<b>Backpack:</b><br>"
+	dat += "<a href ='byond://?_src_=prefs;preference=bag;task=input'>[backpack]</a><br>"
+
+	dat += "</td>"
+
+	// flavor text/generation shit
+	dat += "<td width ='30%' valign='top'>"
+
+	dat += "<h2>[make_font_cool("DESCRIPTION")]</h2>"
+
+	// flavor text
+	dat += "<b>Flavor Text: </b><a href='byond://?_src_=prefs;preference=flavor_text;task=input'>Change</a><br>"
+	if(length(flavor_text) == 0) // looks like shit if the flavor text is empty otherwise
+		dat += "<br>"
+	else if(length(flavor_text) <= 110)
+		dat += "<i>[flavor_text]</i><br><br>"
+	else
+		dat += "<i>[copytext_char(flavor_text, 1, 110)]...</i> <a href='byond://?_src_=prefs;preference=view_flavortext;task=input'>Show More</a><br><br>"
+
+	// headshot
+	dat += "<b>Headshot(1:1):</b> <a href='byond://?_src_=prefs;preference=headshot;task=input'>Change</a>"
+	if(headshot_link != null)
+		dat += " <a href='byond://?_src_=prefs;preference=view_headshot;task=input'>View</a><br>"
+	else
+		dat += "<br>"
+
+	// ooc notes
+	dat += "<b>OOC Notes:</b> [ooc_notes] <a href='byond://?_src_=prefs;preference=ooc_notes;task=input'>Change</a><br>"
+
+	// appearance/generation shit
+	if(slotlocked || generation_bonus)
+		dat += "<h2>[make_font_cool("EVOLUTION")]</h2>" // no idea what else to call this
+
+	if(slotlocked)
+		dat += make_lockable_button("Change Appearance (3)", "byond://?_src_=prefs;preference=change_appearance;task=input", true_experience < 3)
+
+	if(generation_bonus)
+		dat += "<a href='byond://?_src_=prefs;preference=reset_with_bonus;task=input'>Create new character with generation bonus ([generation]-[generation_bonus])</a><br>"
 
 	dat += "</td></tr></table>"
 

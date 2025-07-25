@@ -102,7 +102,9 @@
 			keybindings_page(user, dat)
 	dat += "<hr><center>"
 
-	if(!IsGuestKey(user.key))
+	if(slotlocked)
+		dat += "Your character is saved. You can't change name and appearance, but your progress will be saved.<br>"
+	if(!IsGuestKey(user.key) && !slotlocked)
 		dat += "<a href='byond://?_src_=prefs;preference=load'>Undo</a> "
 		dat += "<a href='byond://?_src_=prefs;preference=save'>Save Character</a> "
 
