@@ -430,7 +430,7 @@
 					caster.dna.species.ToggleFlight(caster)
 		if(5)
 			caster.remove_overlay(POTENCE_LAYER)
-			var/mutable_appearance/fortitude_overlay = mutable_appearance('code/modules/wod13/icons.dmi', "[caster.base_body_mod]rock", -POTENCE_LAYER)
+			var/mutable_appearance/fortitude_overlay = mutable_appearance('code/modules/wod13/icons.dmi', "rock", -POTENCE_LAYER)
 			caster.overlays_standing[POTENCE_LAYER] = fortitude_overlay
 			caster.apply_overlay(POTENCE_LAYER)
 			caster.physiology.armor.melee += 50

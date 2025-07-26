@@ -79,14 +79,15 @@
 //DNA - Because fuck you and your magic numbers being all over the codebase.
 #define DNA_BLOCK_SIZE				3
 
-#define DNA_UNI_IDENTITY_BLOCKS		7
+#define DNA_UNI_IDENTITY_BLOCKS		8
 #define DNA_HAIR_COLOR_BLOCK		1
 #define DNA_FACIAL_HAIR_COLOR_BLOCK	2
 #define DNA_SKIN_TONE_BLOCK			3
 #define DNA_EYE_COLOR_BLOCK			4
 #define DNA_GENDER_BLOCK			5
 #define DNA_FACIAL_HAIRSTYLE_BLOCK	6
-#define DNA_HAIRSTYLE_BLOCK		7
+#define DNA_HAIRSTYLE_BLOCK			7
+#define DNA_MUTANTMARKING_BLOCK		8
 
 #define DNA_SEQUENCE_LENGTH			4
 #define DNA_MUTATION_BLOCKS			8
@@ -125,6 +126,8 @@
 #define NOBLOODOVERLAY 21
 ///No augments, for monkeys in specific because they will turn into fucking freakazoids https://cdn.discordapp.com/attachments/326831214667235328/791313258912153640/102707682-fa7cad80-4294-11eb-8f13-8c689468aeb0.png
 #define NOAUGMENTS 		22
+/// if sprite accessory icon is matrixed (NOT AN ACTUAL SPECIES TRAIT)
+#define MATRIXED 23
 
 //organ slots
 #define ORGAN_SLOT_BRAIN "brain"

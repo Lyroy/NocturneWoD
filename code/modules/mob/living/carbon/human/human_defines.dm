@@ -116,11 +116,6 @@
 	var/last_raid = 0
 	var/killed_count = 0
 
-	/// Body model based on weight. Can be slim, normal, or fat.
-	var/base_body_mod = NORMAL_BODY_MODEL
-	/// Clothing sprites to use based on body model
-	var/icon/body_sprite
-
 	bloodquality = 2
 
 	var/soul_state = SOUL_PRESENT

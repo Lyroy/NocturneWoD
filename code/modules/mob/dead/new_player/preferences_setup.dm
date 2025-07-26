@@ -26,13 +26,12 @@
 	MAMA.pixel_x = -16
 	mannequin.add_overlay(MAMA)
 	copy_to(mannequin, 1, TRUE, TRUE)
-	mannequin.update_body()
-	mannequin.update_body_parts()
-	mannequin.update_icon()
 
 	if(previewJob)
 		mannequin.job = previewJob.title
 		previewJob.equip(mannequin, TRUE, preference_source = parent)
+
+	mannequin.regenerate_icons()
 
 	COMPILE_OVERLAYS(mannequin)
 	parent.show_character_previews(new /mutable_appearance(mannequin))

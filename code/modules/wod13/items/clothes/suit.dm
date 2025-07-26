@@ -17,7 +17,6 @@
 	max_integrity = 250
 	resistance_flags = NONE
 	armor = list(MELEE = 10, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 10, WOUND = 10)
-	body_worn = TRUE
 
 /obj/item/clothing/suit/vampire/Initialize()
 	. = ..()
@@ -39,7 +38,6 @@
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	armor = list(MELEE = 0, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 50, BIO = 0, RAD = 0, FIRE = 50, ACID = 100, WOUND = 10)
 	hoodtype = /obj/item/clothing/head/hooded/heisenberg_hood
-	body_worn = TRUE
 
 /obj/item/clothing/head/hooded/heisenberg_hood
 	name = "chemical hood"
@@ -53,7 +51,6 @@
 	min_cold_protection_temperature = FIRE_SUIT_MIN_TEMP_PROTECT
 	flags_inv = HIDEHAIR | HIDEEARS
 	armor = list(MELEE = 0, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 50, BIO = 0, RAD = 0, FIRE = 50, ACID = 100, WOUND = 10)
-	body_worn = TRUE
 
 //** SPOOOOKY ROBES FROM THE CAPPADOCIAN UPDATE **//
 /obj/item/clothing/suit/hooded/robes
@@ -68,7 +65,6 @@
 	body_parts_covered = CHEST | GROIN | LEGS | ARMS
 	cold_protection = CHEST | GROIN | LEGS | ARMS
 	hoodtype = /obj/item/clothing/head/hooded/robes_hood
-	body_worn = TRUE
 
 /obj/item/clothing/head/hooded/robes_hood
 	name = "white hood"
@@ -80,7 +76,6 @@
 	body_parts_covered = HEAD
 	cold_protection = HEAD
 	flags_inv = HIDEHAIR | HIDEEARS
-	body_worn = TRUE
 
 /obj/item/clothing/suit/hooded/robes/black
 	name = "black robe"
@@ -430,7 +425,6 @@
 	max_integrity = 250
 	resistance_flags = NONE
 	armor = list(MELEE = 10, BULLET = 0, LASER = 10, ENERGY = 10, BOMB = 10, BIO = 0, RAD = 0, FIRE = 0, ACID = 10, WOUND = 10)
-	body_worn = TRUE
 
 /obj/item/clothing/suit/pentex/Initialize()
 	. = ..()

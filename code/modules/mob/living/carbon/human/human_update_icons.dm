@@ -57,9 +57,6 @@ There are several things that need to be remembered:
 	dna.species.handle_mutant_bodyparts(src)
 
 /mob/living/carbon/human/update_body()
-	for(var/obj/item/I in GetAllContents())
-		I.update_bodyfied(src)
-
 	update_inv_w_uniform()
 	update_inv_wear_id()
 	update_inv_gloves()
@@ -595,6 +592,8 @@ generate/load female uniform sprites matching all previously decided variables
 			. += "-digitigrade[BP.use_digitigrade]"
 		if(BP.dmg_overlay_type)
 			. += "-[BP.dmg_overlay_type]"
+		if(BP.body_markings_list)
+			. += "-[json_encode(BP.body_markings_list)]"
 
 	if(HAS_TRAIT(src, TRAIT_HUSK))
 		. += "-husk"
@@ -642,8 +641,6 @@ generate/load female uniform sprites matching all previously decided variables
 		// lipstick
 		if(lip_style && (LIPS in dna.species.species_traits))
 			var/mutable_appearance/lip_overlay = mutable_appearance('icons/mob/human_face.dmi', "lips_[lip_style]", -BODY_LAYER)
-			if(base_body_mod == SLIM_BODY_MODEL)
-				lip_overlay = mutable_appearance('icons/mob/human_face_f.dmi', "lips_[lip_style]", -BODY_LAYER)
 			lip_overlay.color = lip_color
 			if(OFFSET_FACE in dna.species.offset_features)
 				lip_overlay.pixel_x += dna.species.offset_features[OFFSET_FACE][1]
@@ -656,12 +653,8 @@ generate/load female uniform sprites matching all previously decided variables
 			var/mutable_appearance/eye_overlay
 			if(!E)
 				eye_overlay = mutable_appearance('icons/mob/human_face.dmi', "eyes_missing", -BODY_LAYER)
-				if(base_body_mod == SLIM_BODY_MODEL)
-					eye_overlay = mutable_appearance('icons/mob/human_face_f.dmi', "eyes_missing", -BODY_LAYER)
 			else
 				eye_overlay = mutable_appearance('icons/mob/human_face.dmi', E.eye_icon_state, -BODY_LAYER)
-				if(base_body_mod == SLIM_BODY_MODEL)
-					eye_overlay = mutable_appearance('icons/mob/human_face_f.dmi', E.eye_icon_state, -BODY_LAYER)
 			if((EYECOLOR in dna.species.species_traits) && E)
 				eye_overlay.color = "#" + eye_color
 			if(OFFSET_FACE in dna.species.offset_features)

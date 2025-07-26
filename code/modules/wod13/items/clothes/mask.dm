@@ -13,7 +13,6 @@
 	permeability_coefficient = 0.01
 	flags_cover = MASKCOVERSMOUTH | PEPPERPROOF
 	resistance_flags = NONE
-	body_worn = TRUE
 
 /obj/item/clothing/mask/vampire/balaclava
 	name = "balaclava"

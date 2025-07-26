@@ -10,7 +10,6 @@
 	onflooricon = 'code/modules/wod13/onfloor.dmi'
 	inhand_icon_state = "fingerless"
 	undyeable = TRUE
-	body_worn = TRUE
 
 /obj/item/clothing/gloves/vampire/leather
 	name = "leather gloves"

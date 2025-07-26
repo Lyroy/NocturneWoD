@@ -614,11 +614,17 @@
 			popup.open(FALSE)
 			return
 
+		if("view_ooc_notes")
+			var/datum/browser/popup = new(user, "[real_name]_ooc_notes", "[real_name]'s OOC Notes", 500, 200)
+			popup.set_content(replacetext(ooc_notes, "\n", "<BR>"))
+			popup.open(FALSE)
+			return
+
 		if("headshot")
 			to_chat(user, span_notice("Please use a relatively SFW image of the head and shoulder area to maintain immersion level. Lastly, ["<b>do not use a real life photo or use any image that is less than serious.</b>"]"))
 			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
 			to_chat(user, span_notice("Resolution: 250x250 pixels."))
-			var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", headshot_link, encode = FALSE)
+			var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", headshot_link, encode = FALSE, multiline = FALSE)
 			if(isnull(new_headshot_link))
 				return
 			if(!length(new_headshot_link))
@@ -905,4 +911,146 @@
 			if (!isnull(desiredlength))
 				max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+		// mutant part coloring
+		if("tail_primary","tail_secondary","tail_tertiary")
+			if(slotlocked)
+				return
+
+			var/the_feature = features[href_list["preference"]]
+
+			// set to white if feature color is not set
+			if(!the_feature)
+				features[href_list["preference"]] = "FFFFFF"
+				the_feature = "FFFFFF"
+
+			var/new_feature_color = input(user, "Choose your character's mutant part colour:", "Character Preference","#"+features[href_list["preference"]]) as color|null
+			if(new_feature_color)
+				// var/temp_hsv = RGBtoHSV(new_feature_color)
+				features[href_list["preference"]] = sanitize_hexcolor(new_feature_color, 6)
+
+		// markings
+		if("marking_add")
+			if(slotlocked)
+				return
+
+			features["mam_body_markings"] = SANITIZE_LIST(features["mam_body_markings"]) // in case the player changed species or some shit
+
+			if(islist(features["mam_body_markings"]))
+				var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
+				if(selected_limb)
+
+					var/list/filtered_markings_list = list()
+
+					for(var/path in GLOB.mam_body_markings_list)
+						var/datum/sprite_accessory/S = GLOB.mam_body_markings_list[path]
+						if(istype(S))
+
+							// filter out markings that arent for the chosen limb
+							if(istype(S, /datum/sprite_accessory/mam_body_markings))
+								var/datum/sprite_accessory/mam_body_markings/marking = S
+								if(!(selected_limb in marking.covered_limbs) && selected_limb != "All")
+									continue
+
+							filtered_markings_list[S.name] = path
+
+					var/selected_marking = input(user, "Select the marking to apply to the limb.") as null|anything in filtered_markings_list
+					if(selected_marking)
+						if(selected_limb != "All")
+							var/limb_value = limb_name2body_part_covered(selected_limb)
+							features["mam_body_markings"] += list(list(limb_value, selected_marking))
+						else
+							var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[selected_marking]
+							for(var/limb in S.covered_limbs)
+								var/limb_value = limb_name2body_part_covered(limb)
+								features["mam_body_markings"] += list(list(limb_value, selected_marking))
+
+		// marking color
+		if("marking_color")
+			if(slotlocked)
+				return
+
+			var/index = text2num(href_list["marking_index"])
+
+			if(index && features["mam_body_markings"])
+				// work out the input options to show the user
+				var/list/options = list("Primary")
+				var/number_colors = text2num(href_list["number_colors"])
+
+				// add extra colors to color options if need be
+				if(number_colors >= 2)
+					options += "Secondary"
+				if(number_colors == 3)
+					options += "Tertiary"
+
+				var/color_option = input(user, "Select the colour you wish to edit") as null|anything in options
+				if(color_option)
+					var/color_number = 1 // what color is being edited, 1 for primary, 2 for secondary, 3 for tertiary
+
+					if(color_option == "Secondary")
+						color_number = 2
+					else if(color_option == "Tertiary")
+						color_number = 3
+
+					// perform some magic on the color number
+					var/list/marking_list = features["mam_body_markings"][index]
+					var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[marking_list[2]]
+					var/matrixed_sections = S.covered_limbs[body_part_covered2limb_name(marking_list[1])]
+					if(color_number == 1)
+						switch(matrixed_sections)
+							if(MATRIX_GREEN)
+								color_number = 2
+							if(MATRIX_BLUE)
+								color_number = 3
+					else if(color_number == 2)
+						switch(matrixed_sections)
+							if(MATRIX_RED_BLUE)
+								color_number = 3
+							if(MATRIX_GREEN_BLUE)
+								color_number = 3
+
+					// actually change the color
+					var/color_list = features["mam_body_markings"][index][3]
+
+					var/new_marking_color = input(user, "Choose your character's marking color:", "Character Preference","#"+color_list[color_number]) as color|null
+					if(new_marking_color)
+						color_list[color_number] = "#[sanitize_hexcolor(new_marking_color, 6)]"
+
+		if("marking_down")
+			if(slotlocked)
+				return
+
+			// move the specified marking down
+			var/index = text2num(href_list["marking_index"])
+			if(index && features["mam_body_markings"] && index != length(features["mam_body_markings"]))
+				var/index_down = index + 1
+				var/markings = features["mam_body_markings"]
+				var/first_marking = markings[index]
+				var/second_marking = markings[index_down]
+				markings[index] = second_marking
+				markings[index_down] = first_marking
+
+		if("marking_up")
+			if(slotlocked)
+				return
+
+			// move the specified marking up
+			var/index = text2num(href_list["marking_index"])
+			if(index && features["mam_body_markings"] && index != 1)
+				var/index_up = index - 1
+				var/markings = features["mam_body_markings"]
+				var/first_marking = markings[index]
+				var/second_marking = markings[index_up]
+				markings[index] = second_marking
+				markings[index_up] = first_marking
+
+		if("marking_remove")
+			if(slotlocked)
+				return
+
+			// remove the specified marking
+			var/index = text2num(href_list["marking_index"])
+			if(index > 0 && index < length(features["mam_body_markings"]))
+				// because linters are just absolutely awful:
+				var/list/L = features["mam_body_markings"]
+				L.Cut(index, index + 1)
 	return TRUE

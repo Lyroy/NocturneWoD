@@ -53,6 +53,10 @@
 	var/mutation_color = ""
 	var/no_update = 0
 
+	// body marking shit
+	var/list/body_markings_list // stores body markings as lists, with the first value being the icon, the second value being the name of the marking, and the third being the colour
+	var/static/default_body_markings_icon = 'icons/mob/sprite_accessories/mam_markings.dmi'
+
 	var/animal_origin = null //for nonhuman bodypart (e.g. monkey)
 	var/dismemberable = 1 //whether it can be dismembered with a weapon.
 
@@ -762,6 +766,31 @@
 		else
 			species_color = ""
 
+		body_markings_list = list() // two hours to realize i forgot a single line, FUCK ME
+
+		if(S.mutant_bodyparts["mam_body_markings"]) // checks if the species can actually have body markings
+			// get all markings for this bodypart type
+			for(var/list/marking in H.dna.features["mam_body_markings"])
+				// marking is a list containing body part, marking name, and then the colour
+				if(marking[1] == body_part)
+					var/datum/sprite_accessory/marking_accessory
+					marking_accessory = GLOB.mam_body_markings_list[marking[2]]
+
+					var/body_markings_icon = default_body_markings_icon
+					var/marking_value = "plain"
+
+					if(marking_accessory)
+						body_markings_icon = marking_accessory.icon
+						marking_value = marking_accessory.icon_state
+
+					var/list/color_values
+					if(length(marking) == 3)
+						color_values = marking[3]
+					else
+						color_values = list("#FFFFFF", "#FFFFFF", "#FFFFFF") // fail safe
+
+					body_markings_list += list(list(body_markings_icon, marking_value, color_values))
+
 		if(!dropping_limb && H.dna.check_mutation(HULK))
 			mutation_color = "00aa00"
 		else
@@ -797,6 +826,7 @@
 	. = list()
 
 	var/image_dir = 0
+	var/icon_gender = (body_gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
 	if(dropped)
 		image_dir = SOUTH
 		if(dmg_overlay_type)
@@ -804,6 +834,24 @@
 				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0", -DAMAGE_LAYER, image_dir)
 			if(burnstate)
 				. += image('icons/mob/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_0[burnstate]", -DAMAGE_LAYER, image_dir)
+
+		/*
+		for(var/list/marking_list in body_markings_list)
+			// marking stores icon and value for the specific bodypart
+			if(!use_digitigrade)
+				if(body_zone == BODY_ZONE_CHEST)
+					markings_icon_list.Add(image(marking_list[1], "[marking_list[2]]_[body_zone]_[icon_gender]", -MARKING_LAYER, image_dir))
+				else
+					markings_icon_list.Add(image(marking_list[1], "[marking_list[2]]_[body_zone]", -MARKING_LAYER, image_dir))
+			else
+				markings_icon_list.Add(marking_list[1], "[marking_list[2]]_[use_digitigrade]_[body_zone]", -MARKING_LAYER, image_dir)
+
+			if(length(marking_list) == 3)
+				var/image/I = markings_icon_list[length(markings_icon_list)]
+				I.color = marking_list[3]
+
+		. += markings_icon_list
+		*/
 
 	var/image/limb = image(layer = -BODYPARTS_LAYER, dir = image_dir)
 	var/image/aux
@@ -821,10 +869,10 @@
 			limb.icon_state = "[animal_origin]_[body_zone]"
 		return
 
-	var/icon_gender = (body_gender == FEMALE) ? "f" : "m" //gender of the icon, if applicable
-
 	if((body_zone != BODY_ZONE_HEAD && body_zone != BODY_ZONE_CHEST))
 		should_draw_gender = FALSE
+
+	var/list/markings_icon_list = list()
 
 	if(is_organic_limb())
 		if(should_draw_greyscale)
@@ -841,16 +889,66 @@
 				limb.icon_state = "[species_id]_[body_zone]_[icon_gender]"
 			else
 				limb.icon_state = "[species_id]_[body_zone]"
+
+		for(var/list/marking_list in body_markings_list)
+			// marking stores icon and value for the specific bodypart
+			if(!use_digitigrade)
+				if(body_zone == BODY_ZONE_CHEST)
+					markings_icon_list.Add(image(marking_list[1], "[marking_list[2]]_[body_zone]_[icon_gender]", -BODYPARTS_LAYER, image_dir))
+				else
+					markings_icon_list.Add(image(marking_list[1], "[marking_list[2]]_[body_zone]", -BODYPARTS_LAYER, image_dir))
+			else
+				markings_icon_list.Add(marking_list[1], "[marking_list[2]]_[use_digitigrade]_[body_zone]", -BODYPARTS_LAYER, image_dir)
+
+			if(length(marking_list) == 3)
+				var/image/I = markings_icon_list[length(markings_icon_list)]
+				I.color = marking_list[3]
+
+		. += markings_icon_list
+
 		if(aux_zone)
 			aux = image(limb.icon, "[species_id]_[aux_zone]", -aux_layer, image_dir)
 			. += aux
 
+			// marking hand icons
+			for(var/marking_list in body_markings_list)
+				var/image/aux_marking_image = image(marking_list[1], "[marking_list[2]]_[aux_zone]", -aux_layer, image_dir)
+				if(length(marking_list) == 3)
+					aux_marking_image.color = marking_list[3]
+
+				. += aux_marking_image
+
 	else
 		limb.icon = icon
 		limb.icon_state = "[body_zone]" //Inorganic limbs are agender
+
+		for(var/list/marking_list in body_markings_list)
+			// marking stores icon and value for the specific bodypart
+			if(!use_digitigrade)
+				if(body_zone == BODY_ZONE_CHEST)
+					markings_icon_list.Add(image(marking_list[1], "[marking_list[2]]_[body_zone]_[icon_gender]", -BODYPARTS_LAYER, image_dir))
+				else
+					markings_icon_list.Add(image(marking_list[1], "[marking_list[2]]_[body_zone]", -BODYPARTS_LAYER, image_dir))
+			else
+				markings_icon_list.Add(marking_list[1], "[marking_list[2]]_[use_digitigrade]_[body_zone]", -BODYPARTS_LAYER, image_dir)
+
+			if(length(marking_list) == 3)
+				var/image/I = markings_icon_list[length(markings_icon_list)]
+				I.color = marking_list[3]
+
+		. += markings_icon_list
+
 		if(aux_zone)
 			aux = image(limb.icon, "[aux_zone]", -aux_layer, image_dir)
 			. += aux
+
+			// marking hand icons
+			for(var/marking_list in body_markings_list)
+				var/image/aux_marking_image = image(marking_list[1], "[marking_list[2]]_[aux_zone]", -aux_layer, image_dir)
+				if(length(marking_list) == 3)
+					aux_marking_image.color = marking_list[3]
+
+				. += aux_marking_image
 		return
 
 

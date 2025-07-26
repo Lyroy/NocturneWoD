@@ -70,7 +70,6 @@
 	WRITE_FILE(S["gender"], gender)
 	WRITE_FILE(S["real_name"], real_name)
 	WRITE_FILE(S["body_type"], body_type)
-	WRITE_FILE(S["body_model"], body_model)
 	WRITE_FILE(S["age"], age)
 	WRITE_FILE(S["total_age"], total_age)
 	WRITE_FILE(S["hair_color"], hair_color)
@@ -202,5 +201,35 @@
 	WRITE_FILE(S["feature_moth_markings"], features["moth_markings"])
 	WRITE_FILE(S["feature_human_tail"], features["tail_human"])
 	WRITE_FILE(S["feature_human_ears"], features["ears"])
+
+	// body markings
+	WRITE_FILE(S["feature_mam_body_markings"], features["mam_body_markings"])
+
+	// matrixed mutant part colors
+	for(var/feature in features)
+		var/feature_value = features[feature]
+		if(feature_value)
+			var/ref_list = GLOB.mutant_reference_list[feature]
+			if(ref_list)
+				var/datum/sprite_accessory/accessory = ref_list[feature_value]
+				if(accessory)
+					var/mutant_string = accessory.mutant_part_string
+
+					if(!mutant_string)
+						if(istype(accessory, /datum/sprite_accessory/mam_body_markings))
+							mutant_string = "mam_body_markings"
+
+					var/primary_string = "[mutant_string]_primary"
+					var/secondary_string = "[mutant_string]_secondary"
+					var/tertiary_string = "[mutant_string]_tertiary"
+					if(accessory.color_src == MATRIXED && !accessory.matrixed_sections && feature_value != "None")
+						stack_trace("Sprite Accessory Failure (saving data): Accessory [accessory.type] is a matrixed item without any matrixed sections set!")
+						continue
+					if(features[primary_string])
+						WRITE_FILE(S["feature_[primary_string]"], features[primary_string])
+					if(features[secondary_string])
+						WRITE_FILE(S["feature_[secondary_string]"], features[secondary_string])
+					if(features[tertiary_string])
+						WRITE_FILE(S["feature_[tertiary_string]"], features[tertiary_string])
 
 	return TRUE

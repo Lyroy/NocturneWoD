@@ -154,7 +154,8 @@
 	key_mode = KEY_MODE_TEXT
 	value_mode = VALUE_MODE_FLAG
 
-/datum/config_entry/flag/join_with_mutant_humans	//players can pick mutant bodyparts for humans before joining the game
+// WE ARE A FUCKING FURRY CODEBASE BRUH
+// /datum/config_entry/flag/join_with_mutant_humans	//players can pick mutant bodyparts for humans before joining the game
 
 /datum/config_entry/flag/no_summon_guns	//No
 

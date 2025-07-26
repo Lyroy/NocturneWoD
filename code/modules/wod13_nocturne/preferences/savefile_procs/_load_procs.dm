@@ -179,10 +179,6 @@
 	READ_FILE(S["body_type"], body_type)
 	body_type = sanitize_gender(body_type, FALSE, FALSE, gender)
 
-	// may end up removing this down the line
-	READ_FILE(S["body_model"], body_model)
-	body_model = sanitize_integer(body_model, SLIM_BODY_MODEL_NUMBER, FAT_BODY_MODEL_NUMBER, initial(body_model))
-
 	READ_FILE(S["age"], age)
 	age	= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 
@@ -495,15 +491,43 @@
 	READ_FILE(S["feature_moth_markings"], features["moth_markings"])
 	features["moth_markings"] = sanitize_inlist(features["moth_markings"], GLOB.moth_markings_list, "None")
 
-	if(!CONFIG_GET(flag/join_with_mutant_humans))
-		features["tail_human"] = "none"
-		features["ears"] = "none"
-	else
-		READ_FILE(S["feature_human_tail"], features["tail_human"])
-		features["tail_human"] = sanitize_inlist(features["tail_human"], GLOB.tails_list_human, "None")
+	READ_FILE(S["feature_human_tail"], features["tail_human"])
+	features["tail_human"] = sanitize_inlist(features["tail_human"], GLOB.tails_list_human, "None")
 
-		READ_FILE(S["feature_human_ears"], features["ears"])
-		features["ears"] = sanitize_inlist(features["ears"], GLOB.ears_list, "None")
+	READ_FILE(S["feature_human_ears"], features["ears"])
+	features["ears"] = sanitize_inlist(features["ears"], GLOB.ears_list, "None")
+
+	// body markings
+	READ_FILE(S["feature_mam_body_markings"], features["mam_body_markings"])
+	features["mam_body_markings"] = SANITIZE_LIST(features["mam_body_markings"])
+
+	// mutant part colors
+	// THIS MUST BE DONE AFTER ALL FEATURE SAVES OR IT WILL NOT WORK
+	for(var/feature in features)
+		var/feature_value = features[feature]
+		if(feature_value)
+			var/ref_list = GLOB.mutant_reference_list[feature]
+			if(ref_list)
+				var/datum/sprite_accessory/accessory = ref_list[feature_value]
+				if(accessory)
+					var/mutant_string = accessory.mutant_part_string
+					/*
+					if(!mutant_string)
+						if(istype(accessory, /datum/sprite_accessory/mam_body_markings))
+							mutant_string = "mam_body_markings"
+					*/
+					var/primary_string = "[mutant_string]_primary"
+					var/secondary_string = "[mutant_string]_secondary"
+					var/tertiary_string = "[mutant_string]_tertiary"
+					if(accessory.color_src == MATRIXED && !accessory.matrixed_sections && feature_value != "None")
+						stack_trace("Sprite Accessory Failure (loading data): Accessory [accessory.type] is a matrixed item without any matrixed sections set!")
+						continue
+					if(S["feature_[primary_string]"])
+						READ_FILE(S["feature_[primary_string]"], features[primary_string])
+					if(S["feature_[secondary_string]"])
+						READ_FILE(S["feature_[secondary_string]"], features[secondary_string])
+					if(S["feature_[tertiary_string]"])
+						READ_FILE(S["feature_[tertiary_string]"], features[tertiary_string])
 
 
 	//try to fix any outdated data if necessary

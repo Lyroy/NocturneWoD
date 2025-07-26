@@ -112,6 +112,10 @@
 		L[DNA_SKIN_TONE_BLOCK] = sanitize_hexcolor(H.skin_tone)
 		L[DNA_EYE_COLOR_BLOCK] = sanitize_hexcolor(H.eye_color)
 
+		if(!GLOB.mam_body_markings_list.len)
+			init_sprite_accessory_subtypes(/datum/sprite_accessory/mam_body_markings, GLOB.mam_body_markings_list)
+		L[DNA_MUTANTMARKING_BLOCK] = construct_block(GLOB.mam_body_markings_list.Find(features["mam_body_markings"]), GLOB.mam_body_markings_list.len)
+
 	for(var/i=1, i<=DNA_UNI_IDENTITY_BLOCKS, i++)
 		if(L[i])
 			. += L[i]
@@ -196,6 +200,8 @@
 			setblock(uni_identity, blocknumber, construct_block(GLOB.facial_hairstyles_list.Find(H.facial_hairstyle), GLOB.facial_hairstyles_list.len))
 		if(DNA_HAIRSTYLE_BLOCK)
 			setblock(uni_identity, blocknumber, construct_block(GLOB.hairstyles_list.Find(H.hairstyle), GLOB.hairstyles_list.len))
+		if(DNA_MUTANTMARKING_BLOCK)
+			construct_block(GLOB.mam_body_markings_list.Find(features["mam_body_markings"]), GLOB.mam_body_markings_list.len)
 
 //Please use add_mutation or activate_mutation instead
 /datum/dna/proc/force_give(datum/mutation/human/HM)
