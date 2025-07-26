@@ -211,11 +211,11 @@
 				var/datum/sprite_accessory/accessory = ref_list[feature_value]
 				if(accessory)
 					var/mutant_string = accessory.mutant_part_string
-					/*
+
 					if(!mutant_string)
 						if(istype(accessory, /datum/sprite_accessory/mam_body_markings))
 							mutant_string = "mam_body_markings"
-					*/
+
 					var/primary_string = "[mutant_string]_primary"
 					var/secondary_string = "[mutant_string]_secondary"
 					var/tertiary_string = "[mutant_string]_tertiary"

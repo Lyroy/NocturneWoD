@@ -281,13 +281,11 @@
 	dat += "<h2>[make_font_cool("DESCRIPTION")]</h2>"
 
 	// flavor text
-	dat += "<b>Flavor Text: </b><a href='byond://?_src_=prefs;preference=flavor_text;task=input'>Change</a><br>"
-	if(length(flavor_text) == 0) // looks like shit if the flavor text is empty otherwise
-		dat += "<br>"
-	else if(length(flavor_text) <= 110)
-		dat += "<i>[flavor_text]</i><br><br>"
+	dat += "<b>Flavor Text: </b><a href='byond://?_src_=prefs;preference=flavor_text;task=input'>Change</a>"
+	if(flavor_text != null)
+		dat += " <a href='byond://?_src_=prefs;preference=view_flavortext;task=input'>View</a><br>"
 	else
-		dat += "<i>[copytext_char(flavor_text, 1, 110)]...</i> <a href='byond://?_src_=prefs;preference=view_flavortext;task=input'>Show More</a><br><br>"
+		dat += "<br>"
 
 	// headshot
 	dat += "<b>Headshot(1:1):</b> <a href='byond://?_src_=prefs;preference=headshot;task=input'>Change</a>"
@@ -297,7 +295,11 @@
 		dat += "<br>"
 
 	// ooc notes
-	dat += "<b>OOC Notes:</b> [ooc_notes] <a href='byond://?_src_=prefs;preference=ooc_notes;task=input'>Change</a><br>"
+	dat += "<b>OOC Notes: </b><a href='byond://?_src_=prefs;preference=ooc_notes;task=input'>Change</a>"
+	if(ooc_notes != null)
+		dat += " <a href='byond://?_src_=prefs;preference=view_ooc_notes;task=input'>View</a><br>"
+	else
+		dat += "<br>"
 
 	// appearance/generation shit
 	if(slotlocked || generation_bonus)
@@ -319,7 +321,7 @@
 		for(var/mutant_part in pref_species.mutant_bodyparts)
 			if(!(GLOB.mutant_name_list[mutant_part])) // mutant part has no display name
 				continue
-			if(mutant_part == "mam_body_markings") // skip body markings
+			if(mutant_part == "mam_body_markings") // skip body markings (kind of redundant because it shouldnt have a display name)
 				continue
 
 			if(mutant_row == 0)
@@ -367,14 +369,17 @@
 								primary_feature = secondary_feature //swap primary for secondary, as first option is green, which is linked to the secondary
 								secondary_feature = tertiary_feature //swap secondary for tertiary, as second option is blue, which is linked to the tertiary
 
-						dat += "<b>Primary Color</b><BR>"
-						dat += "<span style='border:1px solid #161616; background-color: #[features[primary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[primary_feature];task=input'>Change</a><BR>"
+						dat += "<b>Primary Color:</b><BR>"
+						dat += "<span style='border:1px solid #161616; background-color: #[features[primary_feature]];'>&nbsp;&nbsp;&nbsp;</span> "
+						dat += make_lockable_button("Change", "byond://?_src_=prefs;?_src_=prefs;preference=[primary_feature];task=input", slotlocked)
 						if(matrixed_sections == MATRIX_RED_BLUE || matrixed_sections == MATRIX_GREEN_BLUE || matrixed_sections == MATRIX_RED_GREEN || matrixed_sections == MATRIX_ALL)
-							dat += "<b>Secondary Color</b><BR>"
-							dat += "<span style='border:1px solid #161616; background-color: #[features[secondary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[secondary_feature];task=input'>Change</a><BR>"
+							dat += "<b>Secondary Color:</b><BR>"
+							dat += "<span style='border:1px solid #161616; background-color: #[features[secondary_feature]];'>&nbsp;&nbsp;&nbsp;</span> "
+							dat += make_lockable_button("Change", "byond://?_src_=prefs;?_src_=prefs;preference=[secondary_feature];task=input", slotlocked)
 							if(matrixed_sections == MATRIX_ALL)
-								dat += "<b>Tertiary Color</b><BR>"
-								dat += "<span style='border:1px solid #161616; background-color: #[features[tertiary_feature]];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=[tertiary_feature];task=input'>Change</a><BR>"
+								dat += "<b>Tertiary Color:</b><BR>"
+								dat += "<span style='border:1px solid #161616; background-color: #[features[tertiary_feature]];'>&nbsp;&nbsp;&nbsp;</span> "
+								dat += make_lockable_button("Change", "byond://?_src_=prefs;?_src_=prefs;preference=[tertiary_feature];task=input", slotlocked)
 
 			mutant_row++
 			if(mutant_row >= MAX_MUTANT_ROWS)
@@ -382,7 +387,91 @@
 				mutant_row = 0
 
 		if(mutant_row == 0) // in case we didnt reach MAX_MUTANT_ROWS
+			dat += "</td>"
+
+
+		if(pref_species.mutant_bodyparts["mam_body_markings"])
 			dat += "<td valign='top' width='25%'>"
+			dat += "<h2>[make_font_cool("MARKINGS")]</h2>"
+
+			dat += make_lockable_button("Add Marking", "byond://?_src_=prefs;preference=marking_add;task=input", slotlocked)
+
+			if(length(features["mam_body_markings"]))
+				dat += "<table>"
+				var/list/markings = features["mam_body_markings"]
+
+				if(!islist(markings))
+					// something went terribly wrong
+					markings = list()
+
+				var/list/reverse_markings = reverseList(markings)
+
+				for(var/list/marking_list in reverse_markings)
+					var/marking_index = markings.Find(marking_list) // consider changing loop to go through indexes over lists instead of using Find here
+
+					var/limb_value = marking_list[1]
+					var/marking_name = marking_list[2]
+
+					var/color_marking_dat = ""
+					var/number_colors = 1
+
+					var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[marking_name]
+					var/matrixed_sections = S.covered_limbs[body_part_covered2limb_name(limb_value)]
+
+					if(S && matrixed_sections)
+						// if it has nothing initialize it to white
+						if(length(marking_list) == 2)
+							var/first = "#FFFFFF"
+							var/second = "#FFFFFF"
+							var/third = "#FFFFFF"
+
+							marking_list += list(list(first, second, third)) // just assume its 3 colours if it isnt it doesnt matter we just wont use the other values
+
+						// index magic
+						var/primary_index = 1
+						var/secondary_index = 2
+						var/tertiary_index = 3
+						switch(matrixed_sections)
+							if(MATRIX_GREEN)
+								primary_index = 2
+							if(MATRIX_BLUE)
+								primary_index = 3
+							if(MATRIX_RED_BLUE)
+								secondary_index = 2
+							if(MATRIX_GREEN_BLUE)
+								primary_index = 2
+								secondary_index = 3
+
+						// we know it has one matrixed section at minimum
+						color_marking_dat += "<span style='border: 1px solid #161616; background-color: [marking_list[3][primary_index]];'>&nbsp;&nbsp;&nbsp;</span>"
+
+						// if it has a second section, add it
+						if(matrixed_sections == MATRIX_RED_BLUE || matrixed_sections == MATRIX_GREEN_BLUE || matrixed_sections == MATRIX_RED_GREEN || matrixed_sections == MATRIX_ALL)
+							color_marking_dat += "<span style='border: 1px solid #161616; background-color: [marking_list[3][secondary_index]];'>&nbsp;&nbsp;&nbsp;</span>"
+							number_colors = 2
+
+						// if it has a third section, add it
+						if(matrixed_sections == MATRIX_ALL)
+							color_marking_dat += "<span style='border: 1px solid #161616; background-color: [marking_list[3][tertiary_index]];'>&nbsp;&nbsp;&nbsp;</span>"
+							number_colors = 3
+
+						color_marking_dat += " "
+						color_marking_dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=marking_color;marking_index=[marking_index];number_colors=[number_colors];task=input", slotlocked)
+
+					// move marking down
+					dat += "<tr><td>[marking_list[2]] - [body_part_covered2limb_name(marking_list[1])]</td> <td>"
+					dat += make_lockable_button("&#708;", "byond://?_src_=prefs;preference=marking_down;task=input;marking_index=[marking_index]", slotlocked, br=FALSE)
+					dat += " "
+
+					// move marking up
+					dat += make_lockable_button("&#709;", "byond://?_src_=prefs;preference=marking_up;task=input;marking_index=[marking_index]", slotlocked, br=FALSE)
+					dat += " "
+
+					// remove marking
+					dat += make_lockable_button("X", "byond://?_src_=prefs;preference=marking_remove;task=input;marking_index=[marking_index]", slotlocked, br=FALSE)
+					dat += " [color_marking_dat]</td></tr>"
+
+				dat += "</table>"
 
 		dat += "</tr></table>"
 

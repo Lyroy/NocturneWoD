@@ -614,11 +614,17 @@
 			popup.open(FALSE)
 			return
 
+		if("view_ooc_notes")
+			var/datum/browser/popup = new(user, "[real_name]_ooc_notes", "[real_name]'s OOC Notes", 500, 200)
+			popup.set_content(replacetext(ooc_notes, "\n", "<BR>"))
+			popup.open(FALSE)
+			return
+
 		if("headshot")
 			to_chat(user, span_notice("Please use a relatively SFW image of the head and shoulder area to maintain immersion level. Lastly, ["<b>do not use a real life photo or use any image that is less than serious.</b>"]"))
 			to_chat(user, span_notice("If the photo doesn't show up properly in-game, ensure that it's a direct image link that opens properly in a browser."))
 			to_chat(user, span_notice("Resolution: 250x250 pixels."))
-			var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", headshot_link, encode = FALSE)
+			var/new_headshot_link = tgui_input_text(user, "Input the headshot link (https, hosts: gyazo, discord, lensdump, imgbox, catbox):", "Headshot", headshot_link, encode = FALSE, multiline = FALSE)
 			if(isnull(new_headshot_link))
 				return
 			if(!length(new_headshot_link))
@@ -905,7 +911,11 @@
 			if (!isnull(desiredlength))
 				max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+		// mutant part coloring
 		if("tail_primary","tail_secondary","tail_tertiary")
+			if(slotlocked)
+				return
+
 			var/the_feature = features[href_list["preference"]]
 
 			// set to white if feature color is not set
@@ -918,4 +928,66 @@
 				// var/temp_hsv = RGBtoHSV(new_feature_color)
 				features[href_list["preference"]] = sanitize_hexcolor(new_feature_color, 6)
 
+		// markings
+		if("marking_add")
+			if(slotlocked)
+				return
+
+			if(islist(features["mam_body_markings"]))
+				var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
+				if(selected_limb)
+
+					var/list/filtered_markings_list = list()
+
+					for(var/path in GLOB.mam_body_markings_list)
+						var/datum/sprite_accessory/S = GLOB.mam_body_markings_list[path]
+						if(istype(S))
+
+							// filter out markings that arent for the chosen limb
+							if(istype(S, /datum/sprite_accessory/mam_body_markings))
+								var/datum/sprite_accessory/mam_body_markings/marking = S
+								if(!(selected_limb in marking.covered_limbs) && selected_limb != "All")
+									continue
+
+							filtered_markings_list[S.name] = path
+
+					var/selected_marking = input(user, "Select the marking to apply to the limb.") as null|anything in filtered_markings_list
+					if(selected_marking)
+						if(selected_limb != "All")
+							var/limb_value = limb_name2body_part_covered(selected_limb)
+							features["mam_body_markings"] += list(list(limb_value, selected_marking))
+						else
+							var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[selected_marking]
+							for(var/limb in S.covered_limbs)
+								var/limb_value = limb_name2body_part_covered(limb)
+								features["mam_body_markings"] += list(list(limb_value, selected_marking))
+
+		/*
+			if(marking_type && features[marking_type])
+				var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
+				if(selected_limb)
+					var/list/marking_list = GLOB.mam_body_markings_list
+					var/list/snowflake_markings_list = list()
+					for(var/path in marking_list)
+						var/datum/sprite_accessory/S = marking_list[path]
+						if(istype(S))
+							if(istype(S, /datum/sprite_accessory/mam_body_markings))
+								var/datum/sprite_accessory/mam_body_markings/marking = S
+								if(!(selected_limb in marking.covered_limbs) && selected_limb != "All")
+									continue
+
+							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
+								snowflake_markings_list[S.name] = path
+
+					var/selected_marking = input(user, "Select the marking to apply to the limb.") as null|anything in snowflake_markings_list
+					if(selected_marking)
+						if(selected_limb != "All")
+							var/limb_value = text2num(GLOB.bodypart_values[selected_limb])
+							features[marking_type] += list(list(limb_value, selected_marking))
+						else
+							var/datum/sprite_accessory/mam_body_markings/S = marking_list[selected_marking]
+							for(var/limb in S.covered_limbs)
+								var/limb_value = text2num(GLOB.bodypart_values[limb])
+								features[marking_type] += list(list(limb_value, selected_marking))
+		*/
 	return TRUE

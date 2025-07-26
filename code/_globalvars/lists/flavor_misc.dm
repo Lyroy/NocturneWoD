@@ -41,6 +41,9 @@ GLOBAL_LIST_EMPTY(moth_markings_list)
 GLOBAL_LIST_EMPTY(caps_list)
 GLOBAL_LIST_EMPTY(tails_list_monkey)
 
+// nocturne additions
+GLOBAL_LIST_EMPTY(mam_body_markings_list)
+
 //a way to index the right bodypart list given the type of bodypart
 GLOBAL_LIST_INIT(mutant_reference_list, list(
 	"body_marking" = GLOB.body_markings_list,
@@ -61,7 +64,8 @@ GLOBAL_LIST_INIT(mutant_reference_list, list(
 	"moth_antennae" = GLOB.moth_antennae_list,
 	"moth_markings" = GLOB.moth_markings_list,
 	"caps" = GLOB.caps_list,
-	"tail_monkey" = GLOB.tails_list_monkey,))
+	"tail_monkey" = GLOB.tails_list_monkey,
+	"mam_body_markings" = GLOB.mam_body_markings_list,))
 
 // way to index mutant parts to their display names (jesus christ this piece of shit should just be rewritten to use datums FUCK TG)
 GLOBAL_LIST_INIT(mutant_name_list, list(
