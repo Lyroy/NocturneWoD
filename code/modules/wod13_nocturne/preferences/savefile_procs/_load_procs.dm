@@ -497,6 +497,10 @@
 	READ_FILE(S["feature_human_ears"], features["ears"])
 	features["ears"] = sanitize_inlist(features["ears"], GLOB.ears_list, "None")
 
+	// body markings
+	READ_FILE(S["feature_mam_body_markings"], features["mam_body_markings"])
+	features["mam_body_markings"] = SANITIZE_LIST(features["mam_body_markings"])
+
 	// mutant part colors
 	// THIS MUST BE DONE AFTER ALL FEATURE SAVES OR IT WILL NOT WORK
 	for(var/feature in features)

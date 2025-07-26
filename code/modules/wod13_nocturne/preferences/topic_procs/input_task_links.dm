@@ -933,6 +933,8 @@
 			if(slotlocked)
 				return
 
+			features["mam_body_markings"] = SANITIZE_LIST(features["mam_body_markings"]) // in case the player changed species or some shit
+
 			if(islist(features["mam_body_markings"]))
 				var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
 				if(selected_limb)
@@ -962,32 +964,93 @@
 								var/limb_value = limb_name2body_part_covered(limb)
 								features["mam_body_markings"] += list(list(limb_value, selected_marking))
 
-		/*
-			if(marking_type && features[marking_type])
-				var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
-				if(selected_limb)
-					var/list/marking_list = GLOB.mam_body_markings_list
-					var/list/snowflake_markings_list = list()
-					for(var/path in marking_list)
-						var/datum/sprite_accessory/S = marking_list[path]
-						if(istype(S))
-							if(istype(S, /datum/sprite_accessory/mam_body_markings))
-								var/datum/sprite_accessory/mam_body_markings/marking = S
-								if(!(selected_limb in marking.covered_limbs) && selected_limb != "All")
-									continue
+		// marking color
+		if("marking_color")
+			if(slotlocked)
+				return
 
-							if((!S.ckeys_allowed) || (S.ckeys_allowed.Find(user.client.ckey)))
-								snowflake_markings_list[S.name] = path
+			var/index = text2num(href_list["marking_index"])
 
-					var/selected_marking = input(user, "Select the marking to apply to the limb.") as null|anything in snowflake_markings_list
-					if(selected_marking)
-						if(selected_limb != "All")
-							var/limb_value = text2num(GLOB.bodypart_values[selected_limb])
-							features[marking_type] += list(list(limb_value, selected_marking))
-						else
-							var/datum/sprite_accessory/mam_body_markings/S = marking_list[selected_marking]
-							for(var/limb in S.covered_limbs)
-								var/limb_value = text2num(GLOB.bodypart_values[limb])
-								features[marking_type] += list(list(limb_value, selected_marking))
-		*/
+			if(index && features["mam_body_markings"])
+				// work out the input options to show the user
+				var/list/options = list("Primary")
+				var/number_colors = text2num(href_list["number_colors"])
+
+				// add extra colors to color options if need be
+				if(number_colors >= 2)
+					options += "Secondary"
+				if(number_colors == 3)
+					options += "Tertiary"
+
+				var/color_option = input(user, "Select the colour you wish to edit") as null|anything in options
+				if(color_option)
+					var/color_number = 1 // what color is being edited, 1 for primary, 2 for secondary, 3 for tertiary
+
+					if(color_option == "Secondary")
+						color_number = 2
+					else if(color_option == "Tertiary")
+						color_number = 3
+
+					// perform some magic on the color number
+					var/list/marking_list = features["mam_body_markings"][index]
+					var/datum/sprite_accessory/mam_body_markings/S = GLOB.mam_body_markings_list[marking_list[2]]
+					var/matrixed_sections = S.covered_limbs[body_part_covered2limb_name(marking_list[1])]
+					if(color_number == 1)
+						switch(matrixed_sections)
+							if(MATRIX_GREEN)
+								color_number = 2
+							if(MATRIX_BLUE)
+								color_number = 3
+					else if(color_number == 2)
+						switch(matrixed_sections)
+							if(MATRIX_RED_BLUE)
+								color_number = 3
+							if(MATRIX_GREEN_BLUE)
+								color_number = 3
+
+					// actually change the color
+					var/color_list = features["mam_body_markings"][index][3]
+
+					var/new_marking_color = input(user, "Choose your character's marking color:", "Character Preference","#"+color_list[color_number]) as color|null
+					if(new_marking_color)
+						color_list[color_number] = "#[sanitize_hexcolor(new_marking_color, 6)]"
+
+		if("marking_down")
+			if(slotlocked)
+				return
+
+			// move the specified marking down
+			var/index = text2num(href_list["marking_index"])
+			if(index && features["mam_body_markings"] && index != length(features["mam_body_markings"]))
+				var/index_down = index + 1
+				var/markings = features["mam_body_markings"]
+				var/first_marking = markings[index]
+				var/second_marking = markings[index_down]
+				markings[index] = second_marking
+				markings[index_down] = first_marking
+
+		if("marking_up")
+			if(slotlocked)
+				return
+
+			// move the specified marking up
+			var/index = text2num(href_list["marking_index"])
+			if(index && features["mam_body_markings"] && index != 1)
+				var/index_up = index - 1
+				var/markings = features["mam_body_markings"]
+				var/first_marking = markings[index]
+				var/second_marking = markings[index_up]
+				markings[index] = second_marking
+				markings[index_up] = first_marking
+
+		if("marking_remove")
+			if(slotlocked)
+				return
+
+			// remove the specified marking
+			var/index = text2num(href_list["marking_index"])
+			if(index > 0 && index < length(features["mam_body_markings"]))
+				// because linters are just absolutely awful:
+				var/list/L = features["mam_body_markings"]
+				L.Cut(index, index + 1)
 	return TRUE

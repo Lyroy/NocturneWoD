@@ -475,8 +475,4 @@
 
 		dat += "</tr></table>"
 
-
-	// REMOVE THIS WHEN THE MENU IS ACTUALLY FUCKING FINISHED
-	dat += "<center><h2>[make_font_cool("WORK IN PROGRESS")]</h2></center>"
-
 #undef MAX_MUTANT_ROWS
