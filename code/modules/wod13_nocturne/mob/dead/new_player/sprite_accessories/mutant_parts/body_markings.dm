@@ -32,7 +32,6 @@
 	color_src = MATRIXED
 
 	gender_specific = FALSE
-	icon = 'icons/mob/sprite_accessories/mam_markings.dmi'
 	matrixed_sections = MATRIX_ALL // this value is used if there is no value in covered_limbs, don't rely on it, it's a backup value
 
 	/// associative list of limbs to per-limb matrixed sections (i.e. "Head" = MATRIX_RED, "Chest" = MATRIX_GREEN, etc)
@@ -41,5 +40,5 @@
 /datum/sprite_accessory/mam_body_markings/plain
 	name = "Plain"
 	icon_state = "plain"
-	icon = 'icons/mob/sprite_accessories/mam_markings.dmi'
+	icon = 'icons/mob/sprite_accessories/mam_markings/plain_markings.dmi'
 	covered_limbs = list("Head" = MATRIX_RED, "Chest" = MATRIX_RED, "Left Leg" = MATRIX_RED, "Right Leg" = MATRIX_RED, "Left Arm" = MATRIX_RED, "Right Arm" = MATRIX_RED)

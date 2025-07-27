@@ -1047,10 +1047,9 @@
 			if(slotlocked)
 				return
 
-			// remove the specified marking
 			var/index = text2num(href_list["marking_index"])
-			if(index > 0 && index < length(features["mam_body_markings"]))
-				// because linters are just absolutely awful:
+			if(index && features["mam_body_markings"])
 				var/list/L = features["mam_body_markings"]
 				L.Cut(index, index + 1)
+
 	return TRUE
