@@ -163,7 +163,7 @@
 	///If we have a hearted commendations, we honor it every time the player loads preferences until this time has been passed
 	var/hearted_until
 	/// Agendered spessmen can choose whether to have a male or female bodytype
-	var/body_type
+	var/body_type = MALE
 	/// If we have persistent scars enabled
 	var/persistent_scars = TRUE
 	///If we want to broadcast deadchat connect/disconnect messages
