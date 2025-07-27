@@ -43,6 +43,7 @@ GLOBAL_LIST_EMPTY(tails_list_monkey)
 
 // nocturne additions
 GLOBAL_LIST_EMPTY(mam_body_markings_list)
+GLOBAL_LIST_EMPTY(mam_snouts_list)
 
 //a way to index the right bodypart list given the type of bodypart
 GLOBAL_LIST_INIT(mutant_reference_list, list(
@@ -65,7 +66,8 @@ GLOBAL_LIST_INIT(mutant_reference_list, list(
 	"moth_markings" = GLOB.moth_markings_list,
 	"caps" = GLOB.caps_list,
 	"tail_monkey" = GLOB.tails_list_monkey,
-	"mam_body_markings" = GLOB.mam_body_markings_list,))
+	"mam_body_markings" = GLOB.mam_body_markings_list,
+	"mam_snout" = GLOB.mam_snouts_list))
 
 // way to index mutant parts to their display names (jesus christ this piece of shit should just be rewritten to use datums FUCK TG)
 GLOBAL_LIST_INIT(mutant_name_list, list(
@@ -83,7 +85,8 @@ GLOBAL_LIST_INIT(mutant_name_list, list(
 	"moth_antennae" = "Antennae",
 	"moth_markings" = "Markings",
 	"caps" = "Cap",
-	"tail_monkey" = "Tail",))
+	"tail_monkey" = "Tail",
+	"mam_snout" = "Snout"))
 
 //references wag types to regular types, wings open to wings, etc
 GLOBAL_LIST_INIT(mutant_transform_list, list(

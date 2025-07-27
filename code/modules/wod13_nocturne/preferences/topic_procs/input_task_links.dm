@@ -911,8 +911,18 @@
 			if (!isnull(desiredlength))
 				max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+		// nocturne mutant parts
+		if("mam_snout")
+			if(slotlocked)
+				return
+
+			var/new_snout
+			new_snout = input(user, "Choose your character's snout:", "Character Preference") as null|anything in GLOB.mam_snouts_list
+			if(new_snout)
+				features["mam_snout"] = new_snout
+
 		// mutant part coloring
-		if("tail_primary","tail_secondary","tail_tertiary")
+		if("snout_primary","snout_secondary","snout_tertiary")
 			if(slotlocked)
 				return
 

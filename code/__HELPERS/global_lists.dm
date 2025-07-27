@@ -41,6 +41,7 @@ GLOBAL_LIST_EMPTY(auspices_list)
 
 	// nocturne sprite accessories
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/mam_body_markings, GLOB.mam_body_markings_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/snouts/mam_snouts, GLOB.mam_snouts_list)
 
 	//Species
 	for(var/spath in subtypesof(/datum/species))
