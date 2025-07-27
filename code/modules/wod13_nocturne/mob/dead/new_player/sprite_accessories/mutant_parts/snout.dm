@@ -150,6 +150,11 @@
 	icon_state = "sharplight"
 	matrixed_sections = MATRIX_RED
 
+/datum/sprite_accessory/snouts/mam_snouts/shortnosed
+	name = "Short-nosed"
+	icon_state = "shortnosed"
+	matrixed_sections = MATRIX_RED_GREEN
+
 /datum/sprite_accessory/snouts/mam_snouts/skulldog
 	name = "Skulldog"
 	icon_state = "skulldog"
