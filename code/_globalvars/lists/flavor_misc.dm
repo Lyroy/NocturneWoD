@@ -45,6 +45,8 @@ GLOBAL_LIST_EMPTY(tails_list_monkey)
 GLOBAL_LIST_EMPTY(mam_body_markings_list)
 GLOBAL_LIST_EMPTY(mam_snouts_list)
 GLOBAL_LIST_EMPTY(mam_ears_list)
+GLOBAL_LIST_EMPTY(mam_tails_list)
+GLOBAL_LIST_EMPTY(animated_mam_tails_list)
 
 //a way to index the right bodypart list given the type of bodypart
 GLOBAL_LIST_INIT(mutant_reference_list, list(
@@ -69,7 +71,9 @@ GLOBAL_LIST_INIT(mutant_reference_list, list(
 	"tail_monkey" = GLOB.tails_list_monkey,
 	"mam_body_markings" = GLOB.mam_body_markings_list,
 	"mam_snout" = GLOB.mam_snouts_list,
-	"mam_ears" = GLOB.mam_ears_list))
+	"mam_ears" = GLOB.mam_ears_list,
+	"mam_tail" = GLOB.mam_tails_list,
+	"mam_waggingtail" = GLOB.animated_mam_tails_list))
 
 // way to index mutant parts to their display names (jesus christ this piece of shit should just be rewritten to use datums FUCK TG)
 GLOBAL_LIST_INIT(mutant_name_list, list(
@@ -89,14 +93,16 @@ GLOBAL_LIST_INIT(mutant_name_list, list(
 	"caps" = "Cap",
 	"tail_monkey" = "Tail",
 	"mam_snout" = "Snout",
-	"mam_ears" = "Ears"))
+	"mam_ears" = "Ears",
+	"mam_tail" = "Tail"))
 
 //references wag types to regular types, wings open to wings, etc
 GLOBAL_LIST_INIT(mutant_transform_list, list(
 	"wingsopen" = "wings",
 	"waggingtail_human" = "tail_human",
 	"waggingtail_lizard" = "tail_lizard",
-	"waggingspines" = "spines",))
+	"waggingspines" = "spines",
+	"mam_waggingtail" = "mam_tail"))
 
 GLOBAL_LIST_INIT(color_list_ethereal, list(
 	"Red" = "ff4d4d",

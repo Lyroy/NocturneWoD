@@ -930,8 +930,17 @@
 			if(new_ears)
 				features["mam_ears"] = new_ears
 
+		if("mam_tail")
+			if(slotlocked)
+				return
+
+			var/new_tail
+			new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.mam_tails_list
+			if(new_tail)
+				features["mam_tail"] = new_tail
+
 		// mutant part coloring
-		if("snout_primary","snout_secondary","snout_tertiary", "ears_primary","ears_secondary","ears_tertiary")
+		if("snout_primary","snout_secondary","snout_tertiary", "ears_primary","ears_secondary","ears_tertiary", "tail_primary", "tail_secondary", "tail_tertiary")
 			if(slotlocked)
 				return
 

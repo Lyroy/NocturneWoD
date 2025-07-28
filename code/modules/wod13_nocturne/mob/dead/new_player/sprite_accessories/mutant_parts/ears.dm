@@ -7,6 +7,8 @@
 	var/obj/item/bodypart/head/HD = H.get_bodypart(BODY_ZONE_HEAD)
 	return (!H.dna.features["ears"] || H.dna.features["ears"] == "None" || H.head && (H.head.flags_inv & HIDEHAIR) || (H.wear_mask && (H.wear_mask.flags_inv & HIDEHAIR)) || !HD || HD.status == BODYPART_ROBOTIC)
 
+// legacy tg ears
+
 /datum/sprite_accessory/ears/none
 	name = "None"
 	icon_state = "none"
@@ -17,6 +19,8 @@
 	icon_state = "cat"
 	hasinner = 1
 	color_src = HAIR
+
+// nocturne ears
 
 /datum/sprite_accessory/ears/mam_ears
 	icon = 'icons/mob/sprite_accessories/ears/mam_ears.dmi'

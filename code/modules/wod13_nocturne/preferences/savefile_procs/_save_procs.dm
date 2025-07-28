@@ -206,6 +206,7 @@
 	WRITE_FILE(S["feature_mam_body_markings"], features["mam_body_markings"])
 	WRITE_FILE(S["feature_mam_snout"], features["mam_snout"])
 	WRITE_FILE(S["feature_mam_ears"], features["mam_ears"])
+	WRITE_FILE(S["feature_mam_tail"], features["mam_tail"])
 
 	// matrixed mutant part colors
 	for(var/feature in features)

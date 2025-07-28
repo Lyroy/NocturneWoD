@@ -2083,6 +2083,9 @@ GLOBAL_LIST_EMPTY(selectable_races)
 //Tail Wagging//
 ////////////////
 
+// nocturne edit - default to checking mam_tail mutant part for tail wagging shit
+// lizard and felinid should override this shit
+/*
 /datum/species/proc/can_wag_tail(mob/living/carbon/human/H)
 	return FALSE
 
@@ -2092,6 +2095,25 @@ GLOBAL_LIST_EMPTY(selectable_races)
 /datum/species/proc/start_wagging_tail(mob/living/carbon/human/H)
 
 /datum/species/proc/stop_wagging_tail(mob/living/carbon/human/H)
+*/
+
+/datum/species/proc/can_wag_tail(mob/living/carbon/human/H)
+	return mutant_bodyparts["mam_tail"] || mutant_bodyparts["mam_waggingtail"]
+
+/datum/species/proc/is_wagging_tail(mob/living/carbon/human/H)
+	return mutant_bodyparts["mam_waggingtail"]
+
+/datum/species/proc/start_wagging_tail(mob/living/carbon/human/H)
+	if(mutant_bodyparts["mam_tail"])
+		mutant_bodyparts["mam_waggingtail"] = mutant_bodyparts["mam_tail"]
+		mutant_bodyparts -= "mam_tail"
+	H.update_body()
+
+/datum/species/proc/stop_wagging_tail(mob/living/carbon/human/H)
+	if(mutant_bodyparts["mam_waggingtail"])
+		mutant_bodyparts["mam_tail"] = mutant_bodyparts["mam_waggingtail"]
+		mutant_bodyparts -= "mam_waggingtail"
+	H.update_body()
 
 ///////////////
 //FLIGHT SHIT//

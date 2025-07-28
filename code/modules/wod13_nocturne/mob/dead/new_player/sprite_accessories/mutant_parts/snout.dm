@@ -7,6 +7,8 @@
 	var/obj/item/bodypart/head/HD = H.get_bodypart(BODY_ZONE_HEAD)
 	return ((H.wear_mask && (H.wear_mask.flags_inv & HIDESNOUT)) || (H.head && (H.head.flags_inv & HIDESNOUT)) || !HD || HD.status == BODYPART_ROBOTIC)
 
+// legacy lizard snouts
+
 /datum/sprite_accessory/snouts/sharp
 	name = "Sharp"
 	icon_state = "sharp"
@@ -23,7 +25,7 @@
 	name = "Round + Light"
 	icon_state = "roundlight"
 
-// REAL snouts
+// nocturne snouts
 
 /datum/sprite_accessory/snouts/mam_snouts
 	color_src = MATRIXED

@@ -83,6 +83,8 @@
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/snouts/mam_snouts, GLOB.mam_snouts_list)
 	if(!GLOB.mam_ears_list.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/ears/mam_ears, GLOB.mam_ears_list)
+	if(!GLOB.mam_tails_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/mam_tails, GLOB.mam_tails_list)
 
 	// im returning none for a lot of shit that can be applied to humans (dont want omega fucked up npcs)
 	return(list(
@@ -105,7 +107,8 @@
 		"tail_monkey" = "None",
 		"mam_body_markings" = list(),
 		"mam_snout" = "None",
-		"mam_ears" = "None"))
+		"mam_ears" = "None",
+		"mam_tail" = "None"))
 
 /proc/random_hairstyle(gender)
 	switch(gender)
