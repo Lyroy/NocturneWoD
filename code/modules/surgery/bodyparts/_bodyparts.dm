@@ -55,7 +55,7 @@
 
 	// body marking shit
 	var/list/body_markings_list // stores body markings as lists, with the first value being the icon, the second value being the name of the marking, and the third being the colour
-	var/static/default_body_markings_icon = 'icons/mob/sprite_accessories/mam_markings.dmi'
+	var/static/default_body_markings_icon = 'icons/mob/sprite_accessories/mam_markings/plain_markings.dmi'
 
 	var/animal_origin = null //for nonhuman bodypart (e.g. monkey)
 	var/dismemberable = 1 //whether it can be dismembered with a weapon.

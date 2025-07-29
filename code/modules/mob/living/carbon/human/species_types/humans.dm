@@ -11,6 +11,13 @@
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	payday_modifier = 1
 	selectable = TRUE
+	mutant_bodyparts = list(
+		"mam_snout" = "None",
+		"mam_ears" = "None",
+		"mam_tail" = "None",
+		"mam_horns" = "None",
+		"mam_frills" = "None",
+		"mam_body_markings" = list())
 
 /datum/action/humaninfo
 	name = "About Me"

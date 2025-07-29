@@ -41,6 +41,12 @@ GLOBAL_LIST_EMPTY(auspices_list)
 
 	// nocturne sprite accessories
 	init_sprite_accessory_subtypes(/datum/sprite_accessory/mam_body_markings, GLOB.mam_body_markings_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/snouts/mam_snouts, GLOB.mam_snouts_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/ears/mam_ears, GLOB.mam_ears_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/mam_tails, GLOB.mam_tails_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/tails_animated/mam_tails_animated, GLOB.animated_mam_tails_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/horns/mam_horns, GLOB.mam_horns_list)
+	init_sprite_accessory_subtypes(/datum/sprite_accessory/frills/mam_frills, GLOB.mam_frills_list)
 
 	//Species
 	for(var/spath in subtypesof(/datum/species))

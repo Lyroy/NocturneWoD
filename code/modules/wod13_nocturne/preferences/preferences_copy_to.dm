@@ -37,10 +37,7 @@
 	character.chronological_age = total_age
 
 	character.gender = gender
-	if(gender == MALE || gender == FEMALE)
-		character.body_type = gender
-	else
-		character.body_type = body_type
+	character.body_type = body_type
 
 	character.eye_color = eye_color
 	var/obj/item/organ/eyes/organ_eyes = character.getorgan(/obj/item/organ/eyes)

@@ -54,7 +54,13 @@
 	use_skintones = TRUE
 	limbs_id = "human"
 	wings_icon = "None"
-	mutant_bodyparts = list("tail_human" = "None", "ears" = "None", "wings" = "None")
+	mutant_bodyparts = list(
+		"mam_snout" = "None",
+		"mam_ears" = "None",
+		"mam_tail" = "None",
+		"mam_horns" = "None",
+		"mam_frills" = "None",
+		"mam_body_markings" = list())
 	brutemod = 0.5
 	heatmod = 1
 	burnmod = 3

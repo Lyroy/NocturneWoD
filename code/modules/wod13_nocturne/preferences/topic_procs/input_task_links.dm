@@ -911,8 +911,54 @@
 			if (!isnull(desiredlength))
 				max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
+		// nocturne mutant parts
+		if("mam_snout")
+			if(slotlocked)
+				return
+
+			var/new_snout
+			new_snout = input(user, "Choose your character's snout:", "Character Preference") as null|anything in GLOB.mam_snouts_list
+			if(new_snout)
+				features["mam_snout"] = new_snout
+
+		if("mam_ears")
+			if(slotlocked)
+				return
+
+			var/new_ears
+			new_ears = input(user, "Choose your character's ears:", "Character Preference") as null|anything in GLOB.mam_ears_list
+			if(new_ears)
+				features["mam_ears"] = new_ears
+
+		if("mam_tail")
+			if(slotlocked)
+				return
+
+			var/new_tail
+			new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.mam_tails_list
+			if(new_tail)
+				features["mam_tail"] = new_tail
+
+		if("mam_horns")
+			if(slotlocked)
+				return
+
+			var/new_horns
+			new_horns = input(user, "Choose your character's horns:", "Character Preference") as null|anything in GLOB.mam_horns_list
+			if(new_horns)
+				features["mam_horns"] = new_horns
+
+		if("mam_frills")
+			if(slotlocked)
+				return
+
+			var/new_frills
+			new_frills = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.mam_frills_list
+			if(new_frills)
+				features["mam_frills"] = new_frills
+
 		// mutant part coloring
-		if("tail_primary","tail_secondary","tail_tertiary")
+		if("snout_primary","snout_secondary","snout_tertiary", "ears_primary","ears_secondary","ears_tertiary", "tail_primary","tail_secondary","tail_tertiary", "horns_primary","horns_secondary","horns_tertiary", "frills_primary","frills_secondary","frills_tertiary")
 			if(slotlocked)
 				return
 
@@ -1047,10 +1093,9 @@
 			if(slotlocked)
 				return
 
-			// remove the specified marking
 			var/index = text2num(href_list["marking_index"])
-			if(index > 0 && index < length(features["mam_body_markings"]))
-				// because linters are just absolutely awful:
+			if(index && features["mam_body_markings"])
 				var/list/L = features["mam_body_markings"]
 				L.Cut(index, index + 1)
+
 	return TRUE

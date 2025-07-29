@@ -497,9 +497,24 @@
 	READ_FILE(S["feature_human_ears"], features["ears"])
 	features["ears"] = sanitize_inlist(features["ears"], GLOB.ears_list, "None")
 
-	// body markings
+	// nocturne mutant shit
 	READ_FILE(S["feature_mam_body_markings"], features["mam_body_markings"])
 	features["mam_body_markings"] = SANITIZE_LIST(features["mam_body_markings"])
+
+	READ_FILE(S["feature_mam_snout"], features["mam_snout"])
+	features["mam_snout"] = sanitize_inlist(features["mam_snout"], GLOB.mam_snouts_list)
+
+	READ_FILE(S["feature_mam_ears"], features["mam_ears"])
+	features["mam_ears"] = sanitize_inlist(features["mam_ears"], GLOB.mam_ears_list, "None")
+
+	READ_FILE(S["feature_mam_tail"], features["mam_tail"])
+	features["mam_tail"] = sanitize_inlist(features["mam_tail"], GLOB.mam_tails_list, "None")
+
+	READ_FILE(S["feature_mam_horns"], features["mam_horns"])
+	features["mam_horns"] = sanitize_inlist(features["mam_horns"], GLOB.mam_horns_list, "None")
+
+	READ_FILE(S["feature_mam_frills"], features["mam_frills"])
+	features["mam_frills"] = sanitize_inlist(features["mam_frills"], GLOB.mam_frills_list, "None")
 
 	// mutant part colors
 	// THIS MUST BE DONE AFTER ALL FEATURE SAVES OR IT WILL NOT WORK
