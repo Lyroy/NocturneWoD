@@ -510,6 +510,12 @@
 	READ_FILE(S["feature_mam_tail"], features["mam_tail"])
 	features["mam_tail"] = sanitize_inlist(features["mam_tail"], GLOB.mam_tails_list, "None")
 
+	READ_FILE(S["feature_mam_horns"], features["mam_horns"])
+	features["mam_horns"] = sanitize_inlist(features["mam_horns"], GLOB.mam_horns_list, "None")
+
+	READ_FILE(S["feature_mam_frills"], features["mam_frills"])
+	features["mam_frills"] = sanitize_inlist(features["mam_frills"], GLOB.mam_frills_list, "None")
+
 	// mutant part colors
 	// THIS MUST BE DONE AFTER ALL FEATURE SAVES OR IT WILL NOT WORK
 	for(var/feature in features)

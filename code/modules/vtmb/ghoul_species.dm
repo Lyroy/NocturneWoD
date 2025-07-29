@@ -7,7 +7,13 @@
 	inherent_traits = list(TRAIT_ADVANCEDTOOLUSER, TRAIT_VIRUSIMMUNE, TRAIT_NOCRITDAMAGE)
 	use_skintones = TRUE
 	limbs_id = "human"
-	mutant_bodyparts = list("tail_human" = "None", "ears" = "None", "wings" = "None")
+	mutant_bodyparts = list(
+		"mam_snout" = "None",
+		"mam_ears" = "None",
+		"mam_tail" = "None",
+		"mam_horns" = "None",
+		"mam_frills" = "None",
+		"mam_body_markings" = list())
 	brutemod = 1	//0.8 instead, if changing.
 	burnmod = 1
 	punchdamagelow = 10
