@@ -1,19 +1,16 @@
 /datum/gear/general
 	subtype_path = /datum/gear/general
 	sort_category = "General"
-	cost = 1
 
 // Dices
 
 /datum/gear/general/dice_bag
 	display_name = "bag of dices"
 	path = /obj/item/storage/pill_bottle/dice
-	cost = 1
 
 /datum/gear/general/d20
 	display_name = "d20"
 	path = /obj/item/dice/d20
-	cost = 0
 
 // Lipsticks
 
@@ -30,29 +27,24 @@
 /datum/gear/general/cheap_lighter
 	display_name = "lighter, cheap"
 	path = /obj/item/lighter/greyscale
-	cost = 0
 
 /datum/gear/general/zippo_lighter
 	display_name = "lighter, zippo"
 	path = /obj/item/lighter
-	cost = 2
 
 // Pens
 
 /datum/gear/general/pen
 	display_name = "pen, regular"
 	path = /obj/item/pen
-	cost = 0
 
 /datum/gear/general/pen_fourcolor
 	display_name = "pen, four color"
 	path = /obj/item/pen/fourcolor
-	cost = 0
 
 /datum/gear/general/pen_fountain
 	display_name = "pen, fountain"
 	path = /obj/item/pen/fountain
-	cost = 1
 
 // Cards
 

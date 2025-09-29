@@ -3,12 +3,10 @@
 	subtype_path = /datum/gear/uniform
 	slot = ITEM_SLOT_ICLOTHING
 	sort_category = "Uniforms and Casual Dress"
-	cost = 3
 
 // Suits (and suitskirts)
 /datum/gear/uniform/suit
 	subtype_path = /datum/gear/uniform/suit
-	cost = 4 // Suits aren't cheap!
 
 /datum/gear/uniform/suit/fancy_gray
 	display_name = "fancy suit, gray"
@@ -116,7 +114,6 @@
 // Pants
 /datum/gear/uniform/pants
 	subtype_path = /datum/gear/uniform/pants
-	cost = 2
 
 /datum/gear/uniform/pants/leather
 	display_name = "pants, leather"
@@ -239,7 +236,6 @@
 
 /datum/gear/uniform/maid
 	display_name = "maid costume"
-	cost = 4 // And your dignity.
 	path = /obj/item/clothing/under/costume/maid
 
 /datum/gear/uniform/redeveninggown

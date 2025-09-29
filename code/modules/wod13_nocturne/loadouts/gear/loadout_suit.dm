@@ -2,7 +2,6 @@
 	subtype_path = /datum/gear/suit
 	slot = ITEM_SLOT_OCLOTHING
 	sort_category = "External Wear"
-	cost = 3
 
 // Coats
 /datum/gear/suit/coat

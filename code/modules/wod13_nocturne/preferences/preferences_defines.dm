@@ -200,18 +200,6 @@
 	var/enlightenment = FALSE
 	var/humanity = 7
 
-	/*
-	var/discipline1level = 1
-	var/discipline2level = 1
-	var/discipline3level = 1
-	var/discipline4level = 1
-
-	var/discipline1type
-	var/discipline2type
-	var/discipline3type
-	var/discipline4type
-	*/
-
 	//Character sheet stats
 	var/true_experience = 50
 	var/torpor_count = 0
@@ -283,6 +271,15 @@
 	var/list/chi_levels = list()
 
 	var/clan_accessory
+
+	// loadout stuff
+	var/list/equipped_gear = list()
+
+	var/loadout_slots = 0
+	var/loadout_slots_max = 0
+
+	var/show_loadout = TRUE
+	var/gear_tab = "General"
 
 /datum/preferences/New(client/C)
 	parent = C

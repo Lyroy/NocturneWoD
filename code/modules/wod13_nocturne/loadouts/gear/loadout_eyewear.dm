@@ -2,7 +2,6 @@
 	subtype_path = /datum/gear/eyewear
 	slot = ITEM_SLOT_EYES
 	sort_category = "Eyewear"
-	cost = 1
 
 /datum/gear/eyewear/yellow_aviator
 	display_name = "aviator, yellow"
@@ -20,4 +19,3 @@
 /datum/gear/eyewear/glasses
 	display_name = "glasses, prescription"
 	path = /obj/item/clothing/glasses/vampire/perception
-	cost = 1

@@ -2,7 +2,6 @@
 	subtype_path = /datum/gear/mask
 	slot = ITEM_SLOT_MASK
 	sort_category = "Masks"
-	cost = 1
 
 /datum/gear/mask/balaclava
 	display_name = "balaclava"

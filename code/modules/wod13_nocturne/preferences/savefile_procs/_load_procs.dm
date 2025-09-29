@@ -544,37 +544,17 @@
 					if(S["feature_[tertiary_string]"])
 						READ_FILE(S["feature_[tertiary_string]"], features[tertiary_string])
 
+	READ_FILE(S["equipped_gear"], equipped_gear)
+	if(!equipped_gear)
+		equipped_gear = list()
+	else if (SSloadout?.initialized)
+		equipped_gear = sanitize_each_inlist(equipped_gear, SSloadout.gear_datums)
+
 
 	//try to fix any outdated data if necessary
 	//preference updating will handle saving the updated data for us.
 	if(needs_update >= 0)
 		update_character(needs_update, S)		//needs_update == savefile_version if we need an update (positive integer)
-
-	/*
-	//Convert jank old Discipline system to new Discipline system
-	// keeping this here for reference in case something breaks
-	if ((istype(pref_species, /datum/species/kindred) || istype(pref_species, /datum/species/ghoul)) && !discipline_types.len)
-		if (discipline1type && discipline1level)
-			discipline_types += discipline1type
-			discipline_levels += discipline1level
-			discipline1type = null
-			discipline1level = null
-		if (discipline2type && discipline2level)
-			discipline_types += discipline2type
-			discipline_levels += discipline2level
-			discipline2type = null
-			discipline2level = null
-		if (discipline3type && discipline3level)
-			discipline_types += discipline3type
-			discipline_levels += discipline3level
-			discipline3type = null
-			discipline3level = null
-		if (discipline4type && discipline4level)
-			discipline_types += discipline4type
-			discipline_levels += discipline4level
-			discipline4type = null
-			discipline4level = null
-	*/
 
 	//repair some damage done by an exploit by resetting
 	if ((true_experience > 1000) && !check_rights_for(parent, R_ADMIN))

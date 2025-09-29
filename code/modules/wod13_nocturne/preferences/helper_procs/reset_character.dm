@@ -45,6 +45,9 @@
 
 	true_experience = 50
 
+	equipped_gear = list()
+
 	random_species()
 	random_character()
+	calculate_loadout_slots()
 	save_character()

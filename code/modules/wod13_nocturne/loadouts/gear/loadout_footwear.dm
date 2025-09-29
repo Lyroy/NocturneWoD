@@ -2,7 +2,6 @@
 	subtype_path = /datum/gear/footwear
 	slot = ITEM_SLOT_FEET
 	sort_category = "Footwear"
-	cost = 2
 
 // Regular shoes
 /datum/gear/footwear/shoes
@@ -15,7 +14,6 @@
 /datum/gear/footwear/shoes/black_fancy
 	display_name = "shoes, fancy black"
 	path = /obj/item/clothing/shoes/vampire/businessblack
-	cost = 3
 
 /datum/gear/footwear/shoes/brown
 	display_name = "shoes, brown"
@@ -48,7 +46,6 @@
 /datum/gear/footwear/sneakers/swag
 	display_name = "sneakers, swag"
 	path = /obj/item/clothing/shoes/swagshoes
-	cost = 3
 
 // High Boots
 /datum/gear/footwear/high_boots

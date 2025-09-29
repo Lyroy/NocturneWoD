@@ -2,7 +2,6 @@
 	subtype_path = /datum/gear/neck
 	slot = ITEM_SLOT_NECK
 	sort_category = "Accessories"
-	cost = 1
 
 //Headphones
 

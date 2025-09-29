@@ -5,8 +5,6 @@
 	var/description
 	///Path to item.
 	var/path
-	///Cost to purchase
-	var/cost = 0
 	///Slot to equip to.
 	var/slot
 	///Roles that can spawn with this item.
@@ -27,10 +25,6 @@
 	if(!description)
 		var/obj/O = path
 		description = initial(O.desc)
-
-///Called when the gear is first purchased
-/datum/gear/proc/purchase(client/C)
-	return
 
 /datum/gear_data
 	var/path
