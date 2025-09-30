@@ -23,6 +23,8 @@
 			task_result_save = process_trait_links(user, href_list)
 		if("job") // occupation menu links
 			task_result_save = process_job_links(user, href_list)
+		if("loadout") // loadout menu links
+			task_result_save = process_loadout_links(user, href_list)
 
 	if(!task_result_save)
 		switch(href_list["task"])

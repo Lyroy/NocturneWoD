@@ -150,21 +150,6 @@
 	WRITE_FILE(S["discipline_types"], discipline_types)
 	WRITE_FILE(S["discipline_levels"], discipline_levels)
 
-	/*
-	// apparently has been reworked, see _load_procs.dm
-	WRITE_FILE(S["discipline1type"], discipline1type)
-	WRITE_FILE(S["discipline1level"], discipline1level)
-
-	WRITE_FILE(S["discipline2type"], discipline2type)
-	WRITE_FILE(S["discipline2level"], discipline2level)
-
-	WRITE_FILE(S["discipline3type"], discipline3type)
-	WRITE_FILE(S["discipline3level"], discipline3level)
-
-	WRITE_FILE(S["discipline4type"], discipline4type)
-	WRITE_FILE(S["discipline4level"], discipline4level)
-	*/
-
 	// keui jin
 	WRITE_FILE(S["dharma_type"], dharma_type)
 	WRITE_FILE(S["dharma_level"], dharma_level)
@@ -236,5 +221,7 @@
 						WRITE_FILE(S["feature_[secondary_string]"], features[secondary_string])
 					if(features[tertiary_string])
 						WRITE_FILE(S["feature_[tertiary_string]"], features[tertiary_string])
+
+	WRITE_FILE(S["equipped_gear"], equipped_gear)
 
 	return TRUE
