@@ -95,7 +95,7 @@
 			if(slotlocked)
 				return
 
-			if(clan.no_hair)
+			if(clan?.no_hair)
 				hairstyle = "Bald"
 			else
 				var/new_hairstyle
@@ -107,7 +107,7 @@
 			if(slotlocked)
 				return
 
-			if(clan.no_hair)
+			if(clan?.no_hair)
 				hairstyle = "Bald"
 			else
 				hairstyle = next_list_item(hairstyle, GLOB.hairstyles_list)
@@ -116,7 +116,7 @@
 			if(slotlocked)
 				return
 
-			if(clan.no_hair)
+			if(clan?.no_hair)
 				hairstyle = "Bald"
 			else
 				hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_list)
@@ -133,7 +133,7 @@
 			if(slotlocked)
 				return
 
-			if(clan.no_facial)
+			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
 			else
 				var/new_facial_hairstyle
@@ -145,7 +145,7 @@
 			if(slotlocked)
 				return
 
-			if(clan.no_facial)
+			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
 			else
 				facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
@@ -154,7 +154,7 @@
 			if(slotlocked)
 				return
 
-			if(clan.no_facial)
+			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
 			else
 				facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
@@ -376,11 +376,11 @@
 			humanity = clan.start_humanity
 			enlightenment = clan.enlightenment
 
-			if(clan.no_hair)
+			if(clan?.no_hair)
 				hairstyle = "Bald"
-			if(clan.no_facial)
+			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
-			if(length(clan.accessories))
+			if(length(clan?.accessories))
 				if("none" in clan.accessories)
 					clan_accessory = null
 				else
