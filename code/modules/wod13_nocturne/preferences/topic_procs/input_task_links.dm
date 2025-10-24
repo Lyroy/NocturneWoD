@@ -84,16 +84,20 @@
 				info_known = new_info_known
 
 		if("hair")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
 			if(new_hair)
 				hair_color = sanitize_hexcolor(new_hair)
 
 		if("hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_hair)
 				hairstyle = "Bald"
@@ -104,8 +108,10 @@
 					hairstyle = new_hairstyle
 
 		if("next_hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_hair)
 				hairstyle = "Bald"
@@ -113,8 +119,10 @@
 				hairstyle = next_list_item(hairstyle, GLOB.hairstyles_list)
 
 		if("previous_hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_hair)
 				hairstyle = "Bald"
@@ -122,16 +130,20 @@
 				hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_list)
 
 		if("facial")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference","#"+facial_hair_color) as color|null
 			if(new_facial)
 				facial_hair_color = sanitize_hexcolor(new_facial)
 
 		if("facial_hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
@@ -142,8 +154,10 @@
 					facial_hairstyle = new_facial_hairstyle
 
 		if("next_facehairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
@@ -151,8 +165,10 @@
 				facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
 
 		if("previous_facehairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"

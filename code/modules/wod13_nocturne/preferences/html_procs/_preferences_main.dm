@@ -101,9 +101,11 @@
 
 	if(slotlocked)
 		dat += "Your character is saved. You can't change name and appearance, but your progress will be saved.<br>"
+	else
+		dat += "Character changes are automatically saved. Click 'Finalize' to complete a character and lock their name and appearance.<br>"
 	if(!IsGuestKey(user.key) && !slotlocked)
 		dat += "<a href='byond://?_src_=prefs;preference=load'>Undo</a> "
-		dat += "<a href='byond://?_src_=prefs;preference=save'>Save Character</a> "
+		dat += "<a href='byond://?_src_=prefs;preference=save'>Finalize</a> "
 
 	if(istype(user, /mob/dead/new_player))
 		dat += "<a href='byond://?_src_=prefs;preference=reset_all'>Reset Setup</a>"

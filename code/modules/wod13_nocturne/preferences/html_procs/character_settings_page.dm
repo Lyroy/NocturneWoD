@@ -228,28 +228,28 @@
 		dat += "<h3>[make_font_cool("HAIR")]</h3>"
 
 		// hair style
-		dat += make_lockable_button(hairstyle, "byond://?_src_=prefs;preference=hairstyle;task=input", slotlocked, br=FALSE)
-		dat += make_lockable_button("&lt;", "byond://?_src_=prefs;preference=previous_hairstyle;task=input", slotlocked, br=FALSE)
+		dat += "<a href ='byond://?_src_=prefs;preference=hairstyle;task=input'>[facial_hairstyle]</a>"
+		dat += "<a href ='byond://?_src_=prefs;preference=previous_hairstyle;task=input'>&lt;</a>"
 		dat += " "
-		dat += make_lockable_button("&gt;", "byond://?_src_=prefs;preference=next_hairstyle;task=input", slotlocked)
+		dat += "<a href ='byond://?_src_=prefs;preference=next_hairstyle;task=input'>&gt;</a><br>"
 
 		// hair color
 		dat += "<span style='border: 1px solid #161616; background-color: #[hair_color];'>&nbsp;&nbsp;&nbsp;</span> "
-		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=hair;task=input", slotlocked)
+		dat += "<a href ='byond://?_src_=prefs;preference=hair;task=input'>Change</a><br>"
 
 		// add hair gradient shit here
 
 		dat += "<h3>[make_font_cool("FACIAL HAIR")]</h3>"
 
 		// facial hair style
-		dat += make_lockable_button(facial_hairstyle, "byond://?_src_=prefs;preference=facial_hairstyle;task=input", slotlocked, br=FALSE)
-		dat += make_lockable_button("&lt;", "byond://?_src_=prefs;preference=previous_facehairstyle;task=input", slotlocked, br=FALSE)
+		dat += "<a href ='byond://?_src_=prefs;preference=facial_hairstyle;task=input'>[facial_hairstyle]</a>"
+		dat += "<a href ='byond://?_src_=prefs;preference=previous_facehairstyle;task=input'>&lt;</a>"
 		dat += " "
-		dat += make_lockable_button("&gt;", "byond://?_src_=prefs;preference=next_facehairstyle;task=input", slotlocked)
+		dat += "<a href ='byond://?_src_=prefs;preference=next_facehairstyle;task=input'>&gt;</a><br>"
 
 		// facial hair color
 		dat += "<span style='border: 1px solid #161616; background-color: #[facial_hair_color];'>&nbsp;&nbsp;&nbsp;</span> "
-		dat += make_lockable_button("Change", "byond://?_src_=prefs;preference=facial;task=input", slotlocked)
+		dat += "<a href ='byond://?_src_=prefs;preference=facial;task=input'>Change</a><br>"
 
 		dat += "</td>"
 
