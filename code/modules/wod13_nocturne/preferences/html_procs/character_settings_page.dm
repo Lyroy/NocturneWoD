@@ -228,7 +228,7 @@
 		dat += "<h3>[make_font_cool("HAIR")]</h3>"
 
 		// hair style
-		dat += "<a href ='byond://?_src_=prefs;preference=hairstyle;task=input'>[facial_hairstyle]</a>"
+		dat += "<a href ='byond://?_src_=prefs;preference=hairstyle;task=input'>[hairstyle]</a>"
 		dat += "<a href ='byond://?_src_=prefs;preference=previous_hairstyle;task=input'>&lt;</a>"
 		dat += " "
 		dat += "<a href ='byond://?_src_=prefs;preference=next_hairstyle;task=input'>&gt;</a><br>"
