@@ -84,16 +84,20 @@
 				info_known = new_info_known
 
 		if("hair")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference","#"+hair_color) as color|null
 			if(new_hair)
 				hair_color = sanitize_hexcolor(new_hair)
 
 		if("hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_hair)
 				hairstyle = "Bald"
@@ -104,8 +108,10 @@
 					hairstyle = new_hairstyle
 
 		if("next_hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_hair)
 				hairstyle = "Bald"
@@ -113,8 +119,10 @@
 				hairstyle = next_list_item(hairstyle, GLOB.hairstyles_list)
 
 		if("previous_hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_hair)
 				hairstyle = "Bald"
@@ -122,16 +130,20 @@
 				hairstyle = previous_list_item(hairstyle, GLOB.hairstyles_list)
 
 		if("facial")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference","#"+facial_hair_color) as color|null
 			if(new_facial)
 				facial_hair_color = sanitize_hexcolor(new_facial)
 
 		if("facial_hairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
@@ -142,8 +154,10 @@
 					facial_hairstyle = new_facial_hairstyle
 
 		if("next_facehairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
@@ -151,8 +165,10 @@
 				facial_hairstyle = next_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
 
 		if("previous_facehairstyle")
+			/*
 			if(slotlocked)
 				return
+			*/
 
 			if(clan?.no_facial)
 				facial_hairstyle = "Shaved"
@@ -597,13 +613,13 @@
 			if(new_text)
 				lover_text = new_text
 		if("ooc_notes")
-			var/new_ooc_notes = tgui_input_text(user, "Choose your character's OOC notes:", "Character Preference", ooc_notes, MAX_MESSAGE_LEN, multiline = TRUE)
+			var/new_ooc_notes = tgui_input_text(user, "Choose your character's OOC notes:", "Character Preference", html_decode(ooc_notes), MAX_MESSAGE_LEN, multiline = TRUE)
 			if(!length(new_ooc_notes))
 				return
 			ooc_notes = new_ooc_notes
 
 		if("flavor_text")
-			var/new_flavor = tgui_input_text(user, "Choose your character's flavor text:", "Character Preference", flavor_text, MAX_FLAVOR_LEN, multiline = TRUE)
+			var/new_flavor = tgui_input_text(user, "Choose your character's flavor text:", "Character Preference", html_decode(flavor_text), MAX_FLAVOR_LEN, multiline = TRUE)
 			if(!length(new_flavor))
 				return
 			flavor_text = new_flavor
@@ -723,86 +739,86 @@
 					to_chat(user, "<span class='danger'>Invalid color. Your color is not bright enough.</span>")
 
 		if("color_ethereal")
-			var/new_etherealcolor = input(user, "Choose your ethereal color", "Character Preference") as null|anything in GLOB.color_list_ethereal
+			var/new_etherealcolor = tgui_input_list(user, "Choose your ethereal color", "Character Preference", GLOB.color_list_ethereal)
 			if(new_etherealcolor)
 				features["ethcolor"] = GLOB.color_list_ethereal[new_etherealcolor]
 
 
 		if("tail_lizard")
 			var/new_tail
-			new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.tails_list_lizard
+			new_tail = input(user, "Choose your character's tail:", "Character Preference", GLOB.tails_list_lizard)
 			if(new_tail)
 				features["tail_lizard"] = new_tail
 
 		if("tail_human")
 			var/new_tail
-			new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.tails_list_human
+			new_tail = input(user, "Choose your character's tail:", "Character Preference", GLOB.tails_list_human)
 			if(new_tail)
 				features["tail_human"] = new_tail
 
 		if("snout")
 			var/new_snout
-			new_snout = input(user, "Choose your character's snout:", "Character Preference") as null|anything in GLOB.snouts_list
+			new_snout = input(user, "Choose your character's snout:", "Character Preference", GLOB.snouts_list)
 			if(new_snout)
 				features["snout"] = new_snout
 
 		if("horns")
 			var/new_horns
-			new_horns = input(user, "Choose your character's horns:", "Character Preference") as null|anything in GLOB.horns_list
+			new_horns = input(user, "Choose your character's horns:", "Character Preference", GLOB.horns_list)
 			if(new_horns)
 				features["horns"] = new_horns
 
 		if("ears")
 			var/new_ears
-			new_ears = input(user, "Choose your character's ears:", "Character Preference") as null|anything in GLOB.ears_list
+			new_ears = input(user, "Choose your character's ears:", "Character Preference", GLOB.ears_list)
 			if(new_ears)
 				features["ears"] = new_ears
 
 		if("wings")
 			var/new_wings
-			new_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.r_wings_list
+			new_wings = input(user, "Choose your character's wings:", "Character Preference", GLOB.r_wings_list)
 			if(new_wings)
 				features["wings"] = new_wings
 
 		if("frills")
 			var/new_frills
-			new_frills = input(user, "Choose your character's frills:", "Character Preference") as null|anything in GLOB.frills_list
+			new_frills = input(user, "Choose your character's frills:", "Character Preference", GLOB.frills_list)
 			if(new_frills)
 				features["frills"] = new_frills
 
 		if("spines")
 			var/new_spines
-			new_spines = input(user, "Choose your character's spines:", "Character Preference") as null|anything in GLOB.spines_list
+			new_spines = input(user, "Choose your character's spines:", "Character Preference", GLOB.spines_list)
 			if(new_spines)
 				features["spines"] = new_spines
 
 		if("body_markings")
 			var/new_body_markings
-			new_body_markings = input(user, "Choose your character's body markings:", "Character Preference") as null|anything in GLOB.body_markings_list
+			new_body_markings = input(user, "Choose your character's body markings:", "Character Preference", GLOB.body_markings_list)
 			if(new_body_markings)
 				features["body_markings"] = new_body_markings
 
 		if("legs")
 			var/new_legs
-			new_legs = input(user, "Choose your character's legs:", "Character Preference") as null|anything in GLOB.legs_list
+			new_legs = input(user, "Choose your character's legs:", "Character Preference", GLOB.legs_list)
 			if(new_legs)
 				features["legs"] = new_legs
 
 		if("moth_wings")
 			var/new_moth_wings
-			new_moth_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.moth_wings_list
+			new_moth_wings = input(user, "Choose your character's wings:", "Character Preference", GLOB.moth_wings_list)
 			if(new_moth_wings)
 				features["moth_wings"] = new_moth_wings
 
 		if("moth_antennae")
 			var/new_moth_antennae
-			new_moth_antennae = input(user, "Choose your character's antennae:", "Character Preference") as null|anything in GLOB.moth_antennae_list
+			new_moth_antennae = input(user, "Choose your character's antennae:", "Character Preference", GLOB.moth_antennae_list)
 			if(new_moth_antennae)
 				features["moth_antennae"] = new_moth_antennae
 
 		if("moth_markings")
 			var/new_moth_markings
-			new_moth_markings = input(user, "Choose your character's markings:", "Character Preference") as null|anything in GLOB.moth_markings_list
+			new_moth_markings = input(user, "Choose your character's markings:", "Character Preference", GLOB.moth_markings_list)
 			if(new_moth_markings)
 				features["moth_markings"] = new_moth_markings
 
@@ -817,7 +833,7 @@
 		if("s_tone_preset")
 			if(slotlocked)
 				return
-			var/s_tone_choice = input(user, "Choose your character's skin-tone:", "Character Preference")  as null|anything in skin_tone_presets
+			var/s_tone_choice = input(user, "Choose your character's skin-tone:", "Character Preference", skin_tone_presets)
 			var/new_s_tone_preset = skin_tone_presets[s_tone_choice]
 			if(s_tone_choice)
 				skin_tone = sanitize_hexcolor(new_s_tone_preset)
@@ -844,7 +860,7 @@
 				jumpsuit_style = PREF_SUIT
 
 		if("uplink_loc")
-			var/new_loc = input(user, "Choose your character's traitor uplink spawn location:", "Character Preference") as null|anything in GLOB.uplink_spawn_loc_list
+			var/new_loc = tgui_input_list(user, "Choose your character's traitor uplink spawn location:", "Character Preference", GLOB.uplink_spawn_loc_list)
 			if(new_loc)
 				uplink_spawn_loc = new_loc
 
@@ -853,12 +869,12 @@
 				playtime_reward_cloak = !playtime_reward_cloak
 
 		if("ai_core_icon")
-			var/ai_core_icon = input(user, "Choose your preferred AI core display screen:", "AI Core Display Screen Selection") as null|anything in GLOB.ai_core_display_screens - "Portrait"
+			var/ai_core_icon = tgui_input_list(user, "Choose your preferred AI core display screen:", "AI Core Display Screen Selection", GLOB.ai_core_display_screens - "Portrait")
 			if(ai_core_icon)
 				preferred_ai_core_display = ai_core_icon
 
 		if("sec_dept")
-			var/department = input(user, "Choose your preferred security department:", "Security Departments") as null|anything in GLOB.security_depts_prefs
+			var/department = tgui_input_list(user, "Choose your preferred security department:", "Security Departments", GLOB.security_depts_prefs)
 			if(department)
 				prefered_security_department = department
 
@@ -876,24 +892,24 @@
 					friendlyname += " (disabled)"
 				maplist[friendlyname] = VM.map_name
 			maplist[default] = null
-			var/pickedmap = input(user, "Choose your preferred map. This will be used to help weight random map selection.", "Character Preference")  as null|anything in sortList(maplist)
+			var/pickedmap = tgui_input_list(user, "Choose your preferred map. This will be used to help weight random map selection.", "Character Preference", sortList(maplist))
 			if (pickedmap)
 				preferred_map = maplist[pickedmap]
 
 		if ("clientfps")
-			var/desiredfps = input(user, "Choose your desired fps.\n-1 means recommended value (currently:[RECOMMENDED_FPS])\n0 means world fps (currently:[world.fps])", "Character Preference", clientfps)  as null|num
+			var/desiredfps = tgui_input_number(user, "Choose your desired fps.\n-1 means recommended value (currently:[RECOMMENDED_FPS])\n0 means world fps (currently:[world.fps])", "Character Preference", clientfps, 1000, -1)
 			if (!isnull(desiredfps))
 				clientfps = sanitize_integer(desiredfps, -1, 1000, clientfps)
 				if(parent)
 					parent.fps = (clientfps < 0) ? RECOMMENDED_FPS : clientfps
 		if("ui")
-			var/pickedui = input(user, "Choose your UI style.", "Character Preference", UI_style)  as null|anything in sortList(GLOB.available_ui_styles)
+			var/pickedui = tgui_input_list(user, "Choose your UI style.", "Character Preference", sortList(GLOB.available_ui_styles), UI_style)
 			if(pickedui)
 				UI_style = pickedui
 				if (parent?.mob.hud_used)
 					parent.mob.hud_used.update_ui_style(ui_style2icon(UI_style))
 		if("pda_style")
-			var/pickedPDAStyle = input(user, "Choose your PDA style.", "Character Preference", pda_style)  as null|anything in GLOB.pda_styles
+			var/pickedPDAStyle = tgui_input_list(user, "Choose your PDA style.", "Character Preference", GLOB.pda_styles, pda_style)
 			if(pickedPDAStyle)
 				pda_style = pickedPDAStyle
 		if("pda_color")
@@ -902,12 +918,12 @@
 				pda_color = pickedPDAColor
 
 		if("phobia")
-			var/phobiaType = input(user, "What are you scared of?", "Character Preference", phobia) as null|anything in SStraumas.phobia_types
+			var/phobiaType = tgui_input_list(user, "What are you scared of?", "Character Preference", SStraumas.phobia_types, phobia)
 			if(phobiaType)
 				phobia = phobiaType
 
 		if ("max_chat_length")
-			var/desiredlength = input(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length)  as null|num
+			var/desiredlength = tgui_input_number(user, "Choose the max character length of shown Runechat messages. Valid range is 1 to [CHAT_MESSAGE_MAX_LENGTH] (default: [initial(max_chat_length)]))", "Character Preference", max_chat_length, CHAT_MESSAGE_MAX_LENGTH, 1)
 			if (!isnull(desiredlength))
 				max_chat_length = clamp(desiredlength, 1, CHAT_MESSAGE_MAX_LENGTH)
 
@@ -917,7 +933,7 @@
 				return
 
 			var/new_snout
-			new_snout = input(user, "Choose your character's snout:", "Character Preference") as null|anything in GLOB.mam_snouts_list
+			new_snout = tgui_input_list(user, "Choose your character's snout:", "Character Preference", GLOB.mam_snouts_list)
 			if(new_snout)
 				features["mam_snout"] = new_snout
 
@@ -926,7 +942,7 @@
 				return
 
 			var/new_ears
-			new_ears = input(user, "Choose your character's ears:", "Character Preference") as null|anything in GLOB.mam_ears_list
+			new_ears = tgui_input_list(user, "Choose your character's ears:", "Character Preference", GLOB.mam_ears_list)
 			if(new_ears)
 				features["mam_ears"] = new_ears
 
@@ -935,7 +951,7 @@
 				return
 
 			var/new_tail
-			new_tail = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.mam_tails_list
+			new_tail = tgui_input_list(user, "Choose your character's tail:", "Character Preference", GLOB.mam_tails_list)
 			if(new_tail)
 				features["mam_tail"] = new_tail
 
@@ -944,7 +960,7 @@
 				return
 
 			var/new_horns
-			new_horns = input(user, "Choose your character's horns:", "Character Preference") as null|anything in GLOB.mam_horns_list
+			new_horns = tgui_input_list(user, "Choose your character's horns:", "Character Preference", GLOB.mam_horns_list)
 			if(new_horns)
 				features["mam_horns"] = new_horns
 
@@ -953,7 +969,7 @@
 				return
 
 			var/new_frills
-			new_frills = input(user, "Choose your character's tail:", "Character Preference") as null|anything in GLOB.mam_frills_list
+			new_frills = tgui_input_list(user, "Choose your character's tail:", "Character Preference", GLOB.mam_frills_list)
 			if(new_frills)
 				features["mam_frills"] = new_frills
 
@@ -969,7 +985,7 @@
 				features[href_list["preference"]] = "FFFFFF"
 				the_feature = "FFFFFF"
 
-			var/new_feature_color = input(user, "Choose your character's mutant part colour:", "Character Preference","#"+features[href_list["preference"]]) as color|null
+			var/new_feature_color = input(user, "Choose your character's mutant part color:", "Character Preference","#"+features[href_list["preference"]]) as color|null
 			if(new_feature_color)
 				// var/temp_hsv = RGBtoHSV(new_feature_color)
 				features[href_list["preference"]] = sanitize_hexcolor(new_feature_color, 6)
@@ -982,7 +998,7 @@
 			features["mam_body_markings"] = SANITIZE_LIST(features["mam_body_markings"]) // in case the player changed species or some shit
 
 			if(islist(features["mam_body_markings"]))
-				var/selected_limb = input(user, "Choose the limb to apply to.", "Character Preference") as null|anything in list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All")
+				var/selected_limb = tgui_input_list(user, "Choose the limb to apply to.", "Character Preference", list("Head", "Chest", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "All"))
 				if(selected_limb)
 
 					var/list/filtered_markings_list = list()
@@ -999,7 +1015,7 @@
 
 							filtered_markings_list[S.name] = path
 
-					var/selected_marking = input(user, "Select the marking to apply to the limb.") as null|anything in filtered_markings_list
+					var/selected_marking = tgui_input_list(user, "Select the marking to apply to the limb.", "Character Preference", filtered_markings_list)
 					if(selected_marking)
 						if(selected_limb != "All")
 							var/limb_value = limb_name2body_part_covered(selected_limb)
@@ -1028,7 +1044,7 @@
 				if(number_colors == 3)
 					options += "Tertiary"
 
-				var/color_option = input(user, "Select the colour you wish to edit") as null|anything in options
+				var/color_option = tgui_input_list(user, "Select the color you wish to edit", "Character Preference", options)
 				if(color_option)
 					var/color_number = 1 // what color is being edited, 1 for primary, 2 for secondary, 3 for tertiary
 

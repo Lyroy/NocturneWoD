@@ -207,6 +207,12 @@
 	icon_state = "hpanda"
 	matrixed_sections = MATRIX_RED_GREEN
 
+// sorry jay!
+/datum/sprite_accessory/snouts/mam_snouts/tajaran
+	name = "Tajaran"
+	icon_state = "tajaran"
+	matrixed_sections = MATRIX_RED_GREEN
+
 /******************************************
 **************** Snouts *******************
 *************but higher up*****************/
