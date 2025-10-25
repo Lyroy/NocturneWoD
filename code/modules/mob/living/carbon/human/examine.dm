@@ -497,19 +497,17 @@
 		. += "<a href='byond://?src=[REF(src)];masquerade=1'>Spot a Masquerade violation</a>"
 
 	var/flavor_text_link
-	var/desc_output
-	if(flavor_text) desc_output = "[flavor_text]"
+
 	// What examine_tgui.dm uses to determine if flavor text appears as "Obscured".
 	var/face_obscured = (wear_mask && (wear_mask.flags_inv & HIDEFACE)) || (head && (head.flags_inv & HIDEFACE))
-	. += "*---------*"
+
 	if (!(face_obscured))
-		if(ooc_notes) flavor_text_link = span_notice("<br><a href='byond://?src=[REF(src)];view_flavortext=1'>\[OOC Information\]</a>")
+		flavor_text_link = span_notice("[copytext_char(flavor_text, 1, 110)]... <a href='byond://?src=[REF(src)];view_flavortext=1'>\[Look closer?\]</a>")
 	else
 		flavor_text_link = span_notice("<a href='byond://?src=[REF(src)];view_flavortext=1'>\[Examine closely...\]</a>")
+
 	if (flavor_text_link)
-		desc_output += "[flavor_text_link]"
-	if(desc_output)
-		. += desc_output
+		. += "*---------*\n[flavor_text_link]"
 
 	var/perpname = get_face_name(get_id_name(""))
 	if(perpname && (HAS_TRAIT(user, TRAIT_SECURITY_HUD) || HAS_TRAIT(user, TRAIT_MEDICAL_HUD)))

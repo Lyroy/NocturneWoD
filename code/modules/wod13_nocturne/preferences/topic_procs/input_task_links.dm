@@ -613,13 +613,13 @@
 			if(new_text)
 				lover_text = new_text
 		if("ooc_notes")
-			var/new_ooc_notes = tgui_input_text(user, "Choose your character's OOC notes:", "Character Preference", ooc_notes, MAX_MESSAGE_LEN, multiline = TRUE)
+			var/new_ooc_notes = tgui_input_text(user, "Choose your character's OOC notes:", "Character Preference", html_decode(ooc_notes), MAX_MESSAGE_LEN, multiline = TRUE)
 			if(!length(new_ooc_notes))
 				return
 			ooc_notes = new_ooc_notes
 
 		if("flavor_text")
-			var/new_flavor = tgui_input_text(user, "Choose your character's flavor text:", "Character Preference", flavor_text, MAX_FLAVOR_LEN, multiline = TRUE)
+			var/new_flavor = tgui_input_text(user, "Choose your character's flavor text:", "Character Preference", html_decode(flavor_text), MAX_FLAVOR_LEN, multiline = TRUE)
 			if(!length(new_flavor))
 				return
 			flavor_text = new_flavor
