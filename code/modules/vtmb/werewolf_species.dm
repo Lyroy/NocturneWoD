@@ -106,6 +106,12 @@
 			for(var/i in host.knowscontacts)
 				dat += "-[i] contact<BR>"
 			dat += "</p>"
+			if(istype(host, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = host
+		for(var/datum/vtm_bank_account/account in GLOB.bank_account_list)
+			if(H.bank_id == account.bank_id)
+				dat += "<p><b>My bank account code is: [account.code]</b></p>"
+				break
 		host << browse(HTML_SKELETON(dat), "window=vampire;size=400x450;border=1;can_resize=1;can_minimize=0")
 		onclose(host, "vampire", src)
 
