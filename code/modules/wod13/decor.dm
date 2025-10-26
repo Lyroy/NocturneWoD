@@ -1544,7 +1544,7 @@
 /obj/were_ice
 	name = "ice block"
 	desc = "Stores some precious organs..."
-	icon = 'code/modules/wod13/werewolf_lupus.dmi'
+	icon = 'code/modules/wod13/tfn_lupus.dmi'
 	icon_state = "ice_man"
 	plane = GAME_PLANE
 	layer = CAR_LAYER

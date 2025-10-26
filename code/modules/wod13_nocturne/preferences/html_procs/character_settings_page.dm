@@ -129,7 +129,7 @@
 			DAWOF.overlays |= hair_crinos
 
 			var/obj/effect/overlay/eyes_lupus = new(DAWOF2)
-			eyes_lupus.icon = 'code/modules/wod13/werewolf_lupus.dmi'
+			eyes_lupus.icon = 'code/modules/wod13/tfn_lupus.dmi'
 			eyes_lupus.icon_state = "eyes"
 			eyes_lupus.layer = ABOVE_HUD_LAYER
 			eyes_lupus.color = werewolf_eye_color
