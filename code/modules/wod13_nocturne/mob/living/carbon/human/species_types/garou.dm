@@ -131,26 +131,22 @@
 	C.transformator = new(C)
 	C.transformator.human_form = WEAKREF(C)
 
-	var/mob/living/carbon/werewolf/lupus/lupus = C.transformator.lupus_form
-	var/mob/living/carbon/werewolf/crinos/crinos = C.transformator.crinos_form
+	var/mob/living/carbon/werewolf/lupus/lupus = C.transformator.lupus_form?.resolve()
+	var/mob/living/carbon/werewolf/crinos/crinos = C.transformator.crinos_form?.resolve()
 
 	//garou resist vampire bites better than mortals
 	RegisterSignal(C, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
-	if(lupus)
-		RegisterSignal(lupus, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
-	if(crinos)
-		RegisterSignal(crinos, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
+	RegisterSignal(lupus, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
+	RegisterSignal(crinos, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
 
 /datum/species/garou/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	. = ..()
-	var/mob/living/carbon/werewolf/lupus/lupus = C.transformator.lupus_form
-	var/mob/living/carbon/werewolf/crinos/crinos = C.transformator.crinos_form
+	var/mob/living/carbon/werewolf/lupus/lupus = C.transformator.lupus_form?.resolve()
+	var/mob/living/carbon/werewolf/crinos/crinos = C.transformator.crinos_form?.resolve()
 
 	UnregisterSignal(C, COMSIG_MOB_VAMPIRE_SUCKED)
-	if(lupus)
-		UnregisterSignal(lupus, COMSIG_MOB_VAMPIRE_SUCKED)
-	if(crinos)
-		UnregisterSignal(crinos, COMSIG_MOB_VAMPIRE_SUCKED)
+	UnregisterSignal(lupus, COMSIG_MOB_VAMPIRE_SUCKED)
+	UnregisterSignal(crinos, COMSIG_MOB_VAMPIRE_SUCKED)
 
 	for(var/datum/action/garouinfo/VI in C.actions)
 		VI.Remove(C)

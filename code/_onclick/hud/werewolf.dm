@@ -21,9 +21,10 @@
 /atom/movable/screen/transform_homid/Click()
 	var/mob/living/carbon/C = usr
 	if(C.stat >= SOFT_CRIT || C.IsSleeping() || C.IsUnconscious() || C.IsParalyzed() || C.IsKnockdown() || C.IsStun())
-		return
+		return ..()
 	if(C.transformator)
-		C.transformator.trans_gender(C, "Homid")
+		C.transformator.transform(C, "Homid")
+	return ..()
 
 /atom/movable/screen/transform_crinos
 	name = "Crinos"
@@ -35,9 +36,10 @@
 /atom/movable/screen/transform_crinos/Click()
 	var/mob/living/carbon/C = usr
 	if(C.stat >= SOFT_CRIT || C.IsSleeping() || C.IsUnconscious() || C.IsParalyzed() || C.IsKnockdown() || C.IsStun())
-		return
+		return ..()
 	if(C.transformator)
-		C.transformator.trans_gender(C, "Crinos")
+		C.transformator.transform(C, "Crinos")
+	return ..()
 
 /atom/movable/screen/transform_lupus
 	name = "Lupus"
@@ -49,9 +51,10 @@
 /atom/movable/screen/transform_lupus/Click()
 	var/mob/living/carbon/C = usr
 	if(C.stat >= SOFT_CRIT || C.IsSleeping() || C.IsUnconscious() || C.IsParalyzed() || C.IsKnockdown() || C.IsStun())
-		return
+		return ..()
 	if(C.transformator)
-		C.transformator.trans_gender(C, "Lupus")
+		C.transformator.transform(C, FORM_LUPUS)
+	return ..()
 
 /atom/movable/screen/auspice
 	name = "Auspice"
@@ -71,20 +74,21 @@
 		to_chat(C, "<span class='warning'>You need to be outside to look at the moon!</span>")
 		return
 	if(C.last_moon_look == 0 || C.last_moon_look+600 < world.time)
-//		last_moon_look = world.time
-		C.transformator.lupus_form.last_moon_look = world.time
-		C.transformator.crinos_form.last_moon_look = world.time
+		var/mob/living/carbon/werewolf/lupus/lupus = C.transformator.lupus_form?.resolve()
+		var/mob/living/carbon/werewolf/crinos/crinos = C.transformator.crinos_form?.resolve()
+		var/mob/living/carbon/human/homid = C.transformator.human_form?.resolve()
 
-		var/mob/living/carbon/human/homid = C.transformator.human_form.resolve() // I FUCKING HATE RUSSIANS
-		homid.last_moon_look = world.time
+		lupus?.last_moon_look = world.time
+		crinos?.last_moon_look = world.time
+		homid?.last_moon_look = world.time
 
-		to_chat(C, "<span class='notice'>The Moon is [GLOB.moon_state].</span>")
-//		icon_state = "[GLOB.moon_state]"
+		to_chat(C, span_notice("The Moon is [GLOB.moon_state]."))
+
 		C.emote("howl")
 		playsound(get_turf(C), pick('code/modules/wod13/sounds/awo1.ogg', 'code/modules/wod13/sounds/awo2.ogg'), 100, FALSE)
+
 		icon_state = "[GLOB.moon_state]"
-		spawn(10)
-			adjust_rage(1, C, TRUE)
+		adjust_rage(1, C, TRUE)
 
 /datum/hud
 	var/atom/movable/screen/auspice_icon

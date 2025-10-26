@@ -453,7 +453,7 @@
 			if(slotlocked || !(pref_species.id == "garou"))
 				return
 
-			var/new_breed = tgui_input_list(user, "Choose your Breed:", "Breed", sortList(list("Homid", "Metis", "Lupus")))
+			var/new_breed = tgui_input_list(user, "Choose your Breed:", "Breed", sortList(list(BREED_HOMID, BREED_METIS, BREED_LUPUS)))
 			if (new_breed)
 				breed = new_breed
 

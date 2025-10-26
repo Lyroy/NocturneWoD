@@ -318,7 +318,7 @@
 		werewolf_name = random_unique_name(werewolf_name)
 
 	READ_FILE(S["breed"], breed)
-	breed = sanitize_inlist(breed, list("Homid", "Lupus", "Metis"))
+	breed = sanitize_inlist(breed, list(BREED_HOMID, BREED_METIS, BREED_LUPUS))
 
 	READ_FILE(S["tribe"], tribe)
 	tribe = sanitize_inlist(tribe, list("Wendigo", "Glasswalkers", "Black Spiral Dancers"))
