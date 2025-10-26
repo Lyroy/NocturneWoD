@@ -1,5 +1,8 @@
+// TODO: REPLACE THIS SHIT WITH TFN'S VERSION OF THIS
+// I FUCKING HATE RUSSIANS
+
 /obj/werewolf_holder/transformation
-	var/mob/living/carbon/human/human_form
+	var/datum/weakref/human_form
 	var/mob/living/carbon/werewolf/crinos/crinos_form
 	var/mob/living/carbon/werewolf/lupus/lupus_form
 
@@ -145,7 +148,11 @@
 					animate(trans, transform = null, color = "#FFFFFF", time = 1)
 					crinos_form.update_icons()
 			if("Homid")
-				if(trans == human_form)
+				var/mob/living/carbon/human/homid = human_form.resolve() // this whole fucking file is a piece of shit
+				if(!homid)
+					human_form = null
+					return
+				if(trans == homid)
 					transformating = FALSE
 					return
 				animate(trans, transform = ntransform, color = "#000000", time = 30)
@@ -164,19 +171,19 @@
 								continue
 							trans.dropItemToGround(item_worn, TRUE)
 					var/current_loc = get_turf(trans)
-					human_form.color = "#000000"
-					human_form.forceMove(current_loc)
-					animate(human_form, color = "#FFFFFF", time = 10)
-					human_form.key = trans.key
-					forceMove(human_form)
-					human_form.bloodpool = trans.bloodpool
-					human_form.masquerade = trans.masquerade
-					human_form.nutrition = trans.nutrition
-					human_form.mind = trans.mind
-					human_form.update_blood_hud()
-					transfer_damage(trans, human_form)
-					human_form.remove_movespeed_modifier(/datum/movespeed_modifier/crinosform)
-					human_form.remove_movespeed_modifier(/datum/movespeed_modifier/lupusform)
+					homid.color = "#000000"
+					homid.forceMove(current_loc)
+					animate(homid, color = "#FFFFFF", time = 10)
+					homid.key = trans.key
+					forceMove(homid)
+					homid.bloodpool = trans.bloodpool
+					homid.masquerade = trans.masquerade
+					homid.nutrition = trans.nutrition
+					homid.mind = trans.mind
+					homid.update_blood_hud()
+					transfer_damage(trans, homid)
+					homid.remove_movespeed_modifier(/datum/movespeed_modifier/crinosform)
+					homid.remove_movespeed_modifier(/datum/movespeed_modifier/lupusform)
 					trans.forceMove(src)
 					transformating = FALSE
 					animate(trans, transform = null, color = "#FFFFFF", time = 1)

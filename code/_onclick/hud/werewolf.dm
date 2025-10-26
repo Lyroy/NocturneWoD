@@ -74,7 +74,10 @@
 //		last_moon_look = world.time
 		C.transformator.lupus_form.last_moon_look = world.time
 		C.transformator.crinos_form.last_moon_look = world.time
-		C.transformator.human_form.last_moon_look = world.time
+
+		var/mob/living/carbon/human/homid = C.transformator.human_form.resolve() // I FUCKING HATE RUSSIANS
+		homid.last_moon_look = world.time
+
 		to_chat(C, "<span class='notice'>The Moon is [GLOB.moon_state].</span>")
 //		icon_state = "[GLOB.moon_state]"
 		C.emote("howl")

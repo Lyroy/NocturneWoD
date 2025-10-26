@@ -804,3 +804,16 @@
 
 /obj/structure/curtain/cloth/fancy/mechanical/attack_hand(mob/user)
 		return
+
+/obj/structure/curtain/dwelling
+	name = "plain curtains"
+	icon_type = "bounty"
+	icon_state = "bounty-closed"
+	open = FALSE
+	opacity = TRUE
+	density = FALSE
+	opaque_closed = TRUE
+	color = null
+	alpha = 255
+	base_pixel_y = 12
+	pixel_y = 12

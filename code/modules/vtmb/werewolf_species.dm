@@ -19,7 +19,7 @@
 	heatmod = 1
 	burnmod = 1
 	dust_anim = "dust-h"
-	whitelisted = TRUE
+	whitelisted = FALSE
 	selectable = TRUE
 	var/glabro = FALSE
 
@@ -106,12 +106,17 @@
 			for(var/i in host.knowscontacts)
 				dat += "-[i] contact<BR>"
 			dat += "</p>"
+		if(istype(host, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = host
+			for(var/datum/vtm_bank_account/account in GLOB.bank_account_list)
+				if(H.bank_id == account.bank_id)
+					dat += "<p><b>My bank account code is: [account.code]</b></p>"
+					break
 		host << browse(HTML_SKELETON(dat), "window=vampire;size=400x450;border=1;can_resize=1;can_minimize=0")
 		onclose(host, "vampire", src)
 
 /datum/species/garou/on_species_gain(mob/living/carbon/human/C)
 	. = ..()
-//	ADD_TRAIT(C, TRAIT_NOBLEED, HIGHLANDER)
 	C.update_body(0)
 	C.last_experience = world.time+3000
 	var/datum/action/garouinfo/infor = new()
@@ -121,56 +126,67 @@
 	glabro.Grant(C)
 	var/datum/action/gift/rage_heal/GH = new()
 	GH.Grant(C)
+	var/datum/action/gift/howling/howl = new()
+	howl.Grant(C)
 	C.transformator = new(C)
-	C.transformator.human_form = C
+	C.transformator.human_form = WEAKREF(C)
+
+	var/mob/living/carbon/werewolf/lupus/lupus = C.transformator.lupus_form
+	var/mob/living/carbon/werewolf/crinos/crinos = C.transformator.crinos_form
 
 	//garou resist vampire bites better than mortals
 	RegisterSignal(C, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
-	RegisterSignal(C.transformator.lupus_form, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
-	RegisterSignal(C.transformator.crinos_form, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
+	if(lupus)
+		RegisterSignal(lupus, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
+	if(crinos)
+		RegisterSignal(crinos, COMSIG_MOB_VAMPIRE_SUCKED, PROC_REF(on_garou_bitten))
 
 /datum/species/garou/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load)
 	. = ..()
+	var/mob/living/carbon/werewolf/lupus/lupus = C.transformator.lupus_form
+	var/mob/living/carbon/werewolf/crinos/crinos = C.transformator.crinos_form
+
 	UnregisterSignal(C, COMSIG_MOB_VAMPIRE_SUCKED)
-	UnregisterSignal(C.transformator.lupus_form, COMSIG_MOB_VAMPIRE_SUCKED)
-	UnregisterSignal(C.transformator.crinos_form, COMSIG_MOB_VAMPIRE_SUCKED)
+	if(lupus)
+		UnregisterSignal(lupus, COMSIG_MOB_VAMPIRE_SUCKED)
+	if(crinos)
+		UnregisterSignal(crinos, COMSIG_MOB_VAMPIRE_SUCKED)
+
 	for(var/datum/action/garouinfo/VI in C.actions)
-		if(VI)
-			VI.Remove(C)
+		VI.Remove(C)
 	for(var/datum/action/gift/G in C.actions)
-		if(G)
-			G.Remove(C)
+		G.Remove(C)
 
 /datum/species/garou/check_roundstart_eligible()
 	return FALSE
 
-/proc/adjust_rage(var/amount, var/mob/living/carbon/C, var/sound = TRUE)
+/proc/adjust_rage(amount, mob/living/carbon/C, sound = TRUE)
 	if(amount > 0)
 		if(C.auspice.rage < 10)
 			if(sound)
-				SEND_SOUND(C, sound('code/modules/wod13/sounds/rage_increase.ogg', 0, 0, 75))
+				SEND_SOUND(C, sound('code/modules/wod13/sounds/rage_increase.ogg', 0, 0, 50))
 			to_chat(C, "<span class='userdanger'><b>RAGE INCREASES</b></span>")
 			C.auspice.rage = min(10, C.auspice.rage+amount)
 	if(amount < 0)
 		if(C.auspice.rage > 0)
 			C.auspice.rage = max(0, C.auspice.rage+amount)
 			if(sound)
-				SEND_SOUND(C, sound('code/modules/wod13/sounds/rage_decrease.ogg', 0, 0, 75))
+				SEND_SOUND(C, sound('code/modules/wod13/sounds/rage_decrease.ogg', 0, 0, 50))
 			to_chat(C, "<span class='userdanger'><b>RAGE DECREASES</b></span>")
 	C.update_rage_hud()
 
-/proc/adjust_gnosis(var/amount, var/mob/living/carbon/C, var/sound = TRUE)
+/proc/adjust_gnosis(amount, mob/living/carbon/C, sound = TRUE)
 	if(amount > 0)
 		if(C.auspice.gnosis < C.auspice.start_gnosis)
 			if(sound)
-				SEND_SOUND(C, sound('code/modules/wod13/sounds/humanity_gain.ogg', 0, 0, 75))
+				SEND_SOUND(C, sound('code/modules/wod13/sounds/humanity_gain.ogg', 0, 0, 50))
 			to_chat(C, "<span class='boldnotice'><b>GNOSIS INCREASES</b></span>")
 			C.auspice.gnosis = min(C.auspice.start_gnosis, C.auspice.gnosis+amount)
 	if(amount < 0)
 		if(C.auspice.gnosis > 0)
 			C.auspice.gnosis = max(0, C.auspice.gnosis+amount)
 			if(sound)
-				SEND_SOUND(C, sound('code/modules/wod13/sounds/rage_decrease.ogg', 0, 0, 75))
+				SEND_SOUND(C, sound('code/modules/wod13/sounds/rage_decrease.ogg', 0, 0, 50))
 			to_chat(C, "<span class='boldnotice'><b>GNOSIS DECREASES</b></span>")
 	C.update_rage_hud()
 
