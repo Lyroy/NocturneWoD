@@ -83,7 +83,6 @@
 							adjust_veil(1, src, TRUE)
 							last_veil_restore = world.time
 
-
 /mob/living/carbon/werewolf/crinos/Life()
 	. = ..()
 	if(CheckEyewitness(src, src, 5, FALSE))

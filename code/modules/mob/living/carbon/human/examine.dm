@@ -56,6 +56,21 @@
 				if(same_clan)
 					. += "<b>You know [p_them()] as a [job]. You are of the same bloodline.</b>"
 
+	if((isgarou(user) || iswerewolf(user)) && isgarou(src) && is_face_visible())
+		var/mob/living/carbon/human/garou = user
+
+		var/same_tribe = FALSE
+		var/truescent
+
+		if(HAS_TRAIT(user, TRAIT_SCENTTRUEFORM))
+			truescent = TRUE
+
+		if(garou.auspice?.tribe == auspice?.tribe)
+			same_tribe = TRUE
+
+		if(same_tribe || truescent)
+			. += "<b>You know [p_them()] as \a member of the [auspice.tribe]. [same_tribe ? "You are of the same tribe." : ""]</b>"
+
 	//uniform
 	if(w_uniform && !(obscured & ITEM_SLOT_ICLOTHING) && !(w_uniform.item_flags & EXAMINE_SKIP))
 		//accessory
@@ -419,11 +434,12 @@
 				msg += "<span class='deadsay'>[t_He] [t_is] staring blanky into space, [t_his] eyes are slightly grayed out.</span>\n"
 
 	//examine text for garou detecting Triatic influences on others
-	if (isgarou(user) || iswerewolf(user))
+	if (isgarou(user) || iswerewolf(user) || HAS_TRAIT(user, TRAIT_SCENTTRUEFORM))
 		if (get_dist(user, src) <= 2)
 			var/wyrm_taint = NONE
 			var/weaver_taint = NONE
 			var/wyld_taint = NONE
+			var/is_kin = NONE
 
 			if(iscathayan(src))
 				if(!check_kuei_jin_alive())
@@ -442,6 +458,8 @@
 			if (isgarou(src) || iswerewolf(src)) //werewolves have the taint of whatever Triat member they venerate most
 				var/mob/living/carbon/wolf = src
 
+				is_kin++
+
 				switch(wolf.auspice.tribe)
 					if ("Wendigo")
 						wyld_taint++
@@ -450,25 +468,51 @@
 					if ("Black Spiral Dancers")
 						wyrm_taint = VERY_TAINTED
 
-			if (wyrm_taint == TAINTED)
-				msg += "<span class='purple'><i>[p_they(TRUE)] smell[p_s()] of corruption...</i></span>\n"
-			else if (wyrm_taint == VERY_TAINTED)
-				msg += "<span class='purple'><i>[p_they(TRUE)] REEK[uppertext(p_s())] of the Wyrm and its defilement.</i></span>\n"
+				if(HAS_TRAIT(wolf,TRAIT_WYRMTAINTED))
+					wyrm_taint++
+					wyld_taint--
+					weaver_taint--
+				if(istype(wolf,/mob/living/carbon/werewolf))
+					var/mob/living/carbon/werewolf/werewolf = src
+					if(HAS_TRAIT(werewolf, TRAIT_WYRMTAINTED))
+						wyrm_taint++
+						wyld_taint--
+						weaver_taint--
 
-			if (weaver_taint == TAINTED)
-				msg += "<span class='purple'><i>[p_they(TRUE)] emanate[p_s()] stasis and order...</i></span>\n"
-			else if (weaver_taint == VERY_TAINTED)
-				msg += "<span class='purple'><i>[p_they(TRUE)] exude[p_s()] the Weaver's choking stasis and control.</i></span>\n"
+			if(is_kin)
+				msg += "<span class='purple'><i>You recognize their scent as Garou.</i></span><br>"
 
-			if (wyld_taint == TAINTED)
-				msg += "<span class='purple'><i>[p_they(TRUE)] radiate[p_s()] chaos and creation...</i></span>\n"
-			else if (wyld_taint == VERY_TAINTED)
-				msg += "<span class='purple'><i>[p_they(TRUE)] [p_are()] infused with the Wyld's primal energies of creation.</i></span>\n"
+			if(HAS_TRAIT(user, TRAIT_SCENTTRUEFORM))
+				if (wyrm_taint == TAINTED)
+					msg += "<span class='purple'><i>[p_they(TRUE)] smell[p_s()] of corruption...</i></span>\n"
+				else if (wyrm_taint == VERY_TAINTED)
+					msg += "<span class='purple'><i>[p_they(TRUE)] REEK[uppertext(p_s())] of the Wyrm and its defilement.</i></span>\n"
 
-			if (!wyrm_taint && !weaver_taint && !wyld_taint)
-				msg += "<span class='purple'><i>You aren't sensing any supernatural taint on [p_them()]...</i></span>\n"
+				if (weaver_taint == TAINTED)
+					msg += "<span class='purple'><i>[p_they(TRUE)] emanate[p_s()] stasis and order...</i></span>\n"
+				else if (weaver_taint == VERY_TAINTED)
+					msg += "<span class='purple'><i>[p_they(TRUE)] exude[p_s()] the Weaver's choking stasis and control.</i></span>\n"
+
+				if (wyld_taint == TAINTED)
+					msg += "<span class='purple'><i>[p_they(TRUE)] radiate[p_s()] chaos and creation...</i></span>\n"
+				else if (wyld_taint == VERY_TAINTED)
+					msg += "<span class='purple'><i>[p_they(TRUE)] [p_are()] infused with the Wyld's primal energies of creation.</i></span>\n"
+
+				if (!wyrm_taint && !weaver_taint && !wyld_taint)
+					msg += "<span class='purple'><i>You aren't sensing any supernatural taint on [p_them()]...</i></span>\n"
+
+			if(HAS_TRAIT(src, TRAIT_KINFOLK))
+				msg += "<span class='purple'><i>[p_they(TRUE)] smell[p_s()] of being Kin, in some way."
 		else
 			msg += "<span class='purple'><i>[p_they(TRUE)] [p_are()] too far away to sense any taint...</i></span>\n"
+
+	// examine text for kinfolk detecting garou and other kinfolk
+	if (ishuman(user) && HAS_TRAIT(user, TRAIT_KINFOLK))
+		if (get_dist(user, src) <= 2)
+			if (isgarou(src) || iswerewolf(src))
+				msg += "<span class='purple'><i>You recognize their scent as Garou.</i></span><br>"
+			else if(HAS_TRAIT(src, TRAIT_KINFOLK))
+				msg += "<span class='purple'><i>[p_they(TRUE)] smell[p_s()] of being Kin, in some way."
 
 	var/scar_severity = 0
 	for(var/i in all_scars)

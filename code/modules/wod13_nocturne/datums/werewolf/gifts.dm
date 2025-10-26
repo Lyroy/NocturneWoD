@@ -235,10 +235,13 @@
 /datum/action/gift/scent_of_the_true_form/Trigger()
 	. = ..()
 	if(allowed_to_proceed)
-		var/datum/atom_hud/abductor_hud = GLOB.huds[DATA_HUD_ABDUCTOR]
-		abductor_hud.add_hud_to(owner)
-		spawn(200)
-			abductor_hud.remove_hud_from(owner)
+		if(HAS_TRAIT(owner, TRAIT_SCENTTRUEFORM))
+			REMOVE_TRAIT(owner, TRAIT_SCENTTRUEFORM, src)
+			to_chat(owner, "<span class='notice'>You allow the essence of the spirit to leave your senses.</span>")
+
+		else
+			ADD_TRAIT(owner, TRAIT_SCENTTRUEFORM, src)
+			to_chat(owner, "<span class='notice'>Your nose gains a clarity for the supernal around you...</span>")
 
 /datum/action/gift/truth_of_gaia
 	name = "Truth Of Gaia"
@@ -458,7 +461,8 @@
 		var/datum/species/garou/G = H.dna.species
 		playsound(get_turf(owner), 'code/modules/wod13/sounds/transform.ogg', 50, FALSE)
 		if(G.glabro)
-			H.remove_overlay(PROTEAN_LAYER)
+			if(!HAS_TRAIT(H, TRAIT_FAIR_GLABRO))
+				H.remove_overlay(PROTEAN_LAYER)
 			G.punchdamagelow -= 15
 			G.punchdamagehigh -= 15
 			H.physique = H.physique-2
@@ -470,11 +474,12 @@
 			G.glabro = FALSE
 			H.update_icons()
 		else
-			H.remove_overlay(PROTEAN_LAYER)
-			var/mob/living/carbon/werewolf/crinos/crinos = H.transformator.crinos_form?.resolve()
-			var/mutable_appearance/glabro_overlay = mutable_appearance('code/modules/wod13/werewolf_abilities.dmi', crinos?.sprite_color, -PROTEAN_LAYER)
-			H.overlays_standing[PROTEAN_LAYER] = glabro_overlay
-			H.apply_overlay(PROTEAN_LAYER)
+			if(!HAS_TRAIT(H, TRAIT_FAIR_GLABRO))
+				H.remove_overlay(PROTEAN_LAYER)
+				var/mob/living/carbon/werewolf/crinos/crinos = H.transformator.crinos_form?.resolve()
+				var/mutable_appearance/glabro_overlay = mutable_appearance('code/modules/wod13/werewolf_abilities.dmi', crinos?.sprite_color, -PROTEAN_LAYER)
+				H.overlays_standing[PROTEAN_LAYER] = glabro_overlay
+				H.apply_overlay(PROTEAN_LAYER)
 			G.punchdamagelow += 15
 			G.punchdamagehigh += 15
 			H.physique = H.physique+2

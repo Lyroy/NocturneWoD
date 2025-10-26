@@ -167,6 +167,17 @@
 					if ("Black Spiral Dancers")
 						wyrm_taint = VERY_TAINTED
 
+				if(HAS_TRAIT(wolf,TRAIT_WYRMTAINTED))
+					wyrm_taint++
+					wyld_taint--
+					weaver_taint--
+				if(istype(wolf,/mob/living/carbon/werewolf))
+					var/mob/living/carbon/werewolf/werewolf = src
+					if(HAS_TRAIT(werewolf, TRAIT_WYRMTAINTED))
+						wyrm_taint++
+						wyld_taint--
+						weaver_taint--
+
 			if (wyrm_taint == TAINTED)
 				msg += "<span class='purple'><i>[p_they(TRUE)] smell[p_s()] of corruption...</i></span><br>"
 			else if (wyrm_taint >= VERY_TAINTED)
