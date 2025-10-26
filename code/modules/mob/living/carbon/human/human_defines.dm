@@ -132,3 +132,5 @@
 
 	///The Examine Panel TGUI.
 	var/datum/examine_panel/tgui = new() //create the datum
+
+	var/received_apartment_key = FALSE

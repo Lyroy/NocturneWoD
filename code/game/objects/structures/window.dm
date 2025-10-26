@@ -38,9 +38,6 @@
 	var/obj/structure/curtain/dwelling/new_curtain = new(get_turf(src))
 	if(curtain_dir) new_curtain.use_restrict_dir = curtain_dir
 
-/obj/structure/window/proc/process_break_in(severity) // For dependancies
-	return
-
 /obj/structure/window/examine(mob/user)
 	. = ..()
 	if(reinf)
@@ -167,7 +164,6 @@
 			"<span class='notice'>You knock on [src].</span>")
 		playsound(src, knocksound, 50, TRUE)
 	else
-		process_break_in(5)
 		user.visible_message("<span class='warning'>[user] bashes [src]!</span>", \
 			"<span class='warning'>You bash [src]!</span>")
 		playsound(src, bashsound, 100, TRUE)
@@ -269,7 +265,6 @@
 	if(QDELETED(src))
 		return
 	if(!disassembled)
-		process_break_in(50)
 		playsound(src, breaksound, 70, TRUE)
 		if(!(flags_1 & NODECONSTRUCT_1))
 			for(var/obj/item/shard/debris in spawnDebris(drop_location()))

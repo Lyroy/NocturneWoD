@@ -28,6 +28,12 @@
 	var/lock_sound = 'code/modules/wod13/sounds/door_locked.ogg'
 	var/burnable = FALSE
 
+	/// Whether to grant an apartment_key
+	var/grant_apartment_key = FALSE
+	var/apartment_key_amount = 1
+	/// The type of a key the resident will get
+	var/apartment_key_type
+
 /obj/structure/vampdoor/New()
 	..()
 	switch(lockpick_difficulty) //This is fine because any overlap gets intercepted before
@@ -115,9 +121,49 @@
 	icon_state = "[baseicon]-1"
 	update_icon()
 
+/obj/structure/vampdoor/proc/try_award_apartment_key(mob/user)
+	if(!grant_apartment_key)
+		return FALSE
+	if(!lock_id)
+		return FALSE
+	if(!ishuman(user))
+		return FALSE
+	var/mob/living/carbon/human/human = user
+	if(human.received_apartment_key)
+		return FALSE
+	var/alert = tgui_alert(user, "Is this my apartment?", "Apartment", list("Yes", "No"))
+	if(alert != "Yes")
+		return
+	if(!grant_apartment_key)
+		return
+	var/spare_key = tgui_alert(user, "Do I have an extra spare key?", "Apartment", list("Yes", "No"))
+	if(!grant_apartment_key)
+		return
+	if(spare_key == "Yes")
+		apartment_key_amount = 2
+	else
+		apartment_key_amount = 1
+	for(var/i in 1 to apartment_key_amount)
+		var/obj/item/vamp/keys/key
+		if(apartment_key_type)
+			key = new apartment_key_type(get_turf(human))
+		else
+			key = new /obj/item/vamp/keys(get_turf(human))
+		key.accesslocks = list("[lock_id]")
+		human.put_in_hands(key)
+	human.received_apartment_key = TRUE
+	grant_apartment_key = FALSE
+	if(apartment_key_amount > 1)
+		to_chat(human, span_notice("They're just where I left them..."))
+	else
+		to_chat(human, span_notice("It's just where I left it..."))
+	return TRUE
+
 /obj/structure/vampdoor/attack_hand(mob/user)
 	. = ..()
 	var/mob/living/N = user
+	if(try_award_apartment_key(user))
+		return
 	if(door_broken)
 		to_chat(user,span_warning("There is no door to use here."))
 		return
@@ -254,3 +300,15 @@
 						to_chat(user, "[src] is now unlocked.")
 						proc_unlock("key")
 						locked = FALSE
+
+/obj/structure/vampdoor/wood/apartment
+	locked = TRUE
+	grant_apartment_key = TRUE
+	apartment_key_type = /obj/item/vamp/keys/apartment
+	lock_id = null //Will be randomized
+	lockpick_difficulty = 8
+
+/obj/structure/vampdoor/wood/apartment/Initialize()
+	. = ..()
+	if(grant_apartment_key && !lock_id)
+		lock_id = "[rand(1,9999999)]" // I know, not foolproof
