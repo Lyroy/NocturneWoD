@@ -157,6 +157,14 @@
 	display_name = "tracksuit"
 	path = /obj/item/clothing/under/vampire/sport
 
+/datum/gear/uniform/tracksuitblue
+	display_name = "blue tracksuit"
+	path = /obj/item/clothing/under/vampire/sport/blue
+
+/datum/gear/uniform/tracksuitblack
+	display_name = "black tracksuit"
+	path = /obj/item/clothing/under/vampire/sport/black
+
 /datum/gear/uniform/schoolgirl
 	display_name = "outfit, goth schoolgirl"
 	path = /obj/item/clothing/under/vampire/malkavian/female

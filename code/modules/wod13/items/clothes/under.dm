@@ -148,6 +148,11 @@
 	desc = "Some dirty clothes."
 	icon_state = "biker"
 
+/obj/item/clothing/under/vampire/sport/black
+	name = "black tracksuit"
+	desc = "An Adibas tracksuit in full black, for that post-soviet flare."
+	icon_state = "sportblack"
+
 //USUAL
 
 /obj/item/clothing/under/vampire/mechanic
@@ -157,8 +162,13 @@
 
 /obj/item/clothing/under/vampire/sport
 	name = "red tracksuit"
-	desc = "Cheeki Breeki!"
+	desc = "Made for jogging, and looking like an asshole."
 	icon_state = "sport"
+
+/obj/item/clothing/under/vampire/sport/blue
+	name = "blue tracksuit"
+	desc = "I promised to deal with you. I don't break promises."
+	icon_state = "sportblue"
 
 /obj/item/clothing/under/vampire/office
 	name = "white shirt"

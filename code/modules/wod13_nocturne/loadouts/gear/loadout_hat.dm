@@ -55,6 +55,16 @@
 	description = "A soft hat with a rounded crown and a stiff bill projecting in front." // Shortened
 	path = /obj/item/clothing/head/vampire/baseballcap
 
+/datum/gear/hat/blackcap
+	display_name = "black baseball cap"
+	description = "An inconspicuous black baseball cap."
+	path = /obj/item/clothing/head/vampire/baseballcap/black
+
+/datum/gear/hat/biscuit
+	display_name = "band baseball cap"
+	description = "You'll get knocked the fuck out!"
+	path = /obj/item/clothing/head/vampire/baseballcap/biscuit
+
 /datum/gear/hat/ushanka
 	display_name = "ushanka"
 	path = /obj/item/clothing/head/vampire/ushanka
