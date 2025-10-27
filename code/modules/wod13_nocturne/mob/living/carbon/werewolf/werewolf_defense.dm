@@ -1,13 +1,3 @@
-
-/mob/living/carbon/werewolf/get_eye_protection()
-	return ..() + 2 //potential cyber implants + natural eye protection
-
-/mob/living/carbon/werewolf/get_ear_protection()
-	return 2 //no ears
-
-/mob/living/carbon/werewolf/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
-	..(AM, skipcatch = TRUE, hitpush = FALSE)
-
 /mob/living/carbon/werewolf/attack_hand(mob/living/carbon/human/M)
 	. = ..()
 	if(.)	//to allow surgery to return properly.
@@ -69,17 +59,11 @@
 			if(ears)
 				ears.adjustEarDamage(15,60)
 
-/mob/living/carbon/werewolf/soundbang_act(intensity = 1, stun_pwr = 20, damage_pwr = 5, deafen_pwr = 15)
-	return 0
-
-/mob/living/carbon/werewolf/acid_act(acidpwr, acid_volume)
-	return FALSE//aliens are immune to acid.
-
 /mob/living/carbon/werewolf/attack_hand(mob/living/carbon/human/M)
 	if(..())
 		switch(M.a_intent)
 			if ("harm")
-				var/damage = rand(1, 9)
+				var/damage = rand(M.dna.species.punchdamagelow, M.dna.species.punchdamagehigh) / 3
 				if (prob(90))
 					playsound(loc, "punch", 25, TRUE, -1)
 					visible_message("<span class='danger'>[M] punches [src]!</span>", \
@@ -121,8 +105,6 @@
 											"<span class='danger'>[M] fails to disarm you!</span>", "<span class='hear'>You hear a swoosh!</span>", COMBAT_MESSAGE_RANGE, M)
 							to_chat(M, "<span class='warning'>You fail to disarm [src]!</span>")
 
-
-
 /mob/living/carbon/werewolf/crinos/do_attack_animation(atom/A, visual_effect_icon, obj/item/used_item, no_effect)
 	if(!no_effect && !visual_effect_icon)
 		visual_effect_icon = ATTACK_EFFECT_CLAW
@@ -134,7 +116,7 @@
 	..()
 
 /mob/living/carbon/werewolf/getarmor(def_zone, type)
-	if(type == BRUTE)
+	if (type == MELEE || type == BULLET)
 		return werewolf_armor
 	else
 		return 0

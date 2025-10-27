@@ -27,17 +27,17 @@
 									last_gnosis_buff = world.time
 									adjust_gnosis(1, src, TRUE)
 			if(iscrinos(src))
-				if(auspice.base_breed == "Crinos")
+				if(auspice.base_breed == FORM_CRINOS)
 					gaining_rage = FALSE
 			//else if(auspice.rage == 0) //! [ChillRaccoon] - FIXME
 			//	transformator.trans_gender(src, auspice.base_breed)
 			if(islupus(src))
-				if(auspice.base_breed == "Lupus")
+				if(auspice.base_breed == FORM_LUPUS)
 					gaining_rage = FALSE
 			//else if(auspice.rage == 0)
 			//	transformator.trans_gender(src, auspice.base_breed)
 			if(ishuman(src))
-				if(auspice.base_breed == "Homid")
+				if(auspice.base_breed == FORM_HOMID)
 					gaining_rage = FALSE
 			//else if(auspice.rage == 0)
 			//	transformator.trans_gender(src, auspice.base_breed)
@@ -82,7 +82,6 @@
 						if((last_veil_restore + 50 SECONDS) <= world.time)
 							adjust_veil(1, src, TRUE)
 							last_veil_restore = world.time
-
 
 /mob/living/carbon/werewolf/crinos/Life()
 	. = ..()
