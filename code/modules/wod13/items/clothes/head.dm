@@ -40,7 +40,7 @@
 
 /obj/item/clothing/head/vampire/baseballcap/black
 	name = "black baseball cap"
-	desc = "A soft hat wit ha rounded crown and a stiff bill projecting in front. This one's fully black, totally inconspicuous, not suspicious at all."
+	desc = "A soft hat with a rounded crown and a stiff bill projecting in front. This one's fully black, totally inconspicuous, not suspicious at all."
 	icon_state = "blackcap"
 
 /obj/item/clothing/head/vampire/baseballcap/biscuit
