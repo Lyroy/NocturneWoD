@@ -188,6 +188,9 @@
 	READ_FILE(S["hair_color"], hair_color)
 	hair_color = sanitize_hexcolor(hair_color)
 
+	READ_FILE(S["hairgradient_color"], hairgradient_color)
+	hairgradient_color = sanitize_hexcolor(hairgradient_color)
+
 	READ_FILE(S["facial_hair_color"], facial_hair_color)
 	facial_hair_color = sanitize_hexcolor(facial_hair_color)
 
@@ -199,6 +202,9 @@
 
 	READ_FILE(S["hairstyle_name"], hairstyle)
 	hairstyle = sanitize_inlist(hairstyle, GLOB.hairstyles_list)
+
+	READ_FILE(S["hairgradient_name"], hairgradient)
+	hairgradient = sanitize_inlist(hairgradient, GLOB.gradients_list)
 
 	READ_FILE(S["facial_style_name"], facial_hairstyle)
 	facial_hairstyle = sanitize_inlist(facial_hairstyle, GLOB.facial_hairstyles_list)

@@ -237,7 +237,16 @@
 		dat += "<span style='border: 1px solid #161616; background-color: #[hair_color];'>&nbsp;&nbsp;&nbsp;</span> "
 		dat += "<a href ='byond://?_src_=prefs;preference=hair;task=input'>Change</a><br>"
 
-		// add hair gradient shit here
+		// hair gradient style
+		dat += "<h3>[make_font_cool("HAIR GRADIENT")]</h3>"
+		dat += "<a href ='byond://?_src_=prefs;preference=hairgradient;task=input'>[hairgradient]</a>"
+		dat += "<a href ='byond://?_src_=prefs;preference=previous_hairgradient;task=input'>&lt;</a>"
+		dat += " "
+		dat += "<a href ='byond://?_src_=prefs;preference=next_hairgradient;task=input'>&gt;</a><br>"
+
+		// hair gradient color
+		dat += "<span style='border: 1px solid #161616; background-color: #[hairgradient_color];'>&nbsp;&nbsp;&nbsp;</span> "
+		dat += "<a href ='byond://?_src_=prefs;preference=hairgradient_color;task=input'>Change</a><br>"
 
 		dat += "<h3>[make_font_cool("FACIAL HAIR")]</h3>"
 
