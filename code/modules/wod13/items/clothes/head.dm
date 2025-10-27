@@ -38,6 +38,16 @@
 	desc = "A soft hat with a rounded crown and a stiff bill projecting in front. Giants baseball, there's nothing like it!"
 	icon_state = "baseballcap"
 
+/obj/item/clothing/head/vampire/baseballcap/black
+	name = "black baseball cap"
+	desc = "A soft hat with a rounded crown and a stiff bill projecting in front. This one's fully black, totally inconspicuous, not suspicious at all."
+	icon_state = "blackcap"
+
+/obj/item/clothing/head/vampire/baseballcap/biscuit
+	name = "band baseball cap"
+	desc = "A red cap worn backwards that smells faintly of hot-dog flavored water."
+	icon_state = "biscuit"
+
 /obj/item/clothing/head/vampire/ushanka
 	name = "ushanka"
 	desc = "A heavy fur cap with ear-covering flaps."
