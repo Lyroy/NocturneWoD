@@ -47,8 +47,10 @@
 		organ_eyes.old_eye_color = eye_color
 
 	character.hair_color = hair_color
+	character.grad_color = hairgradient_color
 	character.facial_hair_color = facial_hair_color
 	character.hairstyle = hairstyle
+	character.grad_style = hairgradient
 	character.facial_hairstyle = facial_hairstyle
 	character.underwear = underwear
 	character.underwear_color = underwear_color

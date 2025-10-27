@@ -77,6 +77,8 @@
 	var/jumpsuit_style = PREF_SUIT		//suit/skirt
 	var/hairstyle = "Bald"				//Hair type
 	var/hair_color = "000"				//Hair color
+	var/hairgradient = "None"				//Hair gradient type
+	var/hairgradient_color = "000"				//Hair gradient color
 	var/facial_hairstyle = "Shaved"	//Face hair type
 	var/facial_hair_color = "000"		//Facial hair color
 	var/skin_tone = CAUCASIAN_1		//Skin color

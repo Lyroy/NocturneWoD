@@ -175,6 +175,43 @@
 			else
 				facial_hairstyle = previous_list_item(facial_hairstyle, GLOB.facial_hairstyles_list)
 
+		if("hairgradient_color")
+			/*
+			if(slotlocked)
+				return
+			*/
+
+			var/new_hairgradient_color = input(user, "Choose your character's hair gradient colour:", "Character Preference","#"+hairgradient_color) as color|null
+			if(new_hairgradient_color)
+				hairgradient_color = sanitize_hexcolor(new_hairgradient_color)
+
+		if("hairgradient")
+			/*
+			if(slotlocked)
+				return
+			*/
+
+			var/new_hairgradient
+			new_hairgradient = tgui_input_list(user, "Choose your character's hair gradient:", "Character Preference", GLOB.gradients_list)
+			if(new_hairgradient)
+				hairgradient = new_hairgradient
+
+		if("next_hairgradient")
+			/*
+			if(slotlocked)
+				return
+			*/
+
+			hairgradient = next_list_item(hairgradient, GLOB.gradients_list)
+
+		if("previous_hairgradient")
+			/*
+			if(slotlocked)
+				return
+			*/
+
+			hairgradient = previous_list_item(hairgradient, GLOB.gradients_list)
+
 		if("underwear")
 			var/new_underwear
 			new_underwear = tgui_input_list(user, "Choose your character's underwear:", "Character Preference", GLOB.underwear_list)
