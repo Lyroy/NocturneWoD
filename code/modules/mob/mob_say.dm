@@ -23,7 +23,7 @@
 		flavor_text = trim(copytext_char(sanitize(flavor), 1, 512))
 
 ///Whisper verb
-/mob/verb/whisper_verb(message as text)
+/mob/verb/whisper_verb(message as text|null)
 	set name = "Whisper"
 	set category = "IC"
 	if(GLOB.say_disabled)	//This is here to try to identify lag problems
@@ -36,7 +36,7 @@
 	say(message, language) //only living mobs actually whisper, everything else just talks
 
 ///The me emote verb
-/mob/verb/me_verb(message as text)
+/mob/verb/me_verb(message as text|null)
 	set name = "Me"
 	set category = "IC"
 
